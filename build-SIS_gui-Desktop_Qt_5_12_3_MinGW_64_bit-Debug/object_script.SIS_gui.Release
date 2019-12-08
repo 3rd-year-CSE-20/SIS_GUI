@@ -1,0 +1,11 @@
+release/backend.o
+release/clickablelabel.o
+release/dashboard.o
+release/main.o
+release/mainwindow.o
+release/register.o
+release/moc_backend.o
+release/moc_clickablelabel.o
+release/moc_dashboard.o
+release/moc_mainwindow.o
+release/moc_register.o

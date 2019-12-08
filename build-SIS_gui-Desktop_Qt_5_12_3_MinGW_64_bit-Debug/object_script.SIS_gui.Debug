@@ -1,0 +1,11 @@
+debug/backend.o
+debug/clickablelabel.o
+debug/dashboard.o
+debug/main.o
+debug/mainwindow.o
+debug/register.o
+debug/moc_backend.o
+debug/moc_clickablelabel.o
+debug/moc_dashboard.o
+debug/moc_mainwindow.o
+debug/moc_register.o
