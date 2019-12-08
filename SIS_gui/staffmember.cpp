@@ -2,25 +2,20 @@
 #include <QString>
 #include "course.h"
 
-#include <QSqlDatabase>
-#include <QSql>
-#include <QSqlError>
-#include <QDir>
-#include <QFile>
-#include <QDebug>
-#include <QSqlQuery>
-#include <QString>
-#include <QStringList>
-#include <QSqlError>
+static QString staff_members_table = "students";
+static QStringList staff_members_columns = {"first_name","last_name", "gendre", "picture",
+                                "birth_date", "address", "college_id", "degree", "department"};
 
 StaffMember::StaffMember() : Person() {
     this->degree = QString("");
+    this->department = QString("");
     this->courses = QVector<Course>();
 }
 
-StaffMember::StaffMember(QString first_name, QString last_name, QString gendre, QString picture, QString department, QString address, QString birth_date, QString degree)
-    : Person(first_name, last_name, gendre, picture, department, address, birth_date) {
+StaffMember::StaffMember(QString first_name, QString last_name, QString gendre, QString picture, QString birth_date, QString address, QString college_id, QString degree, QString department)
+    : Person(first_name, last_name, gendre, picture, birth_date, address, college_id) {
     this->degree = degree;
+    this->department = department;
     this->courses = QVector<Course>();
 }
 
@@ -30,6 +25,14 @@ void StaffMember::setDegree(QString degree) {
 
 QString StaffMember::getDegree() {
     return this->degree;
+}
+
+void StaffMember::setDepartment(QString department) {
+    this->department = department;
+}
+
+QString StaffMember::getDepartment() {
+    return this->department;
 }
 
 
@@ -90,12 +93,13 @@ QVector<StaffMember> StaffMember::all() {
         QString last_name = query.value(2).toString();
         QString gendre = query.value(3).toString();
         QString picture = query.value(4).toString();
-        QString department = query.value(5).toString();
-        QString birth_date = query.value(6).toString();
-        QString address = query.value(7).toString();
+        QString birth_date = query.value(5).toString();
+        QString address = query.value(6).toString();
+        QString college_id = query.value(7).toString();
         QString degree = query.value(8).toString();
+        QString department = query.value(9).toString();
 
-        StaffMember temp(first_name, last_name, gendre, picture, department, birth_date, address, degree);
+        StaffMember temp(first_name, last_name, gendre, picture, birth_date, address, college_id, degree, department);
         temp.setId(id);
         temp.setIsSaved(true);
 
@@ -136,12 +140,13 @@ StaffMember StaffMember::find(long long id) {
     QString last_name = query.value(2).toString();
     QString gendre = query.value(3).toString();
     QString picture = query.value(4).toString();
-    QString department = query.value(5).toString();
-    QString birth_date = query.value(6).toString();
-    QString address = query.value(7).toString();
+    QString birth_date = query.value(5).toString();
+    QString address = query.value(6).toString();
+    QString college_id = query.value(7).toString();
     QString degree = query.value(8).toString();
+    QString department = query.value(9).toString();
 
-    StaffMember staff_member(first_name, last_name, gendre, picture, department, birth_date, address, degree);
+    StaffMember staff_member(first_name, last_name, gendre, picture, birth_date, address, college_id, degree, department);
     staff_member.setId(id);
     staff_member.setIsSaved(true);
 

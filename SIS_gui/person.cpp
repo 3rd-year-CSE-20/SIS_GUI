@@ -9,21 +9,21 @@ Person::Person()
     this->last_name = QString("");
     this->gendre = QString("");
     this->picture = QString("");
-    this->department = QString("");
     this->birth_date = QString("");
     this->address = QString("");
+    this->college_id = QString("");
 }
 
-Person::Person(QString first_name, QString last_name, QString gendre, QString picture, QString department, QString address, QString birth_date) {
+Person::Person(QString first_name, QString last_name, QString gendre, QString picture, QString birth_date, QString address, QString college_id) {
     this->id = 0;
     this->is_saved = false;
     this->first_name = first_name;
     this->last_name = last_name;
     this->gendre = gendre;
     this->picture = picture;
-    this->department = department;
     this->birth_date = birth_date;
     this->address = address;
+    this->college_id = college_id;
 }
 
 void Person::setFirstName(QString first_name) {
@@ -58,14 +58,6 @@ QString Person::getPicture() {
     return this->picture;
 }
 
-void Person::setDepartment(QString department) {
-    this->department = department;
-}
-
-QString Person::getDepartment() {
-    return this->department;
-}
-
 void Person::setAddress(QString address) {
     this->address = address;
 }
@@ -80,6 +72,14 @@ void Person::setBirthDate(QString birth_date) {
 
 QString Person::getBirthDate() {
     return this->birth_date;
+}
+
+void Person::setCollegeId(QString college_id){
+    this->college_id = college_id;
+}
+
+QString Person::getCollegeId(){
+    return this->college_id;
 }
 
 void Person::setId(long long id) {

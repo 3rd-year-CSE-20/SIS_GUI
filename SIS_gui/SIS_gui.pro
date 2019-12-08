@@ -27,6 +27,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 CONFIG += c++11
 
 SOURCES += \
+        admin.cpp \
         backend.cpp \
         clickablelabel.cpp \
         course.cpp \
@@ -41,6 +42,7 @@ SOURCES += \
         student.cpp
 
 HEADERS += \
+        admin.h \
         backend.h \
         clickablelabel.h \
         course.h \

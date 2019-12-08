@@ -21,13 +21,16 @@ class StaffMember : public Person
 {
 private:
     QString degree;
+    QString department;
     QVector<Course> courses;
 
 public:
     StaffMember();
-    StaffMember(QString first_name, QString last_name, QString gendre, QString picture, QString department, QString address, QString birth_date, QString degree);
+    StaffMember(QString first_name, QString last_name, QString gendre, QString picture, QString birth_date, QString address, QString college_id, QString degree, QString department);
     void setDegree(QString degree);
     QString getDegree();
+    void setDepartment(QString department);
+    QString getDepartment();
     QVector<Course> getCourses();
     void addCourse(QString course_name);
     void deleteCourse(QString course_name);

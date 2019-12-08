@@ -9,16 +9,16 @@ class Student : public Person
 {
 private:
     QString academic_year;
-    QString college_id;
+    QString department;
     QVector <Course> courses;
 public:
     Student();
-    Student(QString first_name, QString last_name, QString gendre, QString picture, QString department, QString address, QString birth_date,
-            QString academic_year, QString college_id);
+    Student(QString first_name, QString last_name, QString gendre, QString picture, QString birth_date, QString address,
+            QString college_id, QString academic_year, QString department);
     void setAcademicYear(QString academic_year);
     QString getAcademicYear();
-    void setCollegeId(QString college_id);
-    QString getCollegeId();
+    void setDepartment(QString department);
+    QString getDepartment();
 
     bool save();
     void delete1();

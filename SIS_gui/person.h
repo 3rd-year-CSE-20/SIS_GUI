@@ -13,13 +13,13 @@ private:
     QString last_name;
     QString gendre;
     QString picture;
-    QString department;
     QString birth_date;
     QString address;
+    QString college_id;
 
 public:
     Person();
-    Person(QString first_name, QString last_name, QString gendre, QString picture, QString department, QString address, QString birth_date);
+    Person(QString first_name, QString last_name, QString gendre, QString picture, QString birth_date, QString address, QString college_id);
     void setFirstName(QString first_name);
     QString getFirstName();
     void setLastName(QString last_name);
@@ -28,12 +28,12 @@ public:
     QString getGendre();
     void setPicture(QString picture);
     QString getPicture();
-    void setDepartment(QString department);
-    QString getDepartment();
     void setAddress(QString address);
     QString getAddress();
     void setBirthDate(QString birth_date);
     QString getBirthDate();
+    void setCollegeId(QString college_id);
+    QString getCollegeId();
     void setId(long long id);
     long long getId();
     void setIsSaved(bool is_saved);

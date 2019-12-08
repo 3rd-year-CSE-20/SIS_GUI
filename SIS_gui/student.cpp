@@ -3,35 +3,35 @@
 #include "globalDbObject.h"
 
 static QString students_table = "students";
-static QStringList students_columns = {"first_name","last_name", "academic_year", "birth_date",
-                                "gendre", "address", "picture", "colledge_id", "department"};
+static QStringList students_columns = {"first_name","last_name", "gendre", "picture",
+                                "birth_date", "address", "college_id", "academic_year", "department"};
 
 Student::Student() : Person()
 {
     this-> academic_year = "0";
-    this-> college_id = "";
+    this->department = "";
 }
 
-Student::Student(QString first_name, QString last_name, QString gendre, QString picture, QString department, QString address, QString birth_date,
-                 QString academic_year, QString college_id) : Person(first_name, last_name, gendre, picture, department, address, birth_date) {
+Student::Student(QString first_name, QString last_name, QString gendre, QString picture, QString birth_date, QString address, QString college_id,
+                 QString academic_year, QString department) : Person(first_name, last_name, gendre, picture, birth_date, address, college_id) {
     this-> academic_year = academic_year;
-    this-> college_id = college_id;
+    this->department = department;
 }
 
 void Student::setAcademicYear(QString academic_year){
     this->academic_year = academic_year;
 }
 
+void Student::setDepartment(QString department) {
+    this->department = department;
+}
+
+QString Student::getDepartment() {
+    return this->department;
+}
+
 QString Student::getAcademicYear(){
     return this-> academic_year;
-}
-
-void Student::setCollegeId(QString college_id){
-    this->college_id = college_id;
-}
-
-QString Student::getCollegeId(){
-    return this->college_id;
 }
 
 QVector<Course> Student::getCourses() {
@@ -91,13 +91,14 @@ QVector<Student> Student::all() {
         QString last_name = query.value(2).toString();
         QString gendre = query.value(3).toString();
         QString picture = query.value(4).toString();
-        QString department = query.value(5).toString();
-        QString birth_date = query.value(6).toString();
-        QString address = query.value(7).toString();
+        QString birth_date = query.value(5).toString();
+        QString address = query.value(6).toString();
+        QString college_id = query.value(7).toString();
         QString academic_year = query.value(8).toString();
-        QString college_id = query.value(9).toString();
+        QString department = query.value(9).toString();
 
-        Student temp(first_name, last_name, gendre, picture, department, birth_date, address, academic_year, college_id);
+
+        Student temp(first_name, last_name, gendre, picture, birth_date, address, college_id, academic_year, department);
         temp.setId(id);
         temp.setIsSaved(true);
 
@@ -119,8 +120,8 @@ bool Student::save(){
     if(query.next()){
         return true;
     }
-    QStringList values = {getFirstName(),  getLastName(), getAcademicYear(), getBirthDate(),
-                          getGendre(), getAddress(), getPicture(), getCollegeId(),  getDepartment()};
+    QStringList values = {getFirstName(),  getLastName(), getGendre(), getPicture(),
+                          getBirthDate(), getAddress(), getCollegeId(), getAcademicYear(),  getDepartment()};
     SQLiteDb.sql_insert(students_table, students_columns, values);
     return false;
 }
@@ -154,13 +155,13 @@ Student Student::find(long long id) {
     QString last_name = query.value(2).toString();
     QString gendre = query.value(3).toString();
     QString picture = query.value(4).toString();
-    QString department = query.value(5).toString();
-    QString birth_date = query.value(6).toString();
-    QString address = query.value(7).toString();
+    QString birth_date = query.value(5).toString();
+    QString address = query.value(6).toString();
+    QString college_id = query.value(7).toString();
     QString academic_year = query.value(8).toString();
-    QString college_id = query.value(9).toString();
+    QString department = query.value(9).toString();
 
-    Student student(first_name, last_name, gendre, picture, department, birth_date, address, academic_year, college_id);
+    Student student(first_name, last_name, gendre, picture, birth_date, address, college_id, academic_year, department);
     student.setId(id);
     student.setIsSaved(true);
 
