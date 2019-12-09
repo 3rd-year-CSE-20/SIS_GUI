@@ -21,6 +21,15 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent){
 //        QPalette palette;
 //        palette.setBrush(QPalette::Background, bkgnd);
 //        this->setPalette(palette);
+        userLayout = new QHBoxLayout();
+        userWidget = new QGroupBox();
+        adminRB = new QRadioButton("Admin");
+        staffMemberRB = new QRadioButton("Staff Member");
+        studentRB = new QRadioButton("Student");
+        userLayout->addWidget(adminRB);
+        userLayout->addWidget(staffMemberRB);
+        userLayout->addWidget(studentRB);
+        userWidget->setLayout(userLayout);
 
         button1 = new QPushButton("Login", this);
         button1->setFont(QFont("Magma",15,QFont::Bold));
@@ -54,9 +63,10 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent){
         formlayout->setFormAlignment(Qt::AlignCenter);
         formlayout->setAlignment(Qt::AlignCenter);
         formlayout->setVerticalSpacing(30);
+        formlayout->addWidget(userWidget);
         formlayout->addWidget(button1);
         formlayout->addWidget(regLbl);
-container->setStyleSheet("background-color:lightblue");
+        container->setStyleSheet("background-color:lightblue");
         this->setStyleSheet("background-position: center;background-repeat:no-repeats");
         this->setCentralWidget(container);
 
@@ -64,19 +74,19 @@ container->setStyleSheet("background-color:lightblue");
         connect(button1,SIGNAL(clicked()),this,SLOT(onLoginPressed()));
         //Connecting clickable label to slot
         connect(regLbl,SIGNAL(clicked()),this,SLOT(regNewUser()));
+        connect(adminRB,SIGNAL(toggled(bool)),this,SLOT(checkAdminAvailability()));
 }
 void MainWindow::onLoginPressed(){
     qDebug()<<"user name is : " << usrEdit->text();
     qDebug() <<"password is : " << passEdit->text();
     button1->setStyleSheet("background-color:black;color:white;border-radius:15px");
-    //if email is available in database
-
-    //if not available
 
 }
-void MainWindow::checkAvailability()
+void MainWindow::checkAdminAvailability()
 {
-    //if usrEdit->text()[0]=='A'
+
+    //if usrEdit->text()[0]=='A' Admin from radio button is selected
+    SQLiteDb.sql_select(usrEdit->text(),admins_table,"");
         //send usrEdit->text() to adminTable in the database
         //if query is available in adminTable in the database
             //emit usrAvailable(); //maybe won't be used
@@ -120,6 +130,8 @@ void MainWindow::checkAvailability()
 
 
 }
+void MainWindow::checkStaffAvailability(){}
+void MainWindow::checkStudentAvailability(){}
 void MainWindow::regNewUser(){
     this->setCentralWidget(reg);
 }

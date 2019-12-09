@@ -2,10 +2,10 @@
 #include "sqliteclass.h"
 #include "globalDbObject.h"
 
-static QString students_table = "students";
+/*static QString students_table = "students";
 static QStringList students_columns = {"first_name","last_name", "gendre", "picture",
                                 "birth_date", "address", "college_id", "academic_year", "department"};
-
+*/
 Student::Student() : Person()
 {
     this-> academic_year = "0";

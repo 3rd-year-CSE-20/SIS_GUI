@@ -14,16 +14,19 @@
 #include <QPixmap>
 #include <QtQuick/QQuickView>
 #include <QFont>
+#include <QRadioButton>
 #include "dashboard.h"
 #include "register.h"
 #include "clickablelabel.h"
 #include "sqliteclass.h"
+#include "globalDbObject.h"
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
 private:
     Dashboard *dash;
     Register *reg;
+    SQLiteClass *db;
 
 public:
     MainWindow(QWidget *parent = nullptr);
@@ -37,14 +40,22 @@ public:
    QLabel *passLbl;
    ClickableLabel * regLbl;
     QLabel *errLbl;
+    QRadioButton *adminRB;
+    QRadioButton *staffMemberRB;
+    QRadioButton *studentRB;
+    QHBoxLayout *userLayout;
+    QGroupBox *userWidget;
 signals:
     void usrAvailable();
     void usrNotAvailable();
+    void toggled(bool);
 
 private slots:
    void onLoginPressed();
     void regNewUser();
-    void checkAvailability();
+    void checkAdminAvailability();
+    void checkStaffAvailability();
+    void checkStudentAvailability();
 
 
 };

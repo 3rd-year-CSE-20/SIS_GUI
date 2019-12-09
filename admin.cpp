@@ -1,11 +1,11 @@
 #include "admin.h"
 #include "sqliteclass.h"
 #include "globalDbObject.h"
-
+/*
 static QString admins_table = "admins";
 static QStringList admins_columns = {"first_name","last_name", "gendre", "picture",
                                 "birth_date", "address", "college_id"};
-
+*/
 Admin::Admin() : Person()
 {
 }
