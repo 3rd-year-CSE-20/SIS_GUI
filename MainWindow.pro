@@ -1,6 +1,6 @@
 #-------------------------------------------------
 #
-# Project created by QtCreator 2019-11-25T17:26:36
+# Project created by QtCreator 2019-12-08T23:52:08
 #
 #-------------------------------------------------
 
@@ -10,7 +10,7 @@ QT += core sql
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = SIS_gui
+TARGET = MainWindow
 TEMPLATE = app
 
 # The following define makes your compiler emit warnings if you use
@@ -54,9 +54,6 @@ HEADERS += \
         sqliteclass.h \
         staffmember.h \
         student.h
-
-FORMS += \
-        mainwindow.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
