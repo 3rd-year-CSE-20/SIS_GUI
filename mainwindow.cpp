@@ -72,11 +72,16 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent){
 
         //Connecting button to slot
         connect(button1,SIGNAL(clicked()),this,SLOT(onLoginPressed()));
-        connect(button1,SIGNAL(clicked()),this,SLOT(checkAdminAvailablity()));
+        connect(button1,SIGNAL(clicked()),this,SLOT(checkAdminAvailability()));
+        connect(button1,SIGNAL(clicked()),this,SLOT(checkStaffAvailability()));
+        connect(button1,SIGNAL(clicked()),this,SLOT(checkStudentAvailability()));
+
         //Connecting clickable label to slot
         connect(regLbl,SIGNAL(clicked()),this,SLOT(regNewUser()));
-        connect(adminRB,SIGNAL(toggled(bool)),this,SLOT(checkAdminAvailability()));
-}
+
+
+
+        }
 void MainWindow::onLoginPressed(){
     qDebug()<<"user name is : " << usrEdit->text();
     qDebug() <<"password is : " << passEdit->text();
@@ -86,11 +91,23 @@ void MainWindow::onLoginPressed(){
 void MainWindow::checkAdminAvailability()
 {
 
-    if (usrEdit->text()[0]=='A') //Admin from radio button is selected
+    if (usrEdit->text()[0]=='A' && adminRB->isChecked()) //Admin from radio button is selected
     {
-      userA = userA.find(usrEdit->text().toLongLong());
-     if(userA.isSaved())
-          this->setCentralWidget(dash); //admin dashboard
+        Admin userA;
+     userA.setId(usrEdit->text().toLongLong());
+     if(userA.getFirstName()=="")
+     {
+          qDebug()<<"Fisrtname is:"<<userA.getFirstName();
+          errLbl->setText("Try again username or password is incorrect");
+          formlayout->insertRow(0,"       ",errLbl); //may increase the tab spacing
+          errLbl->show();
+          regLbl->setText("Regeister New User?");
+          regLbl->show();
+     }
+
+    //    this->setCentralWidget(dash); //admin dashboard
+
+
     }
         //send usrEdit->text() to adminTable in the database
         //if query is available in adminTable in the database
@@ -107,12 +124,14 @@ void MainWindow::checkAdminAvailability()
         //regLbl->show();
 
 
-    //if usrEdit->text()[0]=='S'
+    //if (usrEdit->text()[0]=='S'&&staffMemberRB->isChecked())
+   // {
+     //   StaffMember userS;
         //send usrEdit->text() to staffTable in the database
         //if query is available in staffTable in the database
             //emit usrAvailable(); //maybe won't be used
             //this->setCentralWidget(dash); //staff dashboard
-
+    //}
         //else
             //errLbl->setText("Try again username or password is incorrect");
              //formlayout->insertRow(0,"       ",errLbl); //may increase the tab spacing
@@ -120,6 +139,7 @@ void MainWindow::checkAdminAvailability()
             //regLbl->setText("Regeister New User?");
             //regLbl->show();
     //else
+    Student user;
         //send usrEdit->text() to studentTable in the database
         //if query is available in studentTable in the database
             //emit usrAvailable(); //maybe won't be used

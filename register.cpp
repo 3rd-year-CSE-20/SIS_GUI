@@ -11,6 +11,7 @@ Register:: Register(QWidget *parent) :
     birthDateTxt = new QLineEdit();
     addressTxt = new QLineEdit();
     mobileTxt = new QLineEdit();
+    userTypeTxt = new QLineEdit(); //to be changed to drop down menu
     birthDate = new QCalendarWidget();
     genderGBox = new QWidget();
     genderLayout = new QHBoxLayout();
@@ -33,6 +34,7 @@ Register:: Register(QWidget *parent) :
     subMain_L_FLayout->addRow("First Name", firstNameTxt);
     subMain_L_FLayout->addRow("Birth Date", birthDate);
     subMain_L_FLayout->addRow("Gender", genderGBox);
+    subMain_L_FLayout->addRow("User Type",userTypeTxt);
     subMain_L_FLayout->addRow("Address", addressTxt);
 //    subMain_L_FLayout->setFormAlignment(Qt::AlignCenter);
 //    subMain_L_FLayout->setAlignment(Qt::AlignCenter);

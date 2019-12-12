@@ -23,6 +23,7 @@ public:
     QLineEdit *birthDateTxt;
     QLineEdit *addressTxt;
     QLineEdit *mobileTxt;
+    QLineEdit *userTypeTxt;
     QCalendarWidget *birthDate;
     QWidget *genderGBox;
     QHBoxLayout *genderLayout;
