@@ -20,6 +20,9 @@
 #include "clickablelabel.h"
 #include "sqliteclass.h"
 #include "globalDbObject.h"
+#include "admin.h"
+#include "student.h"
+#include "staffmember.h"
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -27,6 +30,9 @@ private:
     Dashboard *dash;
     Register *reg;
     SQLiteClass *db;
+    Admin userA;
+    Student user;
+    StaffMember userS;
 
 public:
     MainWindow(QWidget *parent = nullptr);

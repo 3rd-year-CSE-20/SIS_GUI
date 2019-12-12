@@ -1,7 +1,7 @@
 #include "globalDbObject.h"
 
 SQLiteClass SQLiteDb = SQLiteClass("db.sqlite");
-// students table
+/*// students table
 QString students_table = "students";
 QStringList students_columns = {"id","first_name","last_name", "gendre", "picture",
                                 "birth_date", "address", "college_id", "academic_year", "department"};
@@ -35,4 +35,4 @@ QString admins_table = "admins";
 QStringList admins_columns = {"id","first_name","last_name", "gendre", "picture",
                                 "birth_date", "address", "college_id"};
 QStringList admins_types = {"INTEGER PRIMARY KEY AUTOINCREMENT", "TEXT", "TEXT", "TEXT", "TEXT",
-                              "TEXT", "TEXT", "TEXT"};
+                              "TEXT", "TEXT", "TEXT"};*/

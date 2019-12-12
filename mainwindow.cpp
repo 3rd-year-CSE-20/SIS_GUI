@@ -72,6 +72,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent){
 
         //Connecting button to slot
         connect(button1,SIGNAL(clicked()),this,SLOT(onLoginPressed()));
+        connect(button1,SIGNAL(clicked()),this,SLOT(checkAdminAvailablity()));
         //Connecting clickable label to slot
         connect(regLbl,SIGNAL(clicked()),this,SLOT(regNewUser()));
         connect(adminRB,SIGNAL(toggled(bool)),this,SLOT(checkAdminAvailability()));
@@ -85,12 +86,16 @@ void MainWindow::onLoginPressed(){
 void MainWindow::checkAdminAvailability()
 {
 
-    //if usrEdit->text()[0]=='A' Admin from radio button is selected
-    SQLiteDb.sql_select(usrEdit->text(),admins_table,"");
+    if (usrEdit->text()[0]=='A') //Admin from radio button is selected
+    {
+      userA = userA.find(usrEdit->text().toLongLong());
+     if(userA.isSaved())
+          this->setCentralWidget(dash); //admin dashboard
+    }
         //send usrEdit->text() to adminTable in the database
         //if query is available in adminTable in the database
             //emit usrAvailable(); //maybe won't be used
-            //this->setCentralWidget(dash); //admin dashboard
+
 
 
         //else

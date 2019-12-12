@@ -140,7 +140,7 @@ int SQLiteClass::sql_close(){
 }
 
 void databaseInitialization(){
-  /*  // students table
+    // students table
     QString students_table = "students";
     QStringList students_columns = {"id","first_name","last_name", "gendre", "picture",
                                     "birth_date", "address", "college_id", "academic_year", "department"};
@@ -175,7 +175,7 @@ void databaseInitialization(){
                                     "birth_date", "address", "college_id"};
     QStringList admins_types = {"INTEGER PRIMARY KEY AUTOINCREMENT", "TEXT", "TEXT", "TEXT", "TEXT",
                                   "TEXT", "TEXT", "TEXT"};
-*/
+
     // creating tables
     SQLiteDb.sql_create(students_table, students_columns, students_types);
     SQLiteDb.sql_create(courses_table, courses_columns, courses_types);

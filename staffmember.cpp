@@ -2,10 +2,10 @@
 #include <QString>
 #include "course.h"
 
-/*static QString staff_members_table = "students";
+static QString staff_members_table = "students";
 static QStringList staff_members_columns = {"first_name","last_name", "gendre", "picture",
                                 "birth_date", "address", "college_id", "degree", "department"};
-*/
+
 StaffMember::StaffMember() : Person() {
     this->degree = QString("");
     this->department = QString("");

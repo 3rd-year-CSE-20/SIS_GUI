@@ -4,7 +4,7 @@
 #include <QString>
 #include <QStringList>
 extern SQLiteClass SQLiteDb;
-
+/*
 extern QString students_table;
 extern QStringList students_columns;
 extern QStringList students_types;
@@ -27,5 +27,5 @@ extern QStringList courses_staff_types;
 
 extern QString admins_table;
 extern QStringList admins_columns;
-extern QStringList admins_types;
+extern QStringList admins_types;*/
 #endif // SQLITEDB_H
