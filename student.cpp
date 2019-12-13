@@ -38,6 +38,14 @@ QVector<Course> Student::getCourses() {
     return this->courses;
 }
 
+void Student::setCollegeId(QString college_id){
+    this->college_id = college_id;
+}
+
+QString Student::getCollegeId(){
+    return this->college_id;
+}
+
 void Student::addCourse(QString course_name) {
     int index = -1;
     for(int i = 0; i < this->courses.size(); i++) {

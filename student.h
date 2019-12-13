@@ -11,14 +11,20 @@ private:
     QString academic_year;
     QString department;
     QVector <Course> courses;
+    QString college_id;
 public:
     Student();
     Student(QString first_name, QString last_name, QString gendre, QString picture, QString birth_date, QString address,
             QString college_id, QString academic_year, QString department);
     void setAcademicYear(QString academic_year);
     QString getAcademicYear();
+
     void setDepartment(QString department);
     QString getDepartment();
+
+    void setCollegeId(QString college_id);
+    QString getCollegeId();
+
 
     bool save();
     void delete1();

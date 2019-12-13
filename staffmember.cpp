@@ -2,9 +2,23 @@
 #include <QString>
 #include "course.h"
 
-static QString staff_members_table = "students";
-static QStringList staff_members_columns = {"first_name","last_name", "gendre", "picture",
-                                "birth_date", "address", "college_id", "degree", "department"};
+#include <QSqlDatabase>
+#include <QSql>
+#include <QSqlError>
+#include <QDir>
+#include <QFile>
+#include <QDebug>
+#include <QSqlQuery>
+#include <QString>
+#include <QStringList>
+#include <QSqlError>
+#include <globalDbObject.h>
+
+static QString staff_table = "staff_members";
+static QStringList staff_columns = {"first_name","last_name", "degree", "birth_date",
+                                "gendre", "address", "picture", "department"};
+static QStringList staff_types = {"INTEGER PRIMARY KEY AUTOINCREMENT", "TEXT", "TEXT", "INTEGER", "TEXT",
+                              "TEXT", "TEXT", "TEXT", "TEXT PRIMARY KEY", "TEXT"};
 
 StaffMember::StaffMember() : Person() {
     this->degree = QString("");
@@ -159,3 +173,48 @@ StaffMember StaffMember::find(long long id) {
     db.close();
     return staff_member;
 }
+
+bool StaffMember::save(){
+    QString id_ = QString::number(getId());
+    SQLiteDb.sql_select("*", staff_table, " id = " + id_);
+    QSqlQuery query = SQLiteDb.sql_getQuery();
+    QStringList values = {getFirstName(),  getLastName(), getDegree(), getBirthDate(),
+                          getGendre(), getAddress(), getPicture(),  getDepartment()};
+    if(query.next()){
+        SQLiteDb.sql_update(staff_table, staff_columns, values, "id = " + id_);
+
+        for(int i = 0; i < courses.size(); i++){
+            QString course_id = QString::number(courses[i].getId());
+            SQLiteDb.sql_select("*", "courses_staff_members", " staff_member_id = " + id_ + " AND course_id " + course_id);
+            query = SQLiteDb.sql_getQuery();
+            if(!query.next()){
+                SQLiteDb.sql_insert("courses_staff_members", {"staff_member_id", "courses_id"}, {id_, course_id});
+            }
+        }
+        return true;
+    }
+    SQLiteDb.sql_insert(staff_table, staff_columns, values);
+    for(int i = 0; i < courses.size(); i++){
+        QString course_id = QString::number(courses[i].getId());
+        SQLiteDb.sql_insert("courses_staff_members", {"staff_member_id", "courses_id"}, {id_, course_id});
+    }
+    return false;
+}
+
+QVector<StaffMember> StaffMember::where(QString column, QString value){
+    SQLiteDb.sql_select("*", staff_table, column + " = " +  value);
+    QSqlQuery query = SQLiteDb.sql_getQuery();
+    QVector<StaffMember> staff_members;
+    while (query.next()) {
+        int id = query.value(0).toInt();
+        staff_members.push_back(find(id));
+    }
+    return staff_members;
+}
+void StaffMember::delete1(){
+    QString staff_id = QString::number(getId());
+    SQLiteDb.sql_delete(staff_table, "id = " + staff_id);
+    SQLiteDb.sql_delete("courses_students", "staff_member_id = " + staff_id);
+}
+
+
