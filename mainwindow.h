@@ -31,9 +31,6 @@ private:
     Dashboard *dash;
     Register *reg;
     SQLiteClass *db;
-    Admin userA;
-    Student user;
-    StaffMember userS;
 
 public:
     MainWindow(QWidget *parent = nullptr);
