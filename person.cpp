@@ -12,9 +12,10 @@ Person::Person()
     this->birth_date = QString("");
     this->address = QString("");
     this->college_id = QString("");
+    this->password = QString("");
 }
 
-Person::Person(QString first_name, QString last_name, QString gendre, QString picture, QString birth_date, QString address, QString college_id) {
+Person::Person(QString first_name, QString last_name, QString gendre, QString picture, QString birth_date, QString address, QString college_id, QString password) {
     this->id = 0;
     this->is_saved = false;
     this->first_name = first_name;
@@ -24,6 +25,7 @@ Person::Person(QString first_name, QString last_name, QString gendre, QString pi
     this->birth_date = birth_date;
     this->address = address;
     this->college_id = college_id;
+    this->password = password;
 }
 
 void Person::setFirstName(QString first_name) {
@@ -80,6 +82,14 @@ void Person::setCollegeId(QString college_id){
 
 QString Person::getCollegeId(){
     return this->college_id;
+}
+
+void Person::setPassword(QString password){
+    this->password = password;
+}
+
+QString Person::getPassword(){
+    return this->password;
 }
 
 void Person::setId(long long id) {

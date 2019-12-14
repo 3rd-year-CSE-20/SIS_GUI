@@ -28,7 +28,7 @@ private:
 
 public:
     StaffMember();
-    StaffMember(QString first_name, QString last_name, QString gendre, QString picture, QString birth_date, QString address, QString college_id, QString degree, QString department);
+    StaffMember(QString first_name, QString last_name, QString gendre, QString picture, QString birth_date, QString address, QString college_id, QString password, QString degree, QString department);
     void setDegree(QString degree);
     QString getDegree();
 
@@ -39,6 +39,7 @@ public:
     void addCourse(QString course_name);
     void deleteCourse(QString course_name);
     bool save();
+    bool isInDatabase(long long id);
 
     static QVector<StaffMember> all();
     static StaffMember find(long long id);
