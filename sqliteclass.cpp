@@ -143,9 +143,9 @@ void databaseInitialization(){
     // students table
     QString students_table = "students";
     QStringList students_columns = {"id","first_name","last_name", "gendre", "picture",
-                                    "birth_date", "address", "college_id", "academic_year", "department"};
+                                    "birth_date", "address", "college_id", "password", "academic_year", "department"};
     QStringList students_types = {"INTEGER PRIMARY KEY AUTOINCREMENT", "TEXT", "TEXT", "TEXT", "TEXT",
-                                  "TEXT", "TEXT", "TEXT", "TEXT", "TEXT"};
+                                  "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT"};
 
     // courses table
     QString courses_table = "courses";
@@ -160,9 +160,9 @@ void databaseInitialization(){
     // staff members table
     QString staff_table = "staff_members";
     QStringList staff_columns = {"id","first_name","last_name", "gendre", "picture",
-                                    "birth_date", "address", "college_id", "degree", "department"};
+                                    "birth_date", "address", "college_id", "password", "degree", "department"};
     QStringList staff_types = {"INTEGER PRIMARY KEY AUTOINCREMENT", "TEXT", "TEXT", "TEXT", "TEXT",
-                                  "TEXT", "TEXT", "TEXT", "TEXT", "TEXT"};
+                                  "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT"};
 
     // courses  / students table
     QString courses_staff_table = "courses_staff_members";
@@ -172,9 +172,9 @@ void databaseInitialization(){
     // admins table
     QString admins_table = "admins";
     QStringList admins_columns = {"id","first_name","last_name", "gendre", "picture",
-                                    "birth_date", "address", "college_id"};
+                                    "birth_date", "address", "college_id", "password"};
     QStringList admins_types = {"INTEGER PRIMARY KEY AUTOINCREMENT", "TEXT", "TEXT", "TEXT", "TEXT",
-                                  "TEXT", "TEXT", "TEXT"};
+                                  "TEXT", "TEXT", "TEXT", "TEXT"};
 
     // creating tables
     SQLiteDb.sql_create(students_table, students_columns, students_types);

@@ -4,16 +4,16 @@
 
 static QString students_table = "students";
 static QStringList students_columns = {"first_name","last_name", "gendre", "picture",
-                                "birth_date", "address", "college_id", "academic_year", "department"};
+                                "birth_date", "address", "college_id", "password", "academic_year", "department"};
 
 Student::Student() : Person()
 {
-    this-> academic_year = "0";
+    this->academic_year = "0";
     this->department = "";
 }
 
-Student::Student(QString first_name, QString last_name, QString gendre, QString picture, QString birth_date, QString address, QString college_id,
-                 QString academic_year, QString department) : Person(first_name, last_name, gendre, picture, birth_date, address, college_id) {
+Student::Student(QString first_name, QString last_name, QString gendre, QString picture, QString birth_date, QString address, QString college_id, QString password,
+                 QString academic_year, QString department) : Person(first_name, last_name, gendre, picture, birth_date, address, college_id, password) {
     this-> academic_year = academic_year;
     this->department = department;
 }
@@ -102,11 +102,12 @@ QVector<Student> Student::all() {
         QString birth_date = query.value(5).toString();
         QString address = query.value(6).toString();
         QString college_id = query.value(7).toString();
-        QString academic_year = query.value(8).toString();
-        QString department = query.value(9).toString();
+        QString password = query.value(8).toString();
+        QString academic_year = query.value(9).toString();
+        QString department = query.value(10).toString();
 
 
-        Student temp(first_name, last_name, gendre, picture, birth_date, address, college_id, academic_year, department);
+        Student temp(first_name, last_name, gendre, picture, birth_date, address, college_id, password, academic_year, department);
         temp.setId(id);
         temp.setIsSaved(true);
 
@@ -122,20 +123,65 @@ QVector<Student> Student::all() {
     return students;
 }
 
-bool Student::save(){
-    SQLiteDb.sql_select("*", students_table, "id = " + QString::number(getId()));
-    QSqlQuery query = SQLiteDb.sql_getQuery();
-    if(query.next()){
+bool Student::isInDatabase(long long id) {
+    QSqlQuery query;
+    QSqlDatabase db;
+
+    db = QSqlDatabase::addDatabase("QSQLITE");
+
+    QString dbPath = QDir::currentPath();
+
+    dbPath += "/" + QString("db.sqlite");
+
+    qDebug() << dbPath;
+
+    db.setDatabaseName(dbPath);
+
+    if(!db.open()){
+        qDebug() << "Problem while opening the database";
+    }
+
+    query.exec("SELECT * FROM students WHERE id = " + QString::number(id));
+    if(query.next()) {
+        db.close();
         return true;
     }
+
+    db.close();
+    return false;
+}
+
+bool Student::save(){
+    QString id_ = QString::number(getId());
+    SQLiteDb.sql_select("*", students_table, " id = " + id_);
+    QSqlQuery query = SQLiteDb.sql_getQuery();
     QStringList values = {getFirstName(),  getLastName(), getGendre(), getPicture(),
-                          getBirthDate(), getAddress(), getCollegeId(), getAcademicYear(),  getDepartment()};
+                          getBirthDate(), getAddress(), getCollegeId(), getPassword(), getAcademicYear(),  getDepartment()};
+    if(query.next()){
+        SQLiteDb.sql_update(students_table, students_columns, values, "id = " + id_);
+
+        for(int i = 0; i < courses.size(); i++){
+            QString course_id = QString::number(courses[i].getId());
+            SQLiteDb.sql_select("*", "courses_students", " staff_member_id = " + id_ + " AND course_id " + course_id);
+            query = SQLiteDb.sql_getQuery();
+            if(!query.next()){
+                SQLiteDb.sql_insert("courses_students", {"staff_member_id", "course_id"}, {id_, course_id});
+            }
+        }
+        return true;
+    }
     SQLiteDb.sql_insert(students_table, students_columns, values);
+    for(int i = 0; i < courses.size(); i++){
+        QString course_id = QString::number(courses[i].getId());
+        SQLiteDb.sql_insert("courses_students", {"student_id", "course_id"}, {id_, course_id});
+    }
     return false;
 }
 
 void Student::delete1(){
-    SQLiteDb.sql_delete(students_table, "ID = " + QString::number(getId()));
+    QString student_id = QString::number(getId());
+    SQLiteDb.sql_delete(students_table, "id = " + student_id);
+    SQLiteDb.sql_delete("courses_students", "student_id = " + student_id);
 }
 
 Student Student::find(long long id) {
@@ -156,7 +202,7 @@ Student Student::find(long long id) {
         qDebug() << "Problem while opening the database";
     }
 
-    query.exec("SELECT * FROM students");
+    query.exec("SELECT * FROM students WHERE id = " + QString::number(id));
     QSqlQuery query1;
     query.next();
     QString first_name = query.value(1).toString();
@@ -166,10 +212,11 @@ Student Student::find(long long id) {
     QString birth_date = query.value(5).toString();
     QString address = query.value(6).toString();
     QString college_id = query.value(7).toString();
-    QString academic_year = query.value(8).toString();
-    QString department = query.value(9).toString();
+    QString password = query.value(8).toString();
+    QString academic_year = query.value(9).toString();
+    QString department = query.value(10).toString();
 
-    Student student(first_name, last_name, gendre, picture, birth_date, address, college_id, academic_year, department);
+    Student student(first_name, last_name, gendre, picture, birth_date, address, college_id, password, academic_year, department);
     student.setId(id);
     student.setIsSaved(true);
 

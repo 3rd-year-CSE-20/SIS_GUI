@@ -16,9 +16,9 @@
 
 static QString staff_table = "staff_members";
 static QStringList staff_columns = {"first_name","last_name", "degree", "birth_date",
-                                "gendre", "address", "picture", "department"};
-static QStringList staff_types = {"INTEGER PRIMARY KEY AUTOINCREMENT", "TEXT", "TEXT", "INTEGER", "TEXT",
-                              "TEXT", "TEXT", "TEXT", "TEXT PRIMARY KEY", "TEXT"};
+                                "gendre", "address", "password", "picture", "degree", "department"};
+static QStringList staff_types = {"INTEGER PRIMARY KEY AUTOINCREMENT", "TEXT", "TEXT", "TEXT", "TEXT",
+                              "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT"};
 
 StaffMember::StaffMember() : Person() {
     this->degree = QString("");
@@ -26,8 +26,8 @@ StaffMember::StaffMember() : Person() {
     this->courses = QVector<Course>();
 }
 
-StaffMember::StaffMember(QString first_name, QString last_name, QString gendre, QString picture, QString birth_date, QString address, QString college_id, QString degree, QString department)
-    : Person(first_name, last_name, gendre, picture, birth_date, address, college_id) {
+StaffMember::StaffMember(QString first_name, QString last_name, QString gendre, QString picture, QString birth_date, QString address, QString college_id, QString password, QString degree, QString department)
+    : Person(first_name, last_name, gendre, picture, birth_date, address, college_id, password) {
     this->degree = degree;
     this->department = department;
     this->courses = QVector<Course>();
@@ -110,10 +110,11 @@ QVector<StaffMember> StaffMember::all() {
         QString birth_date = query.value(5).toString();
         QString address = query.value(6).toString();
         QString college_id = query.value(7).toString();
-        QString degree = query.value(8).toString();
-        QString department = query.value(9).toString();
+        QString password = query.value(8).toString();
+        QString degree = query.value(9).toString();
+        QString department = query.value(10).toString();
 
-        StaffMember temp(first_name, last_name, gendre, picture, birth_date, address, college_id, degree, department);
+        StaffMember temp(first_name, last_name, gendre, picture, birth_date, address, college_id, password, degree, department);
         temp.setId(id);
         temp.setIsSaved(true);
 
@@ -127,6 +128,34 @@ QVector<StaffMember> StaffMember::all() {
 
     db.close();
     return staff_members;
+}
+
+bool StaffMember::isInDatabase(long long id) {
+    QSqlQuery query;
+    QSqlDatabase db;
+
+    db = QSqlDatabase::addDatabase("QSQLITE");
+
+    QString dbPath = QDir::currentPath();
+
+    dbPath += "/" + QString("db.sqlite");
+
+    qDebug() << dbPath;
+
+    db.setDatabaseName(dbPath);
+
+    if(!db.open()){
+        qDebug() << "Problem while opening the database";
+    }
+
+    query.exec("SELECT * FROM staff_members WHERE id = " + QString::number(id));
+    if(query.next()) {
+        db.close();
+        return true;
+    }
+
+    db.close();
+    return false;
 }
 
 StaffMember StaffMember::find(long long id) {
@@ -147,7 +176,7 @@ StaffMember StaffMember::find(long long id) {
         qDebug() << "Problem while opening the database";
     }
 
-    query.exec("SELECT * FROM staff_members");
+    query.exec("SELECT * FROM staff_members WHERE id = " + QString::number(id));
     QSqlQuery query1;
     query.next();
     QString first_name = query.value(1).toString();
@@ -157,10 +186,11 @@ StaffMember StaffMember::find(long long id) {
     QString birth_date = query.value(5).toString();
     QString address = query.value(6).toString();
     QString college_id = query.value(7).toString();
-    QString degree = query.value(8).toString();
-    QString department = query.value(9).toString();
+    QString password = query.value(8).toString();
+    QString degree = query.value(9).toString();
+    QString department = query.value(10).toString();
 
-    StaffMember staff_member(first_name, last_name, gendre, picture, birth_date, address, college_id, degree, department);
+    StaffMember staff_member(first_name, last_name, gendre, picture, birth_date, address, college_id, password, degree, department);
     staff_member.setId(id);
     staff_member.setIsSaved(true);
 
@@ -179,7 +209,7 @@ bool StaffMember::save(){
     SQLiteDb.sql_select("*", staff_table, " id = " + id_);
     QSqlQuery query = SQLiteDb.sql_getQuery();
     QStringList values = {getFirstName(),  getLastName(), getDegree(), getBirthDate(),
-                          getGendre(), getAddress(), getPicture(),  getDepartment()};
+                          getGendre(), getAddress(), getPassword(), getPicture(), getDegree(),  getDepartment()};
     if(query.next()){
         SQLiteDb.sql_update(staff_table, staff_columns, values, "id = " + id_);
 
@@ -196,7 +226,7 @@ bool StaffMember::save(){
     SQLiteDb.sql_insert(staff_table, staff_columns, values);
     for(int i = 0; i < courses.size(); i++){
         QString course_id = QString::number(courses[i].getId());
-        SQLiteDb.sql_insert("courses_staff_members", {"staff_member_id", "courses_id"}, {id_, course_id});
+        SQLiteDb.sql_insert("courses_staff_members", {"staff_member_id", "course_id"}, {id_, course_id});
     }
     return false;
 }
@@ -211,10 +241,11 @@ QVector<StaffMember> StaffMember::where(QString column, QString value){
     }
     return staff_members;
 }
+
 void StaffMember::delete1(){
     QString staff_id = QString::number(getId());
     SQLiteDb.sql_delete(staff_table, "id = " + staff_id);
-    SQLiteDb.sql_delete("courses_students", "staff_member_id = " + staff_id);
+    SQLiteDb.sql_delete("courses_staff_members", "staff_member_id = " + staff_id);
 }
 
 

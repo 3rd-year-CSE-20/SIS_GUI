@@ -16,10 +16,11 @@ private:
     QString birth_date;
     QString address;
     QString college_id;
+    QString password;
 
 public:
     Person();
-    Person(QString first_name, QString last_name, QString gendre, QString picture, QString birth_date, QString address, QString college_id);
+    Person(QString first_name, QString last_name, QString gendre, QString picture, QString birth_date, QString address, QString college_id, QString password);
     void setFirstName(QString first_name);
     QString getFirstName();
     void setLastName(QString last_name);
@@ -34,6 +35,8 @@ public:
     QString getBirthDate();
     void setCollegeId(QString college_id);
     QString getCollegeId();
+    void setPassword(QString password);
+    QString getPassword();
     void setId(long long id);
     long long getId();
     void setIsSaved(bool is_saved);
