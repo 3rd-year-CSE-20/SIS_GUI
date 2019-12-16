@@ -25,7 +25,7 @@ public:
     void setCollegeId(QString college_id);
     QString getCollegeId();
 
-
+    bool isInDatabase(long long id);
     bool save();
     void delete1();
     QVector<Course> getCourses();
