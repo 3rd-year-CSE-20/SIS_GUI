@@ -10,8 +10,13 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
     MainWindow w;
     w.show();
-    databaseInitialization();
-
+   // databaseInitialization();
+Student mariam;
+mariam.setFirstName("Mariam");
+mariam.setPassword("123");
+mariam.setCollegeId("1601374");
+mariam.setIsSaved(true);
+qDebug()<<mariam.getCollegeId();
     qmlRegisterType<BackEnd>("io.qt.examples.backend", 1, 0, "BackEnd");
     QQmlApplicationEngine engine;
 //     engine.load(QUrl::fromLocalFile("main.qml"));

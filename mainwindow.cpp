@@ -112,15 +112,15 @@ void MainWindow::checkAdminAvailability()
 
         }
     }
-    else
-    {
-        errLbl->setText("Try again username or password is incorrect");
-        formlayout->insertRow(0,"       ",errLbl); //may increase the tab spacing
-        errLbl->show();
-        regLbl->setText("Regeister New User?");
-        regLbl->show();
+//    else
+//    {
+//        errLbl->setText("Try again username or password is incorrect");
+//        formlayout->insertRow(0,"       ",errLbl); //may increase the tab spacing
+//        errLbl->show();
+//        regLbl->setText("Regeister New User?");
+//        regLbl->show();
 
-    }
+//    }
 }
 
 void MainWindow::checkStaffAvailability()
@@ -146,25 +146,28 @@ void MainWindow::checkStaffAvailability()
 
             }
         }
-    else
-    {
-        qDebug()<<"the staff member isn't available";
-        errLbl->setText("Try again username or password is incorrect");
-        formlayout->insertRow(0,"       ",errLbl); //may increase the tab spacing
-        errLbl->show();
-        regLbl->setText("Regeister New User?");
-        regLbl->show();
+//    else
+//    {
+//        qDebug()<<"the staff member isn't available";
+//        errLbl->setText("Try again username or password is incorrect");
+//        formlayout->insertRow(0,"       ",errLbl); //may increase the tab spacing
+//        errLbl->show();
+//        regLbl->setText("Regeister New User?");
+//        regLbl->show();
 
-        }
+//        }
 }
 
 void MainWindow::checkStudentAvailability()
 {
+    qDebug()<<"Student is received";
     if(studentRB->isChecked()&&usrEdit->text()[0]!='A'&&usrEdit->text()[0]!='S')
     {
         Student user;
+        qDebug()<<"Student is received2";
         if(user.isInDatabase(usrEdit->text().toLongLong()) && passEdit->text()==user.getPassword())
         {
+            qDebug()<<"Student is received3";
               this->setCentralWidget(dash); //student dashboard
          }
         else
