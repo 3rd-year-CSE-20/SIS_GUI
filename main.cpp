@@ -7,7 +7,7 @@
 #define ELECTRICAL_DEPARTMENT 1
 int main(int argc, char *argv[])
 {
-     //databaseInitialization();
+     //databaseInitialization(); //uncomment if it is the first time to run the code
     QApplication a(argc, argv);
     Admin mariam;
     mariam.setId(1);
