@@ -16,9 +16,9 @@ public:
     void setDepartment(QString department);
     QString getDepartment();
 
-    bool isInDatabase(long long id);
     bool save();
     void delete1();
+    static bool isInDatabase(long long id);
     static QVector<Admin> all();
     static Admin find(long long id);
     static QVector<Admin> where(QString column, QString value);

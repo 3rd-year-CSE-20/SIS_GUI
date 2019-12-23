@@ -76,30 +76,11 @@ bool Admin::save(){
 }
 
 bool Admin::isInDatabase(long long id) {
-    QSqlQuery query;
-    QSqlDatabase db;
-
-    db = QSqlDatabase::addDatabase("QSQLITE");
-
-    QString dbPath = QDir::currentPath();
-
-    dbPath += "/" + QString("db.sqlite");
-
-    qDebug() << dbPath;
-
-    db.setDatabaseName(dbPath);
-
-    if(!db.open()){
-        qDebug() << "Problem while opening the database";
-    }
-
+    QSqlQuery query = SQLiteDb.sql_getQuery();
     query.exec("SELECT * FROM admins WHERE id = " + QString::number(id));
     if(query.next()) {
-        db.close();
         return true;
     }
-
-    db.close();
     return false;
 }
 

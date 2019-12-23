@@ -7,19 +7,24 @@
 #define ELECTRICAL_DEPARTMENT 1
 int main(int argc, char *argv[])
 {
+     //databaseInitialization();
     QApplication a(argc, argv);
+    Admin mariam;
+    mariam.setId(1);
+    mariam.setFirstName("Mariam");
+    mariam.setPassword("123");
+    mariam.setCollegeId("1600001");
+
+    mariam.save();
+    qDebug()<<mariam.getCollegeId();
     MainWindow w;
+
     w.show();
-   // databaseInitialization();
-Student mariam;
-mariam.setFirstName("Mariam");
-mariam.setPassword("123");
-mariam.setCollegeId("1601374");
-mariam.setIsSaved(true);
-qDebug()<<mariam.getCollegeId();
-    qmlRegisterType<BackEnd>("io.qt.examples.backend", 1, 0, "BackEnd");
-    QQmlApplicationEngine engine;
-//     engine.load(QUrl::fromLocalFile("main.qml"));
+
+
+//    qmlRegisterType<BackEnd>("io.qt.examples.backend", 1, 0, "BackEnd");
+//    QQmlApplicationEngine engine;
+//    engine.load(QUrl::fromLocalFile("main.qml"));
 
 
     return a.exec();

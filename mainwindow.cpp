@@ -90,17 +90,22 @@ void MainWindow::onLoginPressed(){
 }
 void MainWindow::checkAdminAvailability()
 {
-
+         qDebug()<<"admin function";
+         SQLiteDb.sql_print();
     if (usrEdit->text()[0]=='A' && adminRB->isChecked()) //Admin from radio button is selected
     {
-        Admin userA;
+         qDebug()<<"admin is true";
+        long long id = usrEdit->text().toLongLong() % 100000;
 
-        if(userA.isInDatabase(usrEdit->text().toLongLong()))
+        if(Admin::isInDatabase(id))
         {
-            if(passEdit->text()==userA.getPassword())
+             qDebug()<<"admin ture true";
+            Admin userA = Admin::find(id);
+            if(passEdit->text() == userA.getPassword())
             {
                   this->setCentralWidget(dash); //admin dashboard
-             }
+                 qDebug()<<"admin correct";
+            }
          }
         else
         {
