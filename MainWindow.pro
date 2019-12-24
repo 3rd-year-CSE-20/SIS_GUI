@@ -33,6 +33,7 @@ SOURCES += \
         course.cpp \
         dashboard.cpp \
         globalDbObject.cpp \
+        login.cpp \
         main.cpp \
         mainwindow.cpp \
         person.cpp \
@@ -48,6 +49,7 @@ HEADERS += \
         course.h \
         dashboard.h \
         globalDbObject.h \
+        login.h \
         mainwindow.h \
         person.h \
         register.h \
@@ -61,4 +63,5 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 DISTFILES += \
-    main.qml
+    main.qml \
+    theme.css
