@@ -118,28 +118,23 @@ void MainWindow::checkAdminAvailability()
 
         }
     }
-//    else
-//    {
-//        errLbl->setText("Try again username or password is incorrect");
-//        formlayout->insertRow(0,"       ",errLbl); //may increase the tab spacing
-//        errLbl->show();
-//        regLbl->setText("Regeister New User?");
-//        regLbl->show();
-
-//    }
 }
 
 void MainWindow::checkStaffAvailability()
 {
     if (usrEdit->text()[0]=='S' && staffMemberRB->isChecked())
     {
-        StaffMember userS;
-        if(userS.isInDatabase(usrEdit->text().toLongLong()))
+        long long idS = usrEdit->text().mid(3, 5).toLongLong();
+        StaffMember userS = StaffMember::find(idS);
+        if(userS.isInDatabase(idS))
         {
-                if(passEdit->text()==userS.getPassword())
-        {
-              this->setCentralWidget(dash); //staff member dashboard
-         }
+                qDebug()<<"staff ture true";
+                StaffMember userS = StaffMember::find(idS);
+                if(passEdit->text() == userS.getPassword())
+                {
+                      this->setCentralWidget(dash); //staff dashboard
+                     qDebug()<<"admin correct";
+                }
         }
         else
         {
@@ -169,9 +164,10 @@ void MainWindow::checkStudentAvailability()
     qDebug()<<"Student is received";
     if(studentRB->isChecked()&&usrEdit->text()[0]!='A'&&usrEdit->text()[0]!='S')
     {
-        Student user;
+        long long id = usrEdit->text().mid(3, 5).toLongLong();
+        Student user = Student::find(id);
         qDebug()<<"Student is received2";
-        if(user.isInDatabase(usrEdit->text().toLongLong()) && passEdit->text()==user.getPassword())
+        if(user.isInDatabase(id) && passEdit->text()==user.getPassword())
         {
             qDebug()<<"Student is received3";
               this->setCentralWidget(dash); //student dashboard
@@ -185,11 +181,17 @@ void MainWindow::checkStudentAvailability()
             regLbl->show();
           }
     }
-
-
 }
 void MainWindow::regNewUser(){
     this->setCentralWidget(reg);
+    //in reg dashboard
+// QString gendre = "";
+// if(reg->maleRB->isChecked())
+//     gendre = "male";
+//else if(reg->femaleRB->isChecked())
+//     gendre = "female";
+////    Student( reg->firstNameTxt->text() , reg->lastNameTxt->text(), QString gendre, QString picture, QString birth_date, QString address,
+////            QString college_id, QString pasword, QString academic_year, QString department);
 }
 
 MainWindow::~MainWindow(){
