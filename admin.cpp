@@ -16,28 +16,11 @@ Admin::Admin(QString first_name, QString last_name, QString gendre, QString pict
 }
 
 QVector<Admin> Admin::all() {
-    QSqlQuery query;
-    QSqlDatabase db;
-
-    db = QSqlDatabase::addDatabase("QSQLITE");
-
-    QString dbPath = QDir::currentPath();
-
-    dbPath += "/" + QString("db.sqlite");
-
-    qDebug() << dbPath;
-
-    db.setDatabaseName(dbPath);
-
-    if(!db.open()){
-        qDebug() << "Problem while opening the database";
-    }
-
+    QSqlQuery query = SQLiteDb.sql_getQuery();
 
     QVector<Admin> admins;
     Admin temp;
     query.exec("SELECT * FROM admins");
-    QSqlQuery query1;
     while(query.next()) {
         long long id = query.value(0).toLongLong();
         QString first_name = query.value(1).toString();
@@ -55,9 +38,6 @@ QVector<Admin> Admin::all() {
         temp.setIsSaved(true);
         admins.push_back(temp);
     }
-
-
-    db.close();
     return admins;
 }
 
@@ -89,22 +69,7 @@ void Admin::delete1(){
 }
 
 Admin Admin::find(long long id) {
-    QSqlQuery query;
-    QSqlDatabase db;
-
-    db = QSqlDatabase::addDatabase("QSQLITE");
-
-    QString dbPath = QDir::currentPath();
-
-    dbPath += "/" + QString("db.sqlite");
-
-    qDebug() << dbPath;
-
-    db.setDatabaseName(dbPath);
-
-    if(!db.open()){
-        qDebug() << "Problem while opening the database";
-    }
+    QSqlQuery query = SQLiteDb.sql_getQuery();
 
     query.exec("SELECT * FROM admins WHERE id = " + QString::number(id));
     QSqlQuery query1;
@@ -122,7 +87,6 @@ Admin Admin::find(long long id) {
     admin.setId(id);
     admin.setIsSaved(true);
 
-    db.close();
     return admin;
 }
 

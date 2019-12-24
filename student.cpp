@@ -71,23 +71,7 @@ void Student::deleteCourse(QString course_name) {
 }
 
 QVector<Student> Student::all() {
-    QSqlQuery query;
-    QSqlDatabase db;
-
-    db = QSqlDatabase::addDatabase("QSQLITE");
-
-    QString dbPath = QDir::currentPath();
-
-    dbPath += "/" + QString("db.sqlite");
-
-    qDebug() << dbPath;
-
-    db.setDatabaseName(dbPath);
-
-    if(!db.open()){
-        qDebug() << "Problem while opening the database";
-    }
-
+    QSqlQuery query = SQLiteDb.sql_getQuery();
 
     QVector<Student> students;
     Student temp;
@@ -118,36 +102,17 @@ QVector<Student> Student::all() {
         students.push_back(temp);
     }
 
-
-    db.close();
     return students;
 }
 
 bool Student::isInDatabase(long long id) {
-    QSqlQuery query;
-    QSqlDatabase db;
-
-    db = QSqlDatabase::addDatabase("QSQLITE");
-
-    QString dbPath = QDir::currentPath();
-
-    dbPath += "/" + QString("db.sqlite");
-
-    qDebug() << dbPath;
-
-    db.setDatabaseName(dbPath);
-
-    if(!db.open()){
-        qDebug() << "Problem while opening the database";
-    }
+    QSqlQuery query = SQLiteDb.sql_getQuery();
 
     query.exec("SELECT * FROM students WHERE id = " + QString::number(id));
     if(query.next()) {
-        db.close();
         return true;
     }
 
-    db.close();
     return false;
 }
 
@@ -185,25 +150,10 @@ void Student::delete1(){
 }
 
 Student Student::find(long long id) {
-    QSqlQuery query;
-    QSqlDatabase db;
-
-    db = QSqlDatabase::addDatabase("QSQLITE");
-
-    QString dbPath = QDir::currentPath();
-
-    dbPath += "/" + QString("db.sqlite");
-
-    qDebug() << dbPath;
-
-    db.setDatabaseName(dbPath);
-
-    if(!db.open()){
-        qDebug() << "Problem while opening the database";
-    }
+    QSqlQuery query = SQLiteDb.sql_getQuery();
 
     query.exec("SELECT * FROM students WHERE id = " + QString::number(id));
-    QSqlQuery query1;
+    QSqlQuery query1 = SQLiteDb.sql_getQuery();
     query.next();
     QString first_name = query.value(1).toString();
     QString last_name = query.value(2).toString();
@@ -225,8 +175,6 @@ Student Student::find(long long id) {
         student.addCourse(Course::find(query1.value(1).toLongLong()).getName());
     }
 
-
-    db.close();
     return student;
 }
 

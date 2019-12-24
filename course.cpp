@@ -1,4 +1,5 @@
 #include "course.h"
+#include "globalDbObject.h"
 #include <QString>
 #include <QVector>
 
@@ -35,23 +36,7 @@ QString Course::getName() {
 }
 
 QVector<Course> Course::all() {
-    QSqlQuery query;
-    QSqlDatabase db;
-
-    db = QSqlDatabase::addDatabase("QSQLITE");
-
-    QString dbPath = QDir::currentPath();
-
-    dbPath += "/" + QString("db.sqlite");
-
-    qDebug() << dbPath;
-
-    db.setDatabaseName(dbPath);
-
-    if(!db.open()){
-        qDebug() << "Problem while opening the database";
-    }
-
+    QSqlQuery query = SQLiteDb.sql_getQuery();
 
     QVector<Course> courses;
     Course temp;
@@ -66,29 +51,11 @@ QVector<Course> Course::all() {
         courses.push_back(temp);
     }
 
-
-    db.close();
     return courses;
 }
 
 Course Course::find(long long id) {
-    QSqlQuery query;
-    QSqlDatabase db;
-
-    db = QSqlDatabase::addDatabase("QSQLITE");
-
-    QString dbPath = QDir::currentPath();
-
-    dbPath += "/" + QString("db.sqlite");
-
-    qDebug() << dbPath;
-
-    db.setDatabaseName(dbPath);
-
-    if(!db.open()){
-        qDebug() << "Problem while opening the database";
-    }
-
+    QSqlQuery query = SQLiteDb.sql_getQuery();
 
     query.exec("SELECT * FROM courses WHERE id = " + QString::number(id));
     query.next();
@@ -97,7 +64,6 @@ Course Course::find(long long id) {
     course.setId(id);
     course.setIsSaved(true);
 
-    db.close();
     return course;
 }
 
