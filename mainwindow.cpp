@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent){
+
         container = new QWidget(this);
         dash = new Dashboard(this);
         reg = new Register(this);
@@ -16,11 +17,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent){
         container->setAutoFillBackground(0);
         this->setAutoFillBackground(0);
 
-//        QPixmap bkgnd("E:\Projects\SIS_GUI\build-SIS_gui-Desktop_Qt_5_12_3_MinGW_64_bit-Debug\debug\wallpaper.png");
-//        //bkgnd = bkgnd.scaledToHeight(this->height());
-//        QPalette palette;
-//        palette.setBrush(QPalette::Background, bkgnd);
-//        this->setPalette(palette);
+
         userLayout = new QHBoxLayout();
         userWidget = new QGroupBox();
         adminRB = new QRadioButton("Admin");
@@ -79,7 +76,11 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent){
         //Connecting clickable label to slot
         connect(regLbl,SIGNAL(clicked()),this,SLOT(regNewUser()));
 
-
+        //        QPixmap bkgnd("E:\Projects\SIS_GUI\build-SIS_gui-Desktop_Qt_5_12_3_MinGW_64_bit-Debug\debug\wallpaper.png");
+        //        //bkgnd = bkgnd.scaledToHeight(this->height());
+        //        QPalette palette;
+        //        palette.setBrush(QPalette::Background, bkgnd);
+        //        this->setPalette(palette);
 
         }
 void MainWindow::onLoginPressed(){
