@@ -13,7 +13,6 @@
 #include <QDebug>
 #include <QPalette>
 #include <QPixmap>
-#include <QtQuick/QQuickView>
 #include <QFont>
 #include <QSpacerItem>
 #include "dashboard.h"

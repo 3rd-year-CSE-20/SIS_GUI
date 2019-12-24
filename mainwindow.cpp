@@ -1,11 +1,11 @@
 #include "mainwindow.h"
+
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent){
     main = new QWidget();
     _main = new QWidget();
     mainLayout = new QVBoxLayout();
     _mainLayout = new QHBoxLayout();
     loginWidget = new Login(this);
-
 
     mainLayout->addWidget(new QWidget);
     mainLayout->addWidget(_main);
@@ -18,8 +18,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent){
 
     this->setCentralWidget(main);
     this->loadStyles();
-
-
 }
 
 void MainWindow::loadStyles(){
