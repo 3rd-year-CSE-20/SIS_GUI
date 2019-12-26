@@ -79,23 +79,7 @@ void StaffMember::deleteCourse(QString course_name) {
 }
 
 QVector<StaffMember> StaffMember::all() {
-    QSqlQuery query;
-    QSqlDatabase db;
-
-    db = QSqlDatabase::addDatabase("QSQLITE");
-
-    QString dbPath = QDir::currentPath();
-
-    dbPath += "/" + QString("db.sqlite");
-
-    qDebug() << dbPath;
-
-    db.setDatabaseName(dbPath);
-
-    if(!db.open()){
-        qDebug() << "Problem while opening the database";
-    }
-
+    QSqlQuery query = SQLiteDb.sql_getQuery();
 
     QVector<StaffMember> staff_members;
     StaffMember temp;
@@ -125,56 +109,22 @@ QVector<StaffMember> StaffMember::all() {
         staff_members.push_back(temp);
     }
 
-
-    db.close();
     return staff_members;
 }
 
 bool StaffMember::isInDatabase(long long id) {
-    QSqlQuery query;
-    QSqlDatabase db;
-
-    db = QSqlDatabase::addDatabase("QSQLITE");
-
-    QString dbPath = QDir::currentPath();
-
-    dbPath += "/" + QString("db.sqlite");
-
-    qDebug() << dbPath;
-
-    db.setDatabaseName(dbPath);
-
-    if(!db.open()){
-        qDebug() << "Problem while opening the database";
-    }
+    QSqlQuery query = SQLiteDb.sql_getQuery();
 
     query.exec("SELECT * FROM staff_members WHERE id = " + QString::number(id));
     if(query.next()) {
-        db.close();
         return true;
     }
 
-    db.close();
     return false;
 }
 
 StaffMember StaffMember::find(long long id) {
-    QSqlQuery query;
-    QSqlDatabase db;
-
-    db = QSqlDatabase::addDatabase("QSQLITE");
-
-    QString dbPath = QDir::currentPath();
-
-    dbPath += "/" + QString("db.sqlite");
-
-    qDebug() << dbPath;
-
-    db.setDatabaseName(dbPath);
-
-    if(!db.open()){
-        qDebug() << "Problem while opening the database";
-    }
+    QSqlQuery query = SQLiteDb.sql_getQuery();
 
     query.exec("SELECT * FROM staff_members WHERE id = " + QString::number(id));
     QSqlQuery query1;
@@ -199,8 +149,6 @@ StaffMember StaffMember::find(long long id) {
         staff_member.addCourse(Course::find(query1.value(1).toLongLong()).getName());
     }
 
-
-    db.close();
     return staff_member;
 }
 
