@@ -23,21 +23,36 @@
 #include "admin.h"
 #include "student.h"
 #include "staffmember.h"
+#include "staffdashboard.h"
 #include "login.h"
-class MainWindow : public QMainWindow
-{
+#include "admindashboard.h"
+class MainWindow : public QMainWindow{
     Q_OBJECT
 private:
     Login *loginWidget;
+    Register *regWidget;
+    Dashboard *studentDashboard;
+    StaffDashboard *staffDashboard;
+    AdminDashboard *adminDashboard;
     QWidget *main;
     QWidget *_main;
     QVBoxLayout *mainLayout;
     QHBoxLayout *_mainLayout;
     QSpacerItem *s1;
     void loadStyles();
+
 public:
     MainWindow(QWidget *parent = nullptr);
+    void setWidget(QWidget *);
     ~MainWindow();
 
+private slots:
+    void setSignupWidget();
+    void setLoginWidget();
+    void login(QString,QString);
+    void Signout();
+    void adminSignout();
+    void adminAddStudent();
+    void adminDash();
 };
 #endif // MAINWINDOW_H

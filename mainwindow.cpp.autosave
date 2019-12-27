@@ -83,11 +83,9 @@ void MainWindow::adminAddStudent(){
 void MainWindow::adminDash(){
     adminDashboard = new AdminDashboard();
     delete regWidget;
-//    setWidget(studentDashboard);
     setWidget(adminDashboard);
     connect(adminDashboard, &AdminDashboard::Signout, this, &MainWindow::adminSignout);
     connect(adminDashboard, &AdminDashboard::addStudent, this, &MainWindow::adminAddStudent);
-//    connect(studentDashboard,&Dashboard::Signout,this,&MainWindow::Signout);
 }
 
 void MainWindow::Signout(){

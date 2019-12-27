@@ -26,12 +26,11 @@ private :
     QWidget *_leftWidget;
     QWidget *_rightWidget;
     QPushButton *loginBtn;
-
+    QPushButton *regBtn;
     QLabel *img;
     QLabel *login;
     QLabel *passLbl;
     QLabel *errLbl;
-
     QHBoxLayout *mainLayout;
     QHBoxLayout *_mainLayout;
     QHBoxLayout *userLayout;
@@ -41,11 +40,16 @@ private :
     QLineEdit *usrEdit;
     QLineEdit *passEdit;
 
-    ClickableLabel * regLbl;
+    ClickableLabel * forgetLbl;
 
 
-//signals :
-//    void test();
+signals :
+    void Register();
+    void LoginAcc(QString usr, QString pass);
+
+public slots:
+    void onRegisterClicked();
+    void onLoginClicked();
 };
 
 #endif // LOGIN_H

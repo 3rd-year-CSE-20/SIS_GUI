@@ -10,6 +10,9 @@
 #include <QSize>
 #include <QString>
 #include <QPalette>
+#include <QFormLayout>
+
+#include <QTableWidget>
 class Dashboard : public QWidget
 {
     Q_OBJECT
@@ -18,23 +21,47 @@ class Dashboard : public QWidget
 public:
     explicit Dashboard(QWidget *parent = nullptr);
     ~Dashboard();
-    QHBoxLayout* mainLayout;
-    QVBoxLayout *personalLayout;
-    QVBoxLayout *academicLayout;
-    QLabel *firstLabel;
-    QLabel *lastLabel;
-    QLabel *gendreLabel;
-    QLabel *addressLabel;
-    QLabel *phoneLabel;
-    QLabel *birthLabel;
-    QLabel *idLabel;
-    QLabel *picLabel;
-    QPixmap *pic;
-    QSize *size1;
-    QString picPath;
-    QPalette *pal;
-    QFont *font1;
-    QLabel *personalinfoLabel;
+
+    QVBoxLayout *mainLayout;
+    QHBoxLayout *_mainLayout;
+    QWidget *container;
+    QTabWidget *tabWidget;
+    QPushButton *backBtn;
+    QWidget *personalInfo;
+    QWidget *academicInfo;
+    QVBoxLayout *personalInfoLayout;
+    QVBoxLayout *academicInfoLayout;
+    QLabel *pic;
+    QLabel *pic2;
+    QLabel *fnamelbl;
+    QLabel *fnameDBlbl;
+    QLabel *lnamelbl;
+    QLabel *lnameDBlbl;
+    QLabel *addrlbl;
+    QLabel *addrDBlbl;
+    QLabel *phonelbl;
+    QLabel *phoneDBlbl;
+    QLabel *gendlbl;
+    QLabel *gendDBlbl;
+    QLabel *birthlbl;
+    QLabel *birthDBlbl;
+    QLabel *gpalbl;
+    QLabel *gpaDBlbl;
+    QLabel *departlbl;
+    QLabel *departDBlbl;
+    QLabel *idlbl;
+    QLabel *idDBlbl;
+    QLabel *currentYlbl;
+    QLabel *currentYDBlbl;
+    QLabel *courseslbl;
+    QLabel *coursesDBlbl;
+
+signals:
+    void Signout();
+
+private slots:
+    void onSignoutClicked();
+
 };
 
 #endif // DASHBOARD_H

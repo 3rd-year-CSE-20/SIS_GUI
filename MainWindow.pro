@@ -28,6 +28,7 @@ CONFIG += c++11
 
 SOURCES += \
         admin.cpp \
+        admindashboard.cpp \
         backend.cpp \
         clickablelabel.cpp \
         course.cpp \
@@ -40,10 +41,12 @@ SOURCES += \
         register.cpp \
         sqliteclass.cpp \
         staffmember.cpp \
-        student.cpp
+        student.cpp \
+        staffdashboard.cpp
 
 HEADERS += \
         admin.h \
+        admindashboard.h \
         backend.h \
         clickablelabel.h \
         course.h \
@@ -55,7 +58,8 @@ HEADERS += \
         register.h \
         sqliteclass.h \
         staffmember.h \
-        student.h
+        student.h \
+        staffdashboard.h
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
