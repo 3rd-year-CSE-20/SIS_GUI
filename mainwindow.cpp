@@ -164,7 +164,7 @@ void MainWindow::checkStudentAvailability()
     qDebug()<<"Student is received";
     if(studentRB->isChecked()&&usrEdit->text()[0]!='A'&&usrEdit->text()[0]!='S')
     {
-        long long id = usrEdit->text().mid(3, 5).toLongLong();
+        long long id = usrEdit->text().mid(2, 4).toLongLong();
         Student user = Student::find(id);
         qDebug()<<"Student is received2";
         if(user.isInDatabase(id) && passEdit->text()==user.getPassword())
