@@ -127,10 +127,10 @@ bool Student::save(){
 
         for(int i = 0; i < courses.size(); i++){
             QString course_id = QString::number(courses[i].getId());
-            SQLiteDb.sql_select("*", "courses_students", " staff_member_id = " + id_ + " AND course_id " + course_id);
+            SQLiteDb.sql_select("*", "courses_students", " student_id = " + id_ + " AND course_id " + course_id);
             query = SQLiteDb.sql_getQuery();
             if(!query.next()){
-                SQLiteDb.sql_insert("courses_students", {"staff_member_id", "course_id"}, {id_, course_id});
+                SQLiteDb.sql_insert("courses_students", {"student_id", "course_id"}, {id_, course_id});
             }
         }
         return true;

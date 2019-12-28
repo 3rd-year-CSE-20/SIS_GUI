@@ -164,7 +164,7 @@ void databaseInitialization(){
     QStringList staff_types = {"INTEGER PRIMARY KEY AUTOINCREMENT", "TEXT", "TEXT", "TEXT", "TEXT",
                                   "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT"};
 
-    // courses  / students table
+    // courses  / staff members table
     QString courses_staff_table = "courses_staff_members";
     QStringList courses_staff_columns = {"course_id",  "staff_member_id"};
     QStringList courses_staff_types = {"INTEGER", "INTEGER"};
