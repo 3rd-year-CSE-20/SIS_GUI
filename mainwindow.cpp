@@ -77,35 +77,27 @@ void MainWindow::login(QString usr, QString pass){
                  connect(adminDashboard, &AdminDashboard::addStudent, this, &MainWindow::adminAddStudent);
              }
          }
+    }else if(usr.toStdString()[0] == 'S'){
+
+    }else{
+        long long id = usr.mid(2,4).toLongLong();
+        qDebug() << id;
+        if(Student::isInDatabase(id)){
+            qDebug() << "here";
+            Student a = Student::find(id);
+            qDebug() << a.getPassword();
+            if(!a.getPassword().compare(pass)){
+                delete loginWidget;
+                studentDashboard = new Dashboard(&a);
+                setWidget(studentDashboard);
+                connect(studentDashboard, &Dashboard::Signout, this, &MainWindow::Signout);
+            }
+        }
     }
-
-//    if(usr[0]=='A'&&usr[0]=='S'){
-//
-//        Student user = Student::find(id);
-//        qDebug()<<"Student is received2";
-//        if(user.isInDatabase(id) && passEdit->text()==user.getPassword()){
-//            qDebug()<<"Student is received3";
-//              this->setCentralWidget(dash); //student dashboard
-//         }else{
-//            errLbl->setText("Try again username or password is incorrect");
-//            formlayout->insertRow(0,"       ",errLbl); //may increase the tab spacing
-//            errLbl->show();
-//            regLbl->setText("Regeister New User?");
-//            regLbl->show();
-//          }
-//    }
-
-    // TODO check here for usr name and passowrd
-//    studentDashboard = new Dashboard();
-
-
-//    setWidget(studentDashboard);
-
-//    connect(studentDashboard,&Dashboard::Signout,this,&MainWindow::Signout);
 }
 
 void MainWindow::adminAddStudent(){
-    regWidget = new Register();
+    regWidget = new Register(nullptr,true);
     delete adminDashboard;
     setWidget(regWidget);
     connect(regWidget,&Register::back,this,&MainWindow::adminDash);
@@ -142,8 +134,8 @@ void MainWindow::checkStudentAvailability(){
 
 void MainWindow::Signout(){
     loginWidget = new Login();
-//    delete studentDashboard;
-    delete adminDashboard;
+    delete studentDashboard;
+//    delete adminDashboard;
     setWidget(loginWidget);
     connect(loginWidget, &Login::Register,this,&MainWindow::setSignupWidget);
     connect(loginWidget, &Login::LoginAcc, this, &MainWindow::login);

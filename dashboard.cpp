@@ -1,7 +1,8 @@
 #include "dashboard.h"
 
-Dashboard::Dashboard(QWidget *parent):QWidget(parent){
+Dashboard::Dashboard(Student *s,QWidget *parent):QWidget(parent){
 
+    this->s = s;
     mainLayout = new QVBoxLayout();
     _mainLayout = new QHBoxLayout();
     container = new QWidget();
@@ -35,6 +36,17 @@ Dashboard::Dashboard(QWidget *parent):QWidget(parent){
     academicInfoLayout = new QVBoxLayout();
     courseslbl = new QLabel("Courses : ");
     coursesDBlbl = new QLabel("$COURSES");
+
+
+    fnameDBlbl->setText(s->getFirstName());
+    lnameDBlbl->setText(s->getLastName());
+    birthDBlbl->setText(s->getBirthDate());
+    pic->setPixmap(QPixmap(s->getPicture()));
+    pic2->setPixmap(QPixmap(s->getPicture()));
+    addrDBlbl->setText(s->getAddress());
+    idDBlbl->setText(s->getCollegeId());
+    currentYDBlbl->setText(s->getAcademicYear());
+    departDBlbl->setText(s->getDepartment());
 
     QWidget *b = new QWidget;
     QHBoxLayout *blay = new QHBoxLayout;
@@ -140,7 +152,7 @@ Dashboard::Dashboard(QWidget *parent):QWidget(parent){
     personalInfoLayout->addWidget(t3);
     personalInfoLayout->addWidget(t4);
     personalInfoLayout->addWidget(t5);
-    personalInfoLayout->addWidget(t6);
+//    personalInfoLayout->addWidget(t6);
     personalInfoLayout->addWidget(t7);
 
     academicInfo->setLayout(academicInfoLayout);
@@ -150,9 +162,6 @@ Dashboard::Dashboard(QWidget *parent):QWidget(parent){
     academicInfoLayout->addWidget(t10);
     academicInfoLayout->addWidget(t12);
     academicInfoLayout->addWidget(t13);
-
-    pic->setPixmap(QPixmap("test.jpg"));
-    pic2->setPixmap(QPixmap("test.jpg"));
 
     tabWidget->addTab(personalInfo," Personal Info ");
     tabWidget->addTab(academicInfo," Academic Info ");
@@ -172,7 +181,8 @@ Dashboard::Dashboard(QWidget *parent):QWidget(parent){
     backBtn->setMaximumWidth(260);
     backBtn->setObjectName("login");
 
-
+//    fnameDBlbl->setText(s->getFirstName());
+//    fnameDBlbl->setText(s->getFirstName());
 
     this->setStyleSheet("background-color:white; border-radius : 10px;");
     this->setMinimumHeight(650);

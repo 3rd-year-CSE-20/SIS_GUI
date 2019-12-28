@@ -11,17 +11,19 @@
 #include <QString>
 #include <QPalette>
 #include <QFormLayout>
-
 #include <QTableWidget>
+#include "student.h"
+
 class Dashboard : public QWidget
 {
     Q_OBJECT
 
 
 public:
-    explicit Dashboard(QWidget *parent = nullptr);
+    Dashboard(Student *s,QWidget *parent = nullptr);
     ~Dashboard();
 
+private:
     QVBoxLayout *mainLayout;
     QHBoxLayout *_mainLayout;
     QWidget *container;
@@ -55,6 +57,7 @@ public:
     QLabel *currentYDBlbl;
     QLabel *courseslbl;
     QLabel *coursesDBlbl;
+    Student *s;
 
 signals:
     void Signout();

@@ -9,13 +9,17 @@
 #include <QLineEdit>
 #include <QCalendarWidget>
 #include <QRadioButton>
+#include <QFileDialog>
+#include "student.h"
 
 class Register : public QWidget{
     Q_OBJECT
 public:
-    explicit Register(QWidget *parent = nullptr);
+    explicit Register(QWidget *parent = nullptr,bool fromAdmin = false);
     ~Register();
 
+private :
+    QString path;
     QWidget *container;
     QWidget *_leftWidget;
     QWidget *_rightWidget;
@@ -37,6 +41,13 @@ public:
     QPushButton *browsePic;
     QPushButton *saveBtn;
     QPushButton *backBtn;
+    QPushButton *generateID;
+    QLineEdit *password;
+    QLineEdit *rewritePassword;
+    QLineEdit *studentID;
+    QLabel *wrongPassword;
+    QLabel *generatedID;
+    bool fromAdmin;
 
 signals :
     void back();
@@ -46,6 +57,9 @@ private slots:
     void onBackClicked();
     void onSaveClicked();
     void onBrowseClicked();
+    void ongenerateClicked();
+    void onWritePassword(QString);
+    void onPassword(QString);
 };
 
 #endif // REGISTER_H
