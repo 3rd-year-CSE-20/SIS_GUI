@@ -9,6 +9,7 @@
 #include <QPushButton>
 #include <QTableWidget>
 #include <QRadioButton>
+#include "student.h"
 
 class AdminDashboard:public QWidget{
     Q_OBJECT
@@ -26,7 +27,6 @@ private:
     QVBoxLayout *academicLay;
     QTabWidget *tabWidget;
     QLineEdit *studentSearchtxt;
-    QPushButton *searchStudentBtn;
     QPushButton *addStudentBtn;
     QTableWidget *StudentTable;
     QRadioButton *studentSearchByName;
@@ -37,12 +37,14 @@ private:
     QTableWidget *academicTable;
     QPushButton *signout;
 
+
     void initStudentTable();
     void initAcademicTable();
 
 private slots:
     void onSignoutClicked();
     void onaddStudentClicked();
+    void onSearchTextChanged(QString);
 
 signals:
     void Signout();

@@ -31,7 +31,7 @@ Register:: Register(QWidget *parent, bool fromAdmin):QWidget(parent){
     rewritePassword = new QLineEdit();
     studentID = new QLineEdit();
     wrongPassword = new QLabel("");
-
+    studentIdLbl = new QLabel();
 
     saveBtn->setEnabled(false);
 
@@ -77,6 +77,8 @@ Register:: Register(QWidget *parent, bool fromAdmin):QWidget(parent){
         _leftLayout->addWidget(studentID);
     _leftLayout->addWidget(password);
     _leftLayout->addWidget(t1);
+    if(fromAdmin)
+        _leftLayout->addWidget(studentIdLbl);
     _leftLayout->addWidget(b);
 
     QWidget *t = new QWidget();
@@ -189,12 +191,31 @@ void Register::onBackClicked(){
 #include <QDebug>
 
 void Register::onSaveClicked(){
-    Student s;
-    long long id = studentID->text().mid(2,4).toLongLong();
-    s = Student::find(id);
-    if(!s.getFirstName().compare("")){
-        qDebug() << id;
+    if(!fromAdmin){
+        Student s;
+        long long id = studentID->text().mid(2,4).toLongLong();
         s = Student::find(id);
+        if(!s.getFirstName().compare("")){
+            s = Student::find(id);
+            s.setFirstName(firstNameTxt->text());
+            s.setLastName(lastNameTxt->text());
+            if(maleRB->isChecked()){
+                s.setGendre("male");
+            }else{
+                s.setGendre("female");
+            }
+            s.setDepartment("Preparatory");
+            s.setAddress(addressTxt->text());
+            s.setPicture(path);
+            s.setPassword(rewritePassword->text());
+            s.setCollegeId(studentID->text());
+            s.setBirthDate(birthDate->selectedDate().toString("dd-MM-yyyy"));
+            s.save();
+            saveBtn->setEnabled(false);
+            saveBtn->setText("Student Saved Sucessfully");
+        }
+    }else{
+        Student s;
         s.setFirstName(firstNameTxt->text());
         s.setLastName(lastNameTxt->text());
         if(maleRB->isChecked()){
@@ -206,10 +227,26 @@ void Register::onSaveClicked(){
         s.setAddress(addressTxt->text());
         s.setPicture(path);
         s.setPassword(rewritePassword->text());
-        s.setCollegeId(studentID->text());
         s.setBirthDate(birthDate->selectedDate().toString("dd-MM-yyyy"));
+        QString id = "21";
+        int lastId = Student::getLastId();
+        if(lastId<9){
+            id += "000"+QString::number(lastId);
+        }else if(lastId < 99){
+            id += "00"+QString::number(lastId);
+        }
+        else if(lastId < 999){
+            id += "0"+QString::number(lastId);
+        }else{
+            id += QString::number(lastId);
+        }
+        s.setCollegeId((id));
         s.save();
+        studentIdLbl->setText(s.getCollegeId());
+        saveBtn->setEnabled(false);
+        saveBtn->setText("Student Saved Sucessfully");
     }
+
     emit save();
 }
 

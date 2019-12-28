@@ -24,15 +24,9 @@ int main(int argc, char *argv[])
 
 //    Student s("fname","lname","male","pic is here","birth","addr","1601146","00","4747","department");
 //    s.save();
-    Student s = Student::find(71);
-
-    qDebug() << s.getCollegeId();
-
-    qDebug() << Student::getLastId();
 
     MainWindow w;
-//    a.setStyleSheet(/);
-//    w.showFullScreen();
+    w.showFullScreen();
 /*    QFile css("../SIS_GUI/theme.css");
     css.open(QFile::ReadOnly);
     QString Styles = css.readAll();

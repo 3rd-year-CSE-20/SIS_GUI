@@ -47,6 +47,7 @@ private :
     QLineEdit *studentID;
     QLabel *wrongPassword;
     QLabel *generatedID;
+    QLabel *studentIdLbl;
     bool fromAdmin;
 
 signals :

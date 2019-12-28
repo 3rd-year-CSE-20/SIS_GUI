@@ -1,4 +1,5 @@
 #include "admindashboard.h"
+#include <QtDebug>
 
 AdminDashboard::AdminDashboard(QWidget *parent):QWidget(parent){
     container = new QWidget();
@@ -8,7 +9,6 @@ AdminDashboard::AdminDashboard(QWidget *parent):QWidget(parent){
     studentWidget = new QWidget();
     studentSearchtxt = new QLineEdit();
     addStudentBtn = new QPushButton("Add Student");
-    searchStudentBtn = new QPushButton("Search");
     studentLay = new QVBoxLayout();
     StudentTable = new QTableWidget();
     studentSearchByName = new QRadioButton("Search By Name");
@@ -31,7 +31,6 @@ AdminDashboard::AdminDashboard(QWidget *parent):QWidget(parent){
     t11lay->addWidget(studentSearchByID);
     t1lay->addWidget(t11);
     t1lay->addWidget(studentSearchtxt);
-    t1lay->addWidget(searchStudentBtn);
     t1lay->addWidget(addStudentBtn);
 
     QWidget *t2 = new QWidget;
@@ -66,7 +65,7 @@ AdminDashboard::AdminDashboard(QWidget *parent):QWidget(parent){
 
     studentSearchtxt->setMinimumHeight(40);
     studentSearchtxt->setStyleSheet("background : #E6E6E6; border-radius : 20px; padding : 7px");
-    studentSearchtxt->setPlaceholderText(" Search By ID");
+    studentSearchtxt->setPlaceholderText(" Search Students");
 
     academicSearchtxt->setMinimumHeight(40);
     academicSearchtxt->setStyleSheet("background : #E6E6E6; border-radius : 20px; padding : 7px");
@@ -78,12 +77,6 @@ AdminDashboard::AdminDashboard(QWidget *parent):QWidget(parent){
                                      "QTabBar::tab{padding : 8px;color : white;background : #666666; font-weight: bold;}"+
                                      "QTabBar::tab:selected{background : white; color : black}");
 
-    searchStudentBtn->setStyleSheet(QString("QPushButton#login{border-radius : 20px; padding : 7px; color : white; font-weight: bold;}")+
-                                    "QPushButton#login{ background : #00c941;}"+
-                                    "QPushButton:hover#login{ background : #333333;}");
-    searchStudentBtn->setMinimumHeight(40);
-    searchStudentBtn->setMaximumWidth(260);
-    searchStudentBtn->setObjectName("login");
 
     addStudentBtn->setStyleSheet(QString("QPushButton#login{border-radius : 20px; padding : 7px; color : white; font-weight: bold;}")+
                                     "QPushButton#login{ background : red;}"+
@@ -121,8 +114,12 @@ AdminDashboard::AdminDashboard(QWidget *parent):QWidget(parent){
     this->initStudentTable();
     this->initAcademicTable();
 
+    this->studentSearchByID->setChecked(true);
+
     connect(signout,&QPushButton::clicked,this,&AdminDashboard::onSignoutClicked);
     connect(addStudentBtn, &QPushButton::clicked, this, &AdminDashboard::onaddStudentClicked);
+    connect(studentSearchtxt, &QLineEdit::textEdited, this, &AdminDashboard::onSearchTextChanged);
+
 }
 
 void AdminDashboard::onSignoutClicked(){
@@ -130,7 +127,7 @@ void AdminDashboard::onSignoutClicked(){
 }
 
 void AdminDashboard::initStudentTable(){
-    StudentTable->setRowCount(5000);
+    StudentTable->setRowCount(20);
     StudentTable->setColumnCount(4);
     StudentTable->setHorizontalHeaderLabels(QStringList({"ID","Name","Student ID","Department"}));
     StudentTable->setStyleSheet("QTableView {selection-background-color: grey;alternate-background-color: rgb(218, 220, 224);}");
@@ -140,14 +137,10 @@ void AdminDashboard::initStudentTable(){
     StudentTable->setColumnWidth(1,400);
     StudentTable->setColumnWidth(2,100);
     StudentTable->setColumnWidth(3,200);
-//                for (int i = 0; i < 8192; i++) {
-//                    dataMemInfo->setItem(i, 0, new QTableWidgetItem(QString::number(i)));
-//                    dataMemInfo->setItem(i, 1,  new QTableWidgetItem("00000000000000000000000000000000"));
-//                }
 }
 
 void AdminDashboard::initAcademicTable(){
-    academicTable->setRowCount(5000);
+    academicTable->setRowCount(20);
     academicTable->setColumnCount(3);
     academicTable->setHorizontalHeaderLabels(QStringList({"ID","Name","Department"}));
     academicTable->setStyleSheet("QTableView {selection-background-color: grey;alternate-background-color: rgb(218, 220, 224);}");
@@ -156,10 +149,27 @@ void AdminDashboard::initAcademicTable(){
     academicTable->setColumnWidth(0,100);
     academicTable->setColumnWidth(1,500);
     academicTable->setColumnWidth(2,200);
-//                for (int i = 0; i < 8192; i++) {
-//                    dataMemInfo->setItem(i, 0, new QTableWidgetItem(QString::number(i)));
-//                    dataMemInfo->setItem(i, 1,  new QTableWidgetItem("00000000000000000000000000000000"));
-//                }
+}
+
+void AdminDashboard::onSearchTextChanged(QString text){
+    QVector<Student> students ;
+    if(studentSearchByID->isChecked()){
+        students = Student::where("college_id",text);
+
+    }else{
+        students = Student::where("first_name",text);
+
+    }
+    int a = 0;
+    StudentTable->setRowCount(students.length());
+    for(Student s : students){
+        StudentTable->setItem(a,0,new QTableWidgetItem(QString::number(a+1)));
+        StudentTable->setItem(a,1,new QTableWidgetItem(s.getFirstName()+" "+s.getLastName()));
+        StudentTable->setItem(a,2,new QTableWidgetItem(s.getCollegeId()));
+        StudentTable->setItem(a,3,new QTableWidgetItem(s.getDepartment()));
+        a++;
+    }
+
 }
 
 void AdminDashboard::onaddStudentClicked(){

@@ -171,7 +171,7 @@ Student Student::find(long long id) {
 }
 
 QVector<Student> Student::where(QString column, QString value){
-    SQLiteDb.sql_select("*", students_table, column + " = " +  value);
+    SQLiteDb.sql_select("*", students_table, column + " LIKE '" +  value +"%'");
     QSqlQuery query = SQLiteDb.sql_getQuery();
     QVector<Student> students;
     while (query.next()) {

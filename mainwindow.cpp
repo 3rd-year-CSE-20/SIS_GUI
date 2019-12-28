@@ -81,11 +81,8 @@ void MainWindow::login(QString usr, QString pass){
 
     }else{
         long long id = usr.mid(2,4).toLongLong();
-        qDebug() << id;
         if(Student::isInDatabase(id)){
-            qDebug() << "here";
             Student a = Student::find(id);
-            qDebug() << a.getPassword();
             if(!a.getPassword().compare(pass)){
                 delete loginWidget;
                 studentDashboard = new Dashboard(&a);
