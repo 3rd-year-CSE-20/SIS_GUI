@@ -38,14 +38,6 @@ QVector<Course> Student::getCourses() {
     return this->courses;
 }
 
-void Student::setCollegeId(QString college_id){
-    this->college_id = college_id;
-}
-
-QString Student::getCollegeId(){
-    return this->college_id;
-}
-
 void Student::addCourse(QString course_name) {
     int index = -1;
     for(int i = 0; i < this->courses.size(); i++) {
@@ -148,13 +140,12 @@ void Student::delete1(){
     SQLiteDb.sql_delete(students_table, "id = " + student_id);
     SQLiteDb.sql_delete("courses_students", "student_id = " + student_id);
 }
-static QStringList students_columns = {"first_name","last_name", "gendre", "picture",
-                                "birth_date", "address", "college_id", "password", "academic_year", "department"};
+
 Student Student::find(long long id) {
     QSqlQuery query = SQLiteDb.sql_getQuery();
 
     query.exec("SELECT * FROM students WHERE id = " + QString::number(id));
-    QSqlQuery query1 = SQLiteDb.sql_getQuery();
+
     query.next();
     QString first_name = query.value(1).toString();
     QString last_name = query.value(2).toString();
@@ -172,8 +163,8 @@ Student Student::find(long long id) {
     student.setIsSaved(true);
 
     query.exec("SELECT * FROM courses_students WHERE course_id = " + QString::number(id));
-    while(query1.next()) {
-        student.addCourse(Course::find(query1.value(1).toLongLong()).getName());
+    while(query.next()) {
+        student.addCourse(Course::find(query.value(1).toLongLong()).getName());
     }
 
     return student;

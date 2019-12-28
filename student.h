@@ -11,7 +11,6 @@ private:
     QString academic_year;
     QString department;
     QVector <Course> courses;
-    QString college_id;
 
 public:
     Student();
@@ -22,9 +21,6 @@ public:
 
     void setDepartment(QString department);
     QString getDepartment();
-
-    void setCollegeId(QString college_id);
-    QString getCollegeId();
 
     static bool isInDatabase(long long id);
     bool save();
