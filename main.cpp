@@ -8,21 +8,28 @@
 #define ELECTRICAL_DEPARTMENT 1
 int main(int argc, char *argv[])
 {
-     //databaseInitialization(); //uncomment if it is the first time to run the code
+//     databaseInitialization(); //uncomment if it is the first time to run the code
     QApplication a(argc, argv);
-//    Admin mariam ("Mariam", "Ali", "Female", "2","4/6/1998", " ",
-//                "1600001", "123");
-
+//    Admin mariam;
+//    mariam.setFirstName("mariam");
+//    mariam.setId(160);
+//    mariam.setPassword("0");
+//    mariam.setCollegeId("1601146");
 //    mariam.save();
 //    mariam.delete1();
     //qDebug()<<mariam.getCollegeId();
-
+//    qDebug() << "length" << Admin::where("college_id","1601146").length();
 //    Login l;
 //    l.show();
 
+//    Student s("fname","lname","male","pic is here","birth","addr","1601146","00","4747","department");
+//    s.save();
+
+    qDebug() << Student::getLastId();
+
     MainWindow w;
 //    a.setStyleSheet(/);
-    w.showFullScreen();
+    w.show();
 /*    QFile css("../SIS_GUI/theme.css");
     css.open(QFile::ReadOnly);
     QString Styles = css.readAll();

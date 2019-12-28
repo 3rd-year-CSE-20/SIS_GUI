@@ -189,7 +189,12 @@ QVector<Student> Student::where(QString column, QString value){
     return students;
 }
 
-
-
-
-
+int Student::getLastId(){
+    QSqlQuery query = SQLiteDb.sql_getQuery();
+    query.exec("SELECT id FROM students ORDER BY id DESC LIMIT 0, 1;");
+    if(query.next()){
+        return query.value(0).toInt();
+    }else{
+        return 0;
+    }
+}

@@ -71,7 +71,7 @@ Login::Login(QWidget *parent):QWidget(parent){
     usrEdit->setMinimumHeight(40);
     usrEdit->setMaximumWidth(260);
     usrEdit->setStyleSheet("background : #E6E6E6; border-radius : 20px; padding : 7px");
-    usrEdit->setPlaceholderText("           Username");
+    usrEdit->setPlaceholderText("           ID");
     passEdit->setMinimumHeight(40);
     passEdit->setMaximumWidth(260);
     passEdit->setStyleSheet("background : #E6E6E6; border-radius : 20px; padding : 7px");

@@ -5,8 +5,7 @@
 #include <QVector>
 #include "course.h"
 
-class Admin : public Person
-{
+class Admin : public Person{
 public:
     Admin();
     Admin(QString first_name, QString last_name, QString gendre, QString picture, QString birth_date, QString address,

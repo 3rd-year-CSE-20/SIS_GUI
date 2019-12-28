@@ -62,14 +62,45 @@ void MainWindow::adminSignout(){
 }
 
 void MainWindow::login(QString usr, QString pass){
+    if(usr.toStdString()[0] == 'A'){
+         long long id = usr.mid(4,3).toLongLong();
+         qDebug() << id;
+         if(Admin::isInDatabase(id)){
+             qDebug() << "here";
+             Admin a = Admin::find(id);
+             qDebug() << a.getPassword();
+             if(!a.getPassword().compare(pass)){
+                 delete loginWidget;
+                 adminDashboard = new AdminDashboard();
+                 setWidget(adminDashboard);
+                 connect(adminDashboard, &AdminDashboard::Signout, this, &MainWindow::adminSignout);
+                 connect(adminDashboard, &AdminDashboard::addStudent, this, &MainWindow::adminAddStudent);
+             }
+         }
+    }
+
+//    if(usr[0]=='A'&&usr[0]=='S'){
+//
+//        Student user = Student::find(id);
+//        qDebug()<<"Student is received2";
+//        if(user.isInDatabase(id) && passEdit->text()==user.getPassword()){
+//            qDebug()<<"Student is received3";
+//              this->setCentralWidget(dash); //student dashboard
+//         }else{
+//            errLbl->setText("Try again username or password is incorrect");
+//            formlayout->insertRow(0,"       ",errLbl); //may increase the tab spacing
+//            errLbl->show();
+//            regLbl->setText("Regeister New User?");
+//            regLbl->show();
+//          }
+//    }
+
     // TODO check here for usr name and passowrd
 //    studentDashboard = new Dashboard();
-    adminDashboard = new AdminDashboard();
-    delete loginWidget;
+
+
 //    setWidget(studentDashboard);
-    setWidget(adminDashboard);
-    connect(adminDashboard, &AdminDashboard::Signout, this, &MainWindow::adminSignout);
-    connect(adminDashboard, &AdminDashboard::addStudent, this, &MainWindow::adminAddStudent);
+
 //    connect(studentDashboard,&Dashboard::Signout,this,&MainWindow::Signout);
 }
 
@@ -80,7 +111,6 @@ void MainWindow::adminAddStudent(){
     connect(regWidget,&Register::back,this,&MainWindow::adminDash);
 }
 
-//<<<<<<< GUI
 void MainWindow::adminDash(){
     adminDashboard = new AdminDashboard();
     delete regWidget;
@@ -90,31 +120,25 @@ void MainWindow::adminDash(){
     connect(adminDashboard, &AdminDashboard::addStudent, this, &MainWindow::adminAddStudent);
 //    connect(studentDashboard,&Dashboard::Signout,this,&MainWindow::Signout);
 }
-void MainWindow::checkStudentAvailability()
-{
-    qDebug()<<"Student is received";
-    if(studentRB->isChecked()&&usrEdit->text()[0]!='A'&&usrEdit->text()[0]!='S')
-    {
-        long long id = usrEdit->text().mid(2, 4).toLongLong();
-        Student user = Student::find(id);
-        qDebug()<<"Student is received2";
-        if(user.isInDatabase(id) && passEdit->text()==user.getPassword())
-        {
-            qDebug()<<"Student is received3";
-              this->setCentralWidget(dash); //student dashboard
-         }
-        else
-        {
-            errLbl->setText("Try again username or password is incorrect");
-            formlayout->insertRow(0,"       ",errLbl); //may increase the tab spacing
-            errLbl->show();
-            regLbl->setText("Regeister New User?");
-            regLbl->show();
-          }
-    }
-}
- // >>>>>>> master
 
+void MainWindow::checkStudentAvailability(){
+//    qDebug()<<"Student is received";
+//    if(usrEdit->text()[0]!='A'&&usrEdit->text()[0]!='S'){
+//        long long id = usrEdit->text().mid(2, 4).toLongLong();
+//        Student user = Student::find(id);
+//        qDebug()<<"Student is received2";
+//        if(user.isInDatabase(id) && passEdit->text()==user.getPassword()){
+//            qDebug()<<"Student is received3";
+//              this->setCentralWidget(dash); //student dashboard
+//         }else{
+//            errLbl->setText("Try again username or password is incorrect");
+//            formlayout->insertRow(0,"       ",errLbl); //may increase the tab spacing
+//            errLbl->show();
+//            regLbl->setText("Regeister New User?");
+//            regLbl->show();
+//          }
+//    }
+}
 
 void MainWindow::Signout(){
     loginWidget = new Login();

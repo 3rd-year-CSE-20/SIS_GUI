@@ -58,6 +58,7 @@ bool Admin::save(){
 bool Admin::isInDatabase(long long id) {
     QSqlQuery query = SQLiteDb.sql_getQuery();
     query.exec("SELECT * FROM admins WHERE id = " + QString::number(id));
+    qDebug() << "SELECT * FROM admins WHERE id = " + QString::number(id);
     if(query.next()) {
         return true;
     }

@@ -5,13 +5,14 @@
 #include <QVector>
 #include "course.h"
 
-class Student : public Person
-{
+class Student : public Person{
+
 private:
     QString academic_year;
     QString department;
     QVector <Course> courses;
     QString college_id;
+
 public:
     Student();
     Student(QString first_name, QString last_name, QString gendre, QString picture, QString birth_date, QString address,
@@ -25,7 +26,7 @@ public:
     void setCollegeId(QString college_id);
     QString getCollegeId();
 
-    bool isInDatabase(long long id);
+    static bool isInDatabase(long long id);
     bool save();
     void delete1();
     QVector<Course> getCourses();
@@ -34,6 +35,8 @@ public:
     static QVector<Student> all();
     static Student find(long long id);
     static QVector<Student> where(QString column, QString value);
+    static int getLastId();
+
 };
 
 #endif // STUDENT_H

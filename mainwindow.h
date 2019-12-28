@@ -40,6 +40,7 @@ private:
     QHBoxLayout *_mainLayout;
     QSpacerItem *s1;
     void loadStyles();
+    void checkStudentAvailability();
 
 public:
     MainWindow(QWidget *parent = nullptr);
