@@ -80,6 +80,7 @@ void MainWindow::adminAddStudent(){
     connect(regWidget,&Register::back,this,&MainWindow::adminDash);
 }
 
+//<<<<<<< GUI
 void MainWindow::adminDash(){
     adminDashboard = new AdminDashboard();
     delete regWidget;
@@ -89,6 +90,31 @@ void MainWindow::adminDash(){
     connect(adminDashboard, &AdminDashboard::addStudent, this, &MainWindow::adminAddStudent);
 //    connect(studentDashboard,&Dashboard::Signout,this,&MainWindow::Signout);
 }
+void MainWindow::checkStudentAvailability()
+{
+    qDebug()<<"Student is received";
+    if(studentRB->isChecked()&&usrEdit->text()[0]!='A'&&usrEdit->text()[0]!='S')
+    {
+        long long id = usrEdit->text().mid(2, 4).toLongLong();
+        Student user = Student::find(id);
+        qDebug()<<"Student is received2";
+        if(user.isInDatabase(id) && passEdit->text()==user.getPassword())
+        {
+            qDebug()<<"Student is received3";
+              this->setCentralWidget(dash); //student dashboard
+         }
+        else
+        {
+            errLbl->setText("Try again username or password is incorrect");
+            formlayout->insertRow(0,"       ",errLbl); //may increase the tab spacing
+            errLbl->show();
+            regLbl->setText("Regeister New User?");
+            regLbl->show();
+          }
+    }
+}
+ // >>>>>>> master
+
 
 void MainWindow::Signout(){
     loginWidget = new Login();
