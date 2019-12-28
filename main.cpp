@@ -26,6 +26,10 @@ int main(int argc, char *argv[])
 //    s.save();
 
     MainWindow w;
+<<<<<<< HEAD
+=======
+//    a.setStyleSheet(/);
+>>>>>>> fcdc02f9acaecd70b7e327e27cfb7512ae15fad3
     w.showFullScreen();
 /*    QFile css("../SIS_GUI/theme.css");
     css.open(QFile::ReadOnly);
