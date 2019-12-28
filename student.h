@@ -10,6 +10,7 @@ class Student : public Person{
 private:
     QString academic_year;
     QString department;
+    QString GPA;
     QVector <Course> courses;
 
 public:
@@ -21,6 +22,9 @@ public:
 
     void setDepartment(QString department);
     QString getDepartment();
+
+    void setGPA(QString GPA);
+    QString getGPA();
 
     static bool isInDatabase(long long id);
     bool save();

@@ -143,9 +143,9 @@ void databaseInitialization(){
     // students table
     QString students_table = "students";
     QStringList students_columns = {"id","first_name","last_name", "gendre", "picture",
-                                    "birth_date", "address", "college_id", "password", "academic_year", "department"};
+                                    "birth_date", "address", "college_id", "password", "academic_year", "department", "GPA"};
     QStringList students_types = {"INTEGER PRIMARY KEY AUTOINCREMENT", "TEXT", "TEXT", "TEXT", "TEXT",
-                                  "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT"};
+                                  "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT"};
 
     // courses table
     QString courses_table = "courses";

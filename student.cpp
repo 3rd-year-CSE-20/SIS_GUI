@@ -4,7 +4,7 @@
 
 static QString students_table = "students";
 static QStringList students_columns = {"first_name","last_name", "gendre", "picture",
-                                "birth_date", "address", "college_id", "password", "academic_year", "department"};
+                                "birth_date", "address", "college_id", "password", "academic_year", "department", "GPA"};
 
 Student::Student() : Person()
 {
@@ -38,6 +38,14 @@ QVector<Course> Student::getCourses() {
     return this->courses;
 }
 
+void Student::setGPA(QString GPA) {
+    this->GPA = GPA;
+}
+
+QString Student::getGPA() {
+    return this->GPA;
+}
+
 void Student::addCourse(QString course_name) {
     int index = -1;
     for(int i = 0; i < this->courses.size(); i++) {
@@ -66,9 +74,8 @@ QVector<Student> Student::all() {
     QSqlQuery query = SQLiteDb.sql_getQuery();
 
     QVector<Student> students;
-    Student temp;
+
     query.exec("SELECT * FROM students");
-    QSqlQuery query1;
     while(query.next()) {
         long long id = query.value(0).toLongLong();
         QString first_name = query.value(1).toString();
@@ -81,15 +88,16 @@ QVector<Student> Student::all() {
         QString password = query.value(8).toString();
         QString academic_year = query.value(9).toString();
         QString department = query.value(10).toString();
-
+        QString GPA = query.value(11).toString();
 
         Student temp(first_name, last_name, gendre, picture, birth_date, address, college_id, password, academic_year, department);
         temp.setId(id);
+        temp.setGPA(GPA);
         temp.setIsSaved(true);
 
-        query1.exec("SELECT * FROM courses_students WHERE course_id = " + QString::number(id));
-        while(query1.next()) {
-            temp.addCourse(Course::find(query1.value(1).toLongLong()).getName());
+        query.exec("SELECT * FROM courses_students WHERE course_id = " + QString::number(id));
+        while(query.next()) {
+            temp.addCourse(Course::find(query.value(1).toLongLong()).getName());
         }
         students.push_back(temp);
     }
@@ -113,7 +121,7 @@ bool Student::save(){
     SQLiteDb.sql_select("*", students_table, " id = " + id_);
     QSqlQuery query = SQLiteDb.sql_getQuery();
     QStringList values = {getFirstName(),  getLastName(), getGendre(), getPicture(),
-                          getBirthDate(), getAddress(), getCollegeId(), getPassword(), getAcademicYear(),  getDepartment()};
+                          getBirthDate(), getAddress(), getCollegeId(), getPassword(), getAcademicYear(),  getDepartment(), getGPA()};
     if(query.next()){
         SQLiteDb.sql_update(students_table, students_columns, values, "id = " + id_);
 
@@ -157,9 +165,11 @@ Student Student::find(long long id) {
     QString password = query.value(8).toString();
     QString academic_year = query.value(9).toString();
     QString department = query.value(10).toString();
+    QString GPA = query.value(11).toString();
 
     Student student(first_name, last_name, gendre, picture, birth_date, address, college_id, password, academic_year, department);
     student.setId(id);
+    student.setGPA(GPA);
     student.setIsSaved(true);
 
     query.exec("SELECT * FROM courses_students WHERE course_id = " + QString::number(id));
