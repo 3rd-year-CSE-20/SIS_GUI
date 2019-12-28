@@ -148,7 +148,8 @@ void Student::delete1(){
     SQLiteDb.sql_delete(students_table, "id = " + student_id);
     SQLiteDb.sql_delete("courses_students", "student_id = " + student_id);
 }
-
+static QStringList students_columns = {"first_name","last_name", "gendre", "picture",
+                                "birth_date", "address", "college_id", "password", "academic_year", "department"};
 Student Student::find(long long id) {
     QSqlQuery query = SQLiteDb.sql_getQuery();
 
@@ -170,7 +171,7 @@ Student Student::find(long long id) {
     student.setId(id);
     student.setIsSaved(true);
 
-    query1.exec("SELECT * FROM courses_students WHERE course_id = " + QString::number(id));
+    query.exec("SELECT * FROM courses_students WHERE course_id = " + QString::number(id));
     while(query1.next()) {
         student.addCourse(Course::find(query1.value(1).toLongLong()).getName());
     }
