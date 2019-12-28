@@ -1,51 +1,144 @@
 #include "register.h"
 
-Register:: Register(QWidget *parent) :
-    QWidget(parent){
-    mainHlayout = new QHBoxLayout(this);
-    mainVlayout = new QVBoxLayout(this);
-    subMain_L_FLayout = new QFormLayout(this);
-    subMain_R_FLayout = new QFormLayout(this);
+Register:: Register(QWidget *parent):QWidget(parent){
+
+    container = new QWidget(this);
+    _mainLayout = new QHBoxLayout();
+    mainLayout = new QHBoxLayout();
+    _leftWidget = new QWidget();
+    _rightWidget = new QWidget();
+    _leftLayout = new QVBoxLayout();
+    _rightLayout = new QVBoxLayout();
     firstNameTxt = new QLineEdit();
     lastNameTxt = new QLineEdit();
-    birthDateTxt = new QLineEdit();
+    birthDate = new QCalendarWidget();
     addressTxt = new QLineEdit();
     mobileTxt = new QLineEdit();
-    userTypeTxt = new QLineEdit(); //to be changed to drop down menu
-    birthDate = new QCalendarWidget();
     genderGBox = new QWidget();
     genderLayout = new QHBoxLayout();
     maleRB = new QRadioButton("male");
     femaleRB = new QRadioButton("female");
+    addressTxt = new QLineEdit();
+    mobileTxt = new QLineEdit();
     browsePic = new QPushButton("Browse");
+    pic = new QLabel("No pic is selected");
+    saveBtn = new QPushButton("Save");
+    backBtn = new QPushButton("Back");
 
-    subMain_L_FLayout->setVerticalSpacing(20);
-    subMain_R_FLayout->setVerticalSpacing(20);
 
-        this->setLayout(mainVlayout);
+    pic->setAlignment(Qt::AlignCenter);
 
-    mainVlayout->addWidget(new QPushButton);
-    mainVlayout->addLayout(mainHlayout);
-    mainVlayout->addWidget(new QPushButton);
+    this->setLayout(_mainLayout);
+    _mainLayout->addWidget(container);
+    container->setLayout(mainLayout);
+    mainLayout->addWidget(_leftWidget);
+    mainLayout->addWidget(_rightWidget);
+    _leftWidget->setLayout(_leftLayout);
+    _rightWidget->setLayout(_rightLayout);
 
-    mainHlayout->addLayout(subMain_L_FLayout);
-    mainHlayout->addLayout(subMain_R_FLayout);
+    QWidget *b = new QWidget;
+    QHBoxLayout *blay = new QHBoxLayout;
+    blay->addWidget(saveBtn);
+    blay->addWidget(backBtn);
+    b->setLayout(blay);
 
-    subMain_L_FLayout->addRow("First Name", firstNameTxt);
-    subMain_L_FLayout->addRow("Birth Date", birthDate);
-    subMain_L_FLayout->addRow("Gender", genderGBox);
-    subMain_L_FLayout->addRow("User Type",userTypeTxt);
-    subMain_L_FLayout->addRow("Address", addressTxt);
-//    subMain_L_FLayout->setFormAlignment(Qt::AlignCenter);
-//    subMain_L_FLayout->setAlignment(Qt::AlignCenter);
-    subMain_R_FLayout->addRow("Last Name", lastNameTxt);
-    subMain_R_FLayout->addRow("Add Picture", browsePic);
-    subMain_R_FLayout->addRow("Phone", mobileTxt);
-//    subMain_R_FLayout->setFormAlignment(Qt::AlignCenter);
-//    subMain_R_FLayout->setAlignment(Qt::AlignCenter);
+    _leftLayout->setSpacing(10);
+    _leftLayout->addWidget(new QWidget);
+    _leftLayout->addWidget(firstNameTxt);
+    _leftLayout->addWidget(lastNameTxt);
+    _leftLayout->addWidget(genderGBox);
+    _leftLayout->addWidget(mobileTxt);
+    _leftLayout->addWidget(addressTxt);
+    _leftLayout->addWidget(b);
+
+    QWidget *t = new QWidget();
+    QHBoxLayout *tlay = new QHBoxLayout();
+    t->setLayout(tlay);
+    t->setMaximumHeight(50);
+    tlay->addWidget(new QWidget);
+    tlay->addWidget(browsePic);
+    tlay->addWidget(new QWidget);
+    QLabel *bdLbl = new QLabel("Birthdate : ");
+    bdLbl->setMaximumHeight(40);
+
+    _rightLayout->addWidget(bdLbl);
+    _rightLayout->addWidget(birthDate);
+    _rightLayout->addWidget(pic);
+    _rightLayout->addWidget(t);
+
+
     genderGBox->setLayout(genderLayout);
     genderLayout->addWidget(maleRB);
     genderLayout->addWidget(femaleRB);
+
+
+    this->setStyleSheet("background-color:white; border-radius : 10px;");
+
+    firstNameTxt->setMinimumHeight(40);
+//    firstNameTxt->setMaximumWidth(360);
+    firstNameTxt->setStyleSheet("background : #E6E6E6; border-radius : 20px; padding : 7px");
+    firstNameTxt->setPlaceholderText(" First Name");
+
+    lastNameTxt->setMinimumHeight(40);
+//    lastNameTxt->setMaximumWidth(360);
+    lastNameTxt->setStyleSheet("background : #E6E6E6; border-radius : 20px; padding : 7px");
+    lastNameTxt->setPlaceholderText(" Last Name");
+
+    addressTxt->setMinimumHeight(40);
+//    addressTxt->setMaximumWidth(360);
+    addressTxt->setStyleSheet("background : #E6E6E6; border-radius : 20px; padding : 7px");
+    addressTxt->setPlaceholderText(" Adress");
+
+    mobileTxt->setMinimumHeight(40);
+//    mobileTxt->setMaximumWidth(360);
+    mobileTxt->setStyleSheet("background : #E6E6E6; border-radius : 20px; padding : 7px");
+    mobileTxt->setPlaceholderText(" Phone");
+
+    browsePic->setMinimumHeight(40);
+    browsePic->setMaximumWidth(260);
+    browsePic->setObjectName("login");
+    browsePic->setStyleSheet(QString("QPushButton#login{border-radius : 20px; padding : 7px; color : white; font-weight: bold;}")+
+                                    "QPushButton#login{ background : blue;}"+
+                                    "QPushButton:hover#login{ background : #333333;}");
+
+    saveBtn->setMinimumHeight(40);
+//    saveBtn->setMaximumWidth(200);
+    saveBtn->setObjectName("login");
+    saveBtn->setStyleSheet(QString("QPushButton#login{border-radius : 20px; padding : 7px; color : white; font-weight: bold;}")+
+                                    "QPushButton#login{ background : #00c941;}"+
+                                    "QPushButton:hover#login{ background : #333333;}");
+
+    backBtn->setMinimumHeight(40);
+//    backBtn->setMaximumWidth(200);
+    backBtn->setObjectName("login");
+    backBtn->setStyleSheet(QString("QPushButton#login{border-radius : 20px; padding : 7px; color : white; font-weight: bold;}")+
+                                    "QPushButton#login{ background : red;}"+
+                                    "QPushButton:hover#login{ background : #333333;}");
+
+
+    genderGBox->setMaximumHeight(40);
+    genderGBox->setMaximumWidth(360);
+
+    birthDate->setMaximumHeight(280);
+
+    this->setMinimumHeight(650);
+    this->setMinimumWidth(900);
+    this->setMaximumWidth(900);
+
+    connect(backBtn,&QPushButton::clicked,this,&Register::onBackClicked);
+    connect(saveBtn,&QPushButton::clicked,this,&Register::onSaveClicked);
+    connect(browsePic,&QPushButton::clicked,this,&Register::onBrowseClicked);
+}
+
+void Register::onBackClicked(){
+    emit back();
+}
+
+void Register::onSaveClicked(){
+    emit save();
+}
+
+void Register::onBrowseClicked(){
 
 }
 Register::~Register(){}

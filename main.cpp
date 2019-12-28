@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "dashboard.h"
 #include "backend.h"
+#include "login.h"
 #include <QApplication>
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
@@ -16,10 +17,16 @@ int main(int argc, char *argv[])
 //    mariam.delete1();
     //qDebug()<<mariam.getCollegeId();
 
+//    Login l;
+//    l.show();
+
     MainWindow w;
-
-    w.show();
-
+//    a.setStyleSheet(/);
+    w.showFullScreen();
+/*    QFile css("../SIS_GUI/theme.css");
+    css.open(QFile::ReadOnly);
+    QString Styles = css.readAll();
+    a.setStyleSheet(Styles)*/;
 
 //    qmlRegisterType<BackEnd>("io.qt.examples.backend", 1, 0, "BackEnd");
 //    QQmlApplicationEngine engine;

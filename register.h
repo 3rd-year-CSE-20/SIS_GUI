@@ -1,6 +1,7 @@
 #ifndef REGISTER_H
 #define REGISTER_H
 
+#include <QLabel>
 #include <QWidget>
 #include <QHBoxLayout>
 #include <QFormLayout>
@@ -14,22 +15,37 @@ class Register : public QWidget{
 public:
     explicit Register(QWidget *parent = nullptr);
     ~Register();
-    QVBoxLayout *mainVlayout;
-    QHBoxLayout *mainHlayout;
-    QFormLayout *subMain_R_FLayout;
-    QFormLayout *subMain_L_FLayout;
+
+    QWidget *container;
+    QWidget *_leftWidget;
+    QWidget *_rightWidget;
+    QHBoxLayout *_mainLayout;
+    QHBoxLayout *mainLayout;
+    QVBoxLayout *_leftLayout;
+    QVBoxLayout *_rightLayout;
+    QLabel *pic;
     QLineEdit *firstNameTxt;
     QLineEdit *lastNameTxt;
     QLineEdit *birthDateTxt;
     QLineEdit *addressTxt;
     QLineEdit *mobileTxt;
-    QLineEdit *userTypeTxt;
     QCalendarWidget *birthDate;
     QWidget *genderGBox;
     QHBoxLayout *genderLayout;
     QRadioButton *maleRB;
     QRadioButton *femaleRB;
     QPushButton *browsePic;
+    QPushButton *saveBtn;
+    QPushButton *backBtn;
+
+signals :
+    void back();
+    void save();
+
+private slots:
+    void onBackClicked();
+    void onSaveClicked();
+    void onBrowseClicked();
 };
 
 #endif // REGISTER_H

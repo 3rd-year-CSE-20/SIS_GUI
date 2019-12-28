@@ -28,32 +28,38 @@ CONFIG += c++11
 
 SOURCES += \
         admin.cpp \
+        admindashboard.cpp \
         backend.cpp \
         clickablelabel.cpp \
         course.cpp \
         dashboard.cpp \
         globalDbObject.cpp \
+        login.cpp \
         main.cpp \
         mainwindow.cpp \
         person.cpp \
         register.cpp \
         sqliteclass.cpp \
         staffmember.cpp \
-        student.cpp
+        student.cpp \
+        staffdashboard.cpp
 
 HEADERS += \
         admin.h \
+        admindashboard.h \
         backend.h \
         clickablelabel.h \
         course.h \
         dashboard.h \
         globalDbObject.h \
+        login.h \
         mainwindow.h \
         person.h \
         register.h \
         sqliteclass.h \
         staffmember.h \
-        student.h
+        student.h \
+        staffdashboard.h
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
@@ -61,4 +67,4 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 DISTFILES += \
-    main.qml
+    theme.css

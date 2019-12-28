@@ -13,9 +13,8 @@
 #include <QDebug>
 #include <QPalette>
 #include <QPixmap>
-#include <QtQuick/QQuickView>
 #include <QFont>
-#include <QRadioButton>
+#include <QSpacerItem>
 #include "dashboard.h"
 #include "register.h"
 #include "clickablelabel.h"
@@ -24,43 +23,36 @@
 #include "admin.h"
 #include "student.h"
 #include "staffmember.h"
-class MainWindow : public QMainWindow
-{
+#include "staffdashboard.h"
+#include "login.h"
+#include "admindashboard.h"
+class MainWindow : public QMainWindow{
     Q_OBJECT
 private:
-    Dashboard *dash;
-    Register *reg;
-    SQLiteClass *db;
+    Login *loginWidget;
+    Register *regWidget;
+    Dashboard *studentDashboard;
+    StaffDashboard *staffDashboard;
+    AdminDashboard *adminDashboard;
+    QWidget *main;
+    QWidget *_main;
+    QVBoxLayout *mainLayout;
+    QHBoxLayout *_mainLayout;
+    QSpacerItem *s1;
+    void loadStyles();
 
 public:
     MainWindow(QWidget *parent = nullptr);
+    void setWidget(QWidget *);
     ~MainWindow();
-   QWidget *container;
-   QPushButton *button1;
-   QFormLayout *formlayout;
-   QLineEdit *usrEdit;
-   QLineEdit *passEdit;
-   QLabel *usrLbl;
-   QLabel *passLbl;
-   ClickableLabel * regLbl;
-    QLabel *errLbl;
-    QRadioButton *adminRB;
-    QRadioButton *staffMemberRB;
-    QRadioButton *studentRB;
-    QHBoxLayout *userLayout;
-    QGroupBox *userWidget;
-signals:
-    void usrAvailable();
-    void usrNotAvailable();
-    void toggled(bool);
 
 private slots:
-   void onLoginPressed();
-    void regNewUser();
-    void checkAdminAvailability();
-    void checkStaffAvailability();
-    void checkStudentAvailability();
-
-
+    void setSignupWidget();
+    void setLoginWidget();
+    void login(QString,QString);
+    void Signout();
+    void adminSignout();
+    void adminAddStudent();
+    void adminDash();
 };
 #endif // MAINWINDOW_H
