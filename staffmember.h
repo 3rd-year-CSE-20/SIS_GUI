@@ -39,7 +39,7 @@ public:
     void addCourse(QString course_name);
     void deleteCourse(QString course_name);
     bool save();
-    bool isInDatabase(long long id);
+    static bool isInDatabase(long long id);
 
     static QVector<StaffMember> all();
     static StaffMember find(long long id);

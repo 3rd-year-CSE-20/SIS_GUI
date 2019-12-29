@@ -8,11 +8,11 @@
 #define ELECTRICAL_DEPARTMENT 1
 int main(int argc, char *argv[])
 {
-//     databaseInitialization(); //uncomment if it is the first time to run the code
+    //databaseInitialization(); //uncomment if it is the first time to run the code
     QApplication a(argc, argv);
-//    Admin mariam;
+//    StaffMember mariam;
 //    mariam.setFirstName("mariam");
-//    mariam.setId(160);
+//    mariam.setId(1);
 //    mariam.setPassword("0");
 //    mariam.setCollegeId("1601146");
 //    mariam.save();
@@ -26,11 +26,10 @@ int main(int argc, char *argv[])
 //    s.save();
 
     MainWindow w;
-<<<<<<< HEAD
-=======
+
 //    a.setStyleSheet(/);
->>>>>>> fcdc02f9acaecd70b7e327e27cfb7512ae15fad3
-    w.showFullScreen();
+
+    w.show();
 /*    QFile css("../SIS_GUI/theme.css");
     css.open(QFile::ReadOnly);
     QString Styles = css.readAll();

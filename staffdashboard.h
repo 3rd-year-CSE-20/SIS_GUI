@@ -10,47 +10,60 @@
 #include <QSize>
 #include <QString>
 #include <QPalette>
+#include <QTabWidget>
+#include "staffmember.h"
 class StaffDashboard : public QWidget{
     Q_OBJECT
 
 
 public:
-    explicit StaffDashboard(QWidget *parent = nullptr);
+    StaffDashboard(StaffMember *s,QWidget *parent = nullptr);
     ~StaffDashboard();
-    QFormLayout *formlayout;
-    QHBoxLayout* mainLayout;
+    QFormLayout *formlayout1;
+    QFormLayout *formlayout2;
+    QVBoxLayout* mainLayout;
+    QHBoxLayout* _mainLayout;
+    QHBoxLayout *t1;
+    QHBoxLayout *t2;
     QVBoxLayout * personalLayout;
     QVBoxLayout * academicLayout;
+    QWidget *personalWidget;
+    QWidget *academicWidget;
+    QWidget *container;
+    QTabWidget *tabWidget;
     QLabel *firstLabel;
     QLabel *lastLabel;
     QLabel *gendreLabel;
     QLabel *birthLabel;
     QLabel *idLabel;
-    QLabel *picLabel;
-    QPixmap *pic;
+    QLabel *degreelbl;
     QSize *size1;
     QString picPath;
     QPalette *pal;
     QFont *font1;
-    QLabel* personalinfoLabel;
-    QLabel* academicinfoLabel;
     QLabel* degreeLabel;
     QLabel* graduationyearLabel;
     QLabel* teachingcoursesLabel;
     QLabel* departmentLabel;
 
 
-    QLabel *firstLabelfromDatabase;
-    QLabel *lastLabelfromDatabase;
-    QLabel *gendreLabelfromDatabase;
-    QLabel *birthLabelfromDatabase;
-    QLabel *idLabelfromDatabase;
-    QLabel *picLabelfromDatabase;
-    QLabel* degreeLabelfromDatabase;
+    QLabel *fnameDBlbl;
+    QLabel *lnameDBlbl;
+    QLabel *departDBlbl;
+    QLabel *degreeDBlbl;
+    QLabel *gendreDBlbl;
+    QLabel *birthDBlbl;
+    QLabel *idDBlbl;
+    QLabel *piclbl1;
+    QLabel *piclbl2;
     QLabel* graduationyearLabelfromDatabase;
     QLabel* teachingcoursesLabelfromDatabase;
-    QLabel* departmentfromDatabase;
+    QPushButton *signout;
+    StaffMember *s;
 
+    void onSignoutClicked();
+signals:
+   void Signout();
 };
 
 #endif // STAFFDASHBOARD_H

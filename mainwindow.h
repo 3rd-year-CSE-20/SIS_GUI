@@ -53,7 +53,10 @@ private slots:
     void login(QString,QString);
     void Signout();
     void adminSignout();
+    void academicSignout();
     void adminAddStudent();
+    void adminAddAcademic();
     void adminDash();
+
 };
 #endif // MAINWINDOW_H

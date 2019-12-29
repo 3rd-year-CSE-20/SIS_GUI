@@ -45,10 +45,11 @@ private slots:
     void onSignoutClicked();
     void onaddStudentClicked();
     void onSearchTextChanged(QString);
-
+    void onaddAcademicClicked();
 signals:
     void Signout();
     void addStudent();
+    void addAcademic();
 
 };
 

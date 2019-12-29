@@ -119,7 +119,7 @@ AdminDashboard::AdminDashboard(QWidget *parent):QWidget(parent){
     connect(signout,&QPushButton::clicked,this,&AdminDashboard::onSignoutClicked);
     connect(addStudentBtn, &QPushButton::clicked, this, &AdminDashboard::onaddStudentClicked);
     connect(studentSearchtxt, &QLineEdit::textEdited, this, &AdminDashboard::onSearchTextChanged);
-
+    connect(addAcademicBtn, &QPushButton::clicked, this, &AdminDashboard::onaddAcademicClicked);
 }
 
 void AdminDashboard::onSignoutClicked(){
@@ -174,6 +174,9 @@ void AdminDashboard::onSearchTextChanged(QString text){
 
 void AdminDashboard::onaddStudentClicked(){
     emit addStudent();
+}
+void AdminDashboard::onaddAcademicClicked(){
+    emit addAcademic();
 }
 
 AdminDashboard::~AdminDashboard(){

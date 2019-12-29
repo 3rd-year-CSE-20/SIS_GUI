@@ -48,6 +48,24 @@ Dashboard::Dashboard(Student *s,QWidget *parent):QWidget(parent){
     currentYDBlbl->setText(s->getAcademicYear());
     departDBlbl->setText(s->getDepartment());
 
+    fnamelbl->setFont(QFont("Times New Roman",17));
+    lnamelbl->setFont(QFont("Times New Roman",17));
+    birthlbl->setFont(QFont("Times New Roman",17));
+    addrlbl->setFont(QFont("Times New Roman",17));
+    idlbl->setFont(QFont("Times New Roman",17));
+    currentYlbl->setFont(QFont("Times New Roman",17));
+    departlbl->setFont(QFont("Times New Roman",17));
+    gendlbl->setFont(QFont("Times New Roman",17));
+
+    fnameDBlbl->setFont(QFont("Cambria",12));
+    lnameDBlbl->setFont(QFont("Cambria",12));
+    birthDBlbl->setFont(QFont("Cambria",12));
+    addrDBlbl->setFont(QFont("Cambria",12));
+    idDBlbl->setFont(QFont("Cambria",12));
+    currentYDBlbl->setFont(QFont("Cambria",12));
+    departDBlbl->setFont(QFont("Cambria",12));
+    gendDBlbl->setFont(QFont("Cambria",12));
+
     QWidget *b = new QWidget;
     QHBoxLayout *blay = new QHBoxLayout;
     blay->addWidget(new QWidget);

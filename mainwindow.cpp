@@ -22,7 +22,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent){
 }
 
 void MainWindow::loadStyles(){
-    QFile css("../SIS_GUI/theme.css");
+    QFile css("../MainWindow/theme.css");
     css.open(QFile::ReadOnly);
     QString Styles = css.readAll();
     this->setStyleSheet(Styles);
@@ -52,15 +52,6 @@ void MainWindow::setLoginWidget(){
     connect(loginWidget, &Login::LoginAcc, this, &MainWindow::login);
 }
 
-void MainWindow::adminSignout(){
-    loginWidget = new Login();
-//    delete studentDashboard;
-    delete adminDashboard;
-    setWidget(loginWidget);
-    connect(loginWidget, &Login::Register,this,&MainWindow::setSignupWidget);
-    connect(loginWidget, &Login::LoginAcc, this, &MainWindow::login);
-}
-
 void MainWindow::login(QString usr, QString pass){
     if(usr.toStdString()[0] == 'A'){
          long long id = usr.mid(4,3).toLongLong();
@@ -75,11 +66,25 @@ void MainWindow::login(QString usr, QString pass){
                  setWidget(adminDashboard);
                  connect(adminDashboard, &AdminDashboard::Signout, this, &MainWindow::adminSignout);
                  connect(adminDashboard, &AdminDashboard::addStudent, this, &MainWindow::adminAddStudent);
+                 connect(adminDashboard, &AdminDashboard::addAcademic, this, &MainWindow::adminAddAcademic);
              }
          }
     }else if(usr.toStdString()[0] == 'S'){
-
-    }else{
+        long long id = usr.mid(4,3).toLongLong();
+        qDebug() << id;
+        if(StaffMember::isInDatabase(id)){
+            qDebug() << "here";
+            StaffMember a = StaffMember::find(id);
+            qDebug() << a.getPassword();
+            if(!a.getPassword().compare(pass)){
+                delete loginWidget;
+                staffDashboard = new StaffDashboard(&a);
+                setWidget(staffDashboard);
+                connect(staffDashboard, &StaffDashboard::Signout, this, &MainWindow::academicSignout);
+                }
+        }
+    }
+    else{
         long long id = usr.mid(2,4).toLongLong();
         if(Student::isInDatabase(id)){
             Student a = Student::find(id);
@@ -99,7 +104,12 @@ void MainWindow::adminAddStudent(){
     setWidget(regWidget);
     connect(regWidget,&Register::back,this,&MainWindow::adminDash);
 }
-
+void MainWindow::adminAddAcademic(){
+    regWidget = new Register(nullptr,true);
+    delete adminDashboard;
+    setWidget(regWidget);
+    connect(regWidget,&Register::back,this, &MainWindow::adminDash);
+}
 void MainWindow::adminDash(){
     adminDashboard = new AdminDashboard();
     delete regWidget;
@@ -132,12 +142,24 @@ void MainWindow::checkStudentAvailability(){
 void MainWindow::Signout(){
     loginWidget = new Login();
     delete studentDashboard;
-//    delete adminDashboard;
     setWidget(loginWidget);
     connect(loginWidget, &Login::Register,this,&MainWindow::setSignupWidget);
     connect(loginWidget, &Login::LoginAcc, this, &MainWindow::login);
 }
-
+void MainWindow::adminSignout(){
+    loginWidget = new Login();
+    delete adminDashboard;
+    setWidget(loginWidget);
+    connect(loginWidget, &Login::Register,this,&MainWindow::setSignupWidget);
+    connect(loginWidget, &Login::LoginAcc, this, &MainWindow::login);
+}
+void MainWindow::academicSignout(){
+    loginWidget = new Login();
+    delete staffDashboard;
+    setWidget(loginWidget);
+    connect(loginWidget, &Login::Register,this,&MainWindow::setSignupWidget);
+    connect(loginWidget, &Login::LoginAcc, this, &MainWindow::login);
+}
 MainWindow::~MainWindow(){
 }
 
