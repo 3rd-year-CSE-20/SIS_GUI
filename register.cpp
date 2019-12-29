@@ -1,8 +1,8 @@
 #include "register.h"
 
-Register:: Register(QWidget *parent, bool fromAdmin):QWidget(parent){
+Register:: Register(QWidget *parent, bool fromAdmin, bool academic):QWidget(parent){
 
-    this->fromAdmin = fromAdmin;
+    this->isAcademic = academic;  this->fromAdmin = fromAdmin;
     container = new QWidget(this);
     _mainLayout = new QHBoxLayout();
     mainLayout = new QHBoxLayout();
@@ -66,8 +66,8 @@ Register:: Register(QWidget *parent, bool fromAdmin):QWidget(parent){
     t1lay->addWidget(wrongPassword);
 
     _leftLayout->setSpacing(10);
-    if(fromAdmin)   _leftLayout->addWidget(t0);
-    else            _leftLayout->addWidget(new QWidget);
+    if(fromAdmin & !isAcademic) _leftLayout->addWidget(t0);
+    else                         _leftLayout->addWidget(new QWidget);
     _leftLayout->addWidget(firstNameTxt);
     _leftLayout->addWidget(lastNameTxt);
     _leftLayout->addWidget(genderGBox);
@@ -88,7 +88,9 @@ Register:: Register(QWidget *parent, bool fromAdmin):QWidget(parent){
     tlay->addWidget(new QWidget);
     tlay->addWidget(browsePic);
     tlay->addWidget(new QWidget);
-    QLabel *bdLbl = new QLabel("Birthdate : ");
+    QLabel *bdLbl;
+    if(isAcademic) bdLbl = new QLabel("Graduation Year: ");
+    else bdLbl = new QLabel("Birthdate : ");
     bdLbl->setMaximumHeight(40);
 
     _rightLayout->addWidget(bdLbl);
@@ -209,12 +211,12 @@ void Register::onSaveClicked(){
             s.setPicture(path);
             s.setPassword(rewritePassword->text());
             s.setCollegeId(studentID->text());
-            s.setBirthDate(birthDate->selectedDate().toString("dd-MM-yyyy"));
+            s.setBirthDate(birthDate->selectedDate().toString("dd/MM/yyyy"));
             s.save();
             saveBtn->setEnabled(false);
             saveBtn->setText("Student Saved Sucessfully");
         }
-    }else{
+    }else if(fromAdmin && !isAcademic){
         Student s;
         s.setFirstName(firstNameTxt->text());
         s.setLastName(lastNameTxt->text());
@@ -245,6 +247,37 @@ void Register::onSaveClicked(){
         studentIdLbl->setText(s.getCollegeId());
         saveBtn->setEnabled(false);
         saveBtn->setText("Student Saved Sucessfully");
+    }else if(fromAdmin && isAcademic){
+        StaffMember s;
+        s.setFirstName(firstNameTxt->text());
+        s.setLastName(lastNameTxt->text());
+        if(maleRB->isChecked()){
+            s.setGendre("male");
+        }else{
+            s.setGendre("female");
+        }
+        s.setDepartment("Preparatory");
+        s.setAddress(addressTxt->text());
+        s.setPicture(path);
+        s.setPassword(rewritePassword->text());
+        s.setBirthDate(birthDate->selectedDate().toString("dd-MM-yyyy"));
+        QString id = "80";
+        int lastId = StaffMember::getLastId();
+        if(lastId<9){
+            id += "000"+QString::number(lastId);
+        }else if(lastId < 99){
+            id += "00"+QString::number(lastId);
+        }
+        else if(lastId < 999){
+            id += "0"+QString::number(lastId);
+        }else{
+            id += QString::number(lastId);
+        }
+        s.setCollegeId((id));
+        s.save();
+        studentIdLbl->setText(s.getCollegeId());
+        saveBtn->setEnabled(false);
+        saveBtn->setText("Staffmember Saved Sucessfully");
     }
 
     emit save();

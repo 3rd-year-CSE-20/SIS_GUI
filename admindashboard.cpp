@@ -14,7 +14,6 @@ AdminDashboard::AdminDashboard(QWidget *parent):QWidget(parent){
     studentSearchByName = new QRadioButton("Search By Name");
     studentSearchByID = new QRadioButton("Serach By ID");
     academicSearchtxt = new QLineEdit();
-    searchAcademicBtn = new QPushButton("Search");
     addAcademicBtn = new QPushButton("Add Academic");
     academicTable = new QTableWidget();
     academicWidget = new QWidget();
@@ -37,7 +36,6 @@ AdminDashboard::AdminDashboard(QWidget *parent):QWidget(parent){
     QHBoxLayout *t2lay = new QHBoxLayout;
     t2->setLayout(t2lay);
     t2lay->addWidget(academicSearchtxt);
-    t2lay->addWidget(searchAcademicBtn);
     t2lay->addWidget(addAcademicBtn);
 
     QWidget *t3 = new QWidget;
@@ -85,12 +83,6 @@ AdminDashboard::AdminDashboard(QWidget *parent):QWidget(parent){
     addStudentBtn->setMaximumWidth(260);
     addStudentBtn->setObjectName("login");
 
-    searchAcademicBtn->setStyleSheet(QString("QPushButton#login{border-radius : 20px; padding : 7px; color : white; font-weight: bold;}")+
-                                    "QPushButton#login{ background : #00c941;}"+
-                                    "QPushButton:hover#login{ background : #333333;}");
-    searchAcademicBtn->setMinimumHeight(40);
-    searchAcademicBtn->setMaximumWidth(260);
-    searchAcademicBtn->setObjectName("login");
 
     addAcademicBtn->setStyleSheet(QString("QPushButton#login{border-radius : 20px; padding : 7px; color : white; font-weight: bold;}")+
                                     "QPushButton#login{ background : red;}"+
@@ -119,7 +111,9 @@ AdminDashboard::AdminDashboard(QWidget *parent):QWidget(parent){
     connect(signout,&QPushButton::clicked,this,&AdminDashboard::onSignoutClicked);
     connect(addStudentBtn, &QPushButton::clicked, this, &AdminDashboard::onaddStudentClicked);
     connect(studentSearchtxt, &QLineEdit::textEdited, this, &AdminDashboard::onSearchTextChanged);
+    connect(academicSearchtxt, &QLineEdit::textEdited, this, &AdminDashboard::onSearchTextAcademicChanged);
     connect(addAcademicBtn, &QPushButton::clicked, this, &AdminDashboard::onaddAcademicClicked);
+    connect(StudentTable, &QTableWidget::cellDoubleClicked, this, &AdminDashboard::onStudentTableClicked);
 }
 
 void AdminDashboard::onSignoutClicked(){
@@ -170,6 +164,26 @@ void AdminDashboard::onSearchTextChanged(QString text){
         a++;
     }
 
+}
+
+void AdminDashboard::onSearchTextAcademicChanged(QString text){
+    QVector<StaffMember> staff ;
+    staff = StaffMember::where("first_name",text);
+    int a = 0;
+    academicTable->setRowCount(staff.length());
+    for(StaffMember s : staff){
+        academicTable->setItem(a,0,new QTableWidgetItem(QString::number(a+1)));
+        academicTable->setItem(a,1,new QTableWidgetItem(s.getFirstName()+" "+s.getLastName()));
+        academicTable->setItem(a,2,new QTableWidgetItem(s.getDepartment()));
+        a++;
+    }
+
+}
+
+void AdminDashboard::onStudentTableClicked(int row, int col){
+//    disconnect(StudentTable, &QTableWidget::cellDoubleClicked, this, &AdminDashboard::onStudentTableClicked);
+    Student s = Student::where("college_id",StudentTable->item(row,2)->text())[0];
+    emit studentSelected(s);
 }
 
 void AdminDashboard::onaddStudentClicked(){

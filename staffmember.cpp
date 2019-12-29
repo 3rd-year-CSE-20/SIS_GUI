@@ -180,7 +180,7 @@ bool StaffMember::save(){
 }
 
 QVector<StaffMember> StaffMember::where(QString column, QString value){
-    SQLiteDb.sql_select("*", staff_table, column + " = " +  value);
+    SQLiteDb.sql_select("*", staff_table, column + " LIKE '" +  value + "%'");
     QSqlQuery query = SQLiteDb.sql_getQuery();
     QVector<StaffMember> staff_members;
     while (query.next()) {
@@ -196,4 +196,13 @@ void StaffMember::delete1(){
     SQLiteDb.sql_delete("courses_staff_members", "staff_member_id = " + staff_id);
 }
 
+int StaffMember::getLastId(){
+    QSqlQuery query = SQLiteDb.sql_getQuery();
+    query.exec("SELECT id FROM staff_members ORDER BY id DESC LIMIT 0, 1;");
+    if(query.next()){
+        return query.value(0).toInt();
+    }else{
+        return 0;
+    }
+}
 

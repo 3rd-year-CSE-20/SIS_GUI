@@ -22,7 +22,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent){
 }
 
 void MainWindow::loadStyles(){
-    QFile css("../MainWindow/theme.css");
+    QFile css("../SIS_GUI/theme.css");
     css.open(QFile::ReadOnly);
     QString Styles = css.readAll();
     this->setStyleSheet(Styles);
@@ -67,6 +67,7 @@ void MainWindow::login(QString usr, QString pass){
                  connect(adminDashboard, &AdminDashboard::Signout, this, &MainWindow::adminSignout);
                  connect(adminDashboard, &AdminDashboard::addStudent, this, &MainWindow::adminAddStudent);
                  connect(adminDashboard, &AdminDashboard::addAcademic, this, &MainWindow::adminAddAcademic);
+                 connect(adminDashboard, &AdminDashboard::studentSelected, this, &MainWindow::studentSelected);
              }
          }
     }else if(usr.toStdString()[0] == 'S'){
@@ -104,12 +105,14 @@ void MainWindow::adminAddStudent(){
     setWidget(regWidget);
     connect(regWidget,&Register::back,this,&MainWindow::adminDash);
 }
+
 void MainWindow::adminAddAcademic(){
-    regWidget = new Register(nullptr,true);
+    regWidget = new Register(nullptr,true,true);
     delete adminDashboard;
     setWidget(regWidget);
     connect(regWidget,&Register::back,this, &MainWindow::adminDash);
 }
+
 void MainWindow::adminDash(){
     adminDashboard = new AdminDashboard();
     delete regWidget;
@@ -117,7 +120,27 @@ void MainWindow::adminDash(){
     setWidget(adminDashboard);
     connect(adminDashboard, &AdminDashboard::Signout, this, &MainWindow::adminSignout);
     connect(adminDashboard, &AdminDashboard::addStudent, this, &MainWindow::adminAddStudent);
+    connect(adminDashboard, &AdminDashboard::addAcademic, this, &MainWindow::adminAddAcademic);
+    connect(adminDashboard, &AdminDashboard::studentSelected, this, &MainWindow::studentSelected);
 //    connect(studentDashboard,&Dashboard::Signout,this,&MainWindow::Signout);
+}
+
+void MainWindow::studentSelected(Student s){
+    studentDashboard = new Dashboard(&s,nullptr,true);
+    disconnect(adminDashboard, &AdminDashboard::studentSelected, this, &MainWindow::studentSelected);
+    adminDashboard->setVisible(false);
+    setWidget(studentDashboard);
+    connect(studentDashboard, &Dashboard::Back, this, &MainWindow::studentDashBack);
+}
+
+void MainWindow::studentDashBack(){
+    delete studentDashboard;
+    adminDashboard = new AdminDashboard();
+    setWidget(adminDashboard);
+    connect(adminDashboard, &AdminDashboard::Signout, this, &MainWindow::adminSignout);
+    connect(adminDashboard, &AdminDashboard::addStudent, this, &MainWindow::adminAddStudent);
+    connect(adminDashboard, &AdminDashboard::addAcademic, this, &MainWindow::adminAddAcademic);
+    connect(adminDashboard, &AdminDashboard::studentSelected, this, &MainWindow::studentSelected);
 }
 
 void MainWindow::checkStudentAvailability(){
@@ -146,6 +169,7 @@ void MainWindow::Signout(){
     connect(loginWidget, &Login::Register,this,&MainWindow::setSignupWidget);
     connect(loginWidget, &Login::LoginAcc, this, &MainWindow::login);
 }
+
 void MainWindow::adminSignout(){
     loginWidget = new Login();
     delete adminDashboard;
@@ -153,6 +177,7 @@ void MainWindow::adminSignout(){
     connect(loginWidget, &Login::Register,this,&MainWindow::setSignupWidget);
     connect(loginWidget, &Login::LoginAcc, this, &MainWindow::login);
 }
+
 void MainWindow::academicSignout(){
     loginWidget = new Login();
     delete staffDashboard;
@@ -160,6 +185,7 @@ void MainWindow::academicSignout(){
     connect(loginWidget, &Login::Register,this,&MainWindow::setSignupWidget);
     connect(loginWidget, &Login::LoginAcc, this, &MainWindow::login);
 }
+
 MainWindow::~MainWindow(){
 }
 

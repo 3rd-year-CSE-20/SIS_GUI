@@ -11,11 +11,12 @@
 #include <QRadioButton>
 #include <QFileDialog>
 #include "student.h"
+#include "staffmember.h"
 
 class Register : public QWidget{
     Q_OBJECT
 public:
-    explicit Register(QWidget *parent = nullptr,bool fromAdmin = false);
+    explicit Register(QWidget *parent = nullptr,bool fromAdmin = false, bool academic = false);
     ~Register();
 
 private :
@@ -49,6 +50,7 @@ private :
     QLabel *generatedID;
     QLabel *studentIdLbl;
     bool fromAdmin;
+    bool isAcademic;
 
 signals :
     void back();

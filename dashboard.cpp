@@ -1,8 +1,8 @@
 #include "dashboard.h"
+#include <QDebug>
 
-Dashboard::Dashboard(Student *s,QWidget *parent):QWidget(parent){
-
-    this->s = s;
+Dashboard::Dashboard(Student *s,QWidget *parent, bool fromAdmin):QWidget(parent){
+    this->s = *s;
     mainLayout = new QVBoxLayout();
     _mainLayout = new QHBoxLayout();
     container = new QWidget();
@@ -36,7 +36,12 @@ Dashboard::Dashboard(Student *s,QWidget *parent):QWidget(parent){
     academicInfoLayout = new QVBoxLayout();
     courseslbl = new QLabel("Courses : ");
     coursesDBlbl = new QLabel("$COURSES");
-
+    firstNameEdit = new QLineEdit();
+    lastNameEdit = new QLineEdit();
+    addressNameEdit = new QLineEdit();
+    BirthDayNameEdit = new QLineEdit();
+    saveBtn = new QPushButton("Save");
+    backkBtn = new QPushButton("Back");
 
     fnameDBlbl->setText(s->getFirstName());
     lnameDBlbl->setText(s->getLastName());
@@ -69,7 +74,11 @@ Dashboard::Dashboard(Student *s,QWidget *parent):QWidget(parent){
     QWidget *b = new QWidget;
     QHBoxLayout *blay = new QHBoxLayout;
     blay->addWidget(new QWidget);
-    blay->addWidget(backBtn,Qt::AlignRight);
+    if(fromAdmin){
+        blay->addWidget(saveBtn,Qt::AlignRight);
+        blay->addWidget(backkBtn, Qt::AlignRight);
+    }else
+        blay->addWidget(backBtn,Qt::AlignRight);
     b->setLayout(blay);
 
     this->setLayout(_mainLayout);
@@ -102,13 +111,21 @@ Dashboard::Dashboard(Student *s,QWidget *parent):QWidget(parent){
     QHBoxLayout *t2lay = new QHBoxLayout;
     t2->setLayout(t2lay);
     t2lay->addWidget(fnamelbl);
-    t2lay->addWidget(fnameDBlbl);
+    if(fromAdmin){
+        t2lay->addWidget(firstNameEdit);
+        t2lay->addWidget(new QWidget);
+    }else
+        t2lay->addWidget(fnameDBlbl);
 
     QWidget *t3 = new QWidget;
     QHBoxLayout *t3lay = new QHBoxLayout;
     t3->setLayout(t3lay);
     t3lay->addWidget(lnamelbl);
-    t3lay->addWidget(lnameDBlbl);
+    if(fromAdmin){
+        t3lay->addWidget(lastNameEdit);
+        t3lay->addWidget(new QWidget);
+    }else
+        t3lay->addWidget(lnameDBlbl);
 
     QWidget *t4 = new QWidget;
     QHBoxLayout *t4lay = new QHBoxLayout;
@@ -120,7 +137,11 @@ Dashboard::Dashboard(Student *s,QWidget *parent):QWidget(parent){
     QHBoxLayout *t5lay = new QHBoxLayout;
     t5->setLayout(t5lay);
     t5lay->addWidget(addrlbl);
-    t5lay->addWidget(addrDBlbl);
+    if(fromAdmin){
+        t5lay->addWidget(addressNameEdit);
+        t5lay->addWidget(new QWidget);
+    }else
+        t5lay->addWidget(addrDBlbl);
 
     QWidget *t6 = new QWidget;
     QHBoxLayout *t6lay = new QHBoxLayout;
@@ -132,7 +153,12 @@ Dashboard::Dashboard(Student *s,QWidget *parent):QWidget(parent){
     QHBoxLayout *t7lay = new QHBoxLayout;
     t7->setLayout(t7lay);
     t7lay->addWidget(birthlbl);
-    t7lay->addWidget(birthDBlbl);
+    if(fromAdmin){
+        t7lay->addWidget(BirthDayNameEdit,Qt::AlignLeft);
+        t7lay->addWidget(new QWidget);
+    }else
+        t7lay->addWidget(birthDBlbl);
+
 
     QWidget *t8 = new QWidget;
     QHBoxLayout *t8lay = new QHBoxLayout;
@@ -182,10 +208,40 @@ Dashboard::Dashboard(Student *s,QWidget *parent):QWidget(parent){
     academicInfoLayout->addWidget(t13);
 
     tabWidget->addTab(personalInfo," Personal Info ");
-    tabWidget->addTab(academicInfo," Academic Info ");
-    tabWidget->addTab(new QWidget()," Services ");
+    if(!fromAdmin){
+        tabWidget->addTab(academicInfo," Academic Info ");
+        tabWidget->addTab(new QWidget()," Services ");
+    }
 
 
+
+    firstNameEdit->setMinimumHeight(40);
+    firstNameEdit->setMaximumWidth(260);
+    firstNameEdit->setStyleSheet("background : #E6E6E6; border-radius : 20px; padding : 7px");
+    firstNameEdit->setPlaceholderText("           First Name");
+    firstNameEdit->setText(s->getFirstName());
+    firstNameEdit->setAlignment(Qt::AlignCenter);
+
+    lastNameEdit->setMinimumHeight(40);
+    lastNameEdit->setMaximumWidth(260);
+    lastNameEdit->setStyleSheet("background : #E6E6E6; border-radius : 20px; padding : 7px");
+    lastNameEdit->setPlaceholderText("           Last Name");
+    lastNameEdit->setText(s->getLastName());
+    lastNameEdit->setAlignment(Qt::AlignCenter);
+
+    addressNameEdit->setMinimumHeight(40);
+    addressNameEdit->setMaximumWidth(260);
+    addressNameEdit->setStyleSheet("background : #E6E6E6; border-radius : 20px; padding : 7px");
+    addressNameEdit->setPlaceholderText("           Address");
+    addressNameEdit->setText(s->getAddress());
+    addressNameEdit->setAlignment(Qt::AlignCenter);
+
+    BirthDayNameEdit->setMinimumHeight(40);
+    BirthDayNameEdit->setMaximumWidth(260);
+    BirthDayNameEdit->setStyleSheet("background : #E6E6E6; border-radius : 20px; padding : 7px");
+    BirthDayNameEdit->setPlaceholderText("           Birthdate");
+    BirthDayNameEdit->setText(s->getBirthDate());
+    BirthDayNameEdit->setAlignment(Qt::AlignCenter);
 
     tabWidget->setObjectName("login");
     tabWidget->setStyleSheet(QString("QTabWidget::pane#login{border: 1px solid gray;}")+
@@ -199,6 +255,20 @@ Dashboard::Dashboard(Student *s,QWidget *parent):QWidget(parent){
     backBtn->setMaximumWidth(260);
     backBtn->setObjectName("login");
 
+    saveBtn->setStyleSheet(QString("QPushButton#login{border-radius : 20px; padding : 7px; color : white; font-weight: bold;}")+
+                                   "QPushButton#login{ background : #00c941;}"+
+                                   "QPushButton:hover#login{ background : #333333;}");
+    saveBtn->setMinimumHeight(40);
+    saveBtn->setMaximumWidth(260);
+    saveBtn->setObjectName("login");
+
+    backkBtn->setStyleSheet(QString("QPushButton#login{border-radius : 20px; padding : 7px; color : white; font-weight: bold;}")+
+                                   "QPushButton#login{ background : red;}"+
+                                   "QPushButton:hover#login{ background : #333333;}");
+    backkBtn->setMinimumHeight(40);
+    backkBtn->setMaximumWidth(260);
+    backkBtn->setObjectName("login");
+
 //    fnameDBlbl->setText(s->getFirstName());
 //    fnameDBlbl->setText(s->getFirstName());
 
@@ -208,11 +278,27 @@ Dashboard::Dashboard(Student *s,QWidget *parent):QWidget(parent){
     this->setMaximumWidth(900);
 
     connect(backBtn,&QPushButton::clicked,this,&Dashboard::onSignoutClicked);
+    connect(saveBtn, &QPushButton::clicked, this, &Dashboard::onSaveClicked);
+    connect(backkBtn, &QPushButton::clicked, this, &Dashboard::onBackClicked);
+}
 
+void Dashboard::onSaveClicked(){
+    s.setFirstName(firstNameEdit->text());
+    s.setLastName(lastNameEdit->text());
+    s.setAddress(addressNameEdit->text());
+    s.setBirthDate(BirthDayNameEdit->text());
+    s.save();
+    saveBtn->setEnabled(false);
+    saveBtn->setText("Data is Saved");
 }
 
 void Dashboard::onSignoutClicked(){
     emit Signout();
+}
+
+void Dashboard::onBackClicked(){
+    qDebug() << "back";
+    emit Back();
 }
 
 Dashboard::~Dashboard(){

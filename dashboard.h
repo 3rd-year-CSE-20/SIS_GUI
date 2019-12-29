@@ -12,6 +12,7 @@
 #include <QPalette>
 #include <QFormLayout>
 #include <QTableWidget>
+#include <QLineEdit>
 #include "student.h"
 
 class Dashboard : public QWidget
@@ -20,7 +21,7 @@ class Dashboard : public QWidget
 
 
 public:
-    Dashboard(Student *s,QWidget *parent = nullptr);
+    Dashboard(Student *s,QWidget *parent = nullptr, bool froAdmin = false);
     ~Dashboard();
 
 private:
@@ -57,13 +58,22 @@ private:
     QLabel *currentYDBlbl;
     QLabel *courseslbl;
     QLabel *coursesDBlbl;
-    Student *s;
+    Student s;
+    QLineEdit *firstNameEdit;
+    QLineEdit *lastNameEdit;
+    QLineEdit *addressNameEdit;
+    QLineEdit *BirthDayNameEdit;
+    QPushButton *saveBtn;
+    QPushButton *backkBtn;
 
 signals:
     void Signout();
+    void Back();
 
 private slots:
     void onSignoutClicked();
+    void onSaveClicked();
+    void onBackClicked();
 
 };
 

@@ -72,12 +72,13 @@ Login::Login(QWidget *parent):QWidget(parent){
     usrEdit->setMaximumWidth(260);
     usrEdit->setStyleSheet("background : #E6E6E6; border-radius : 20px; padding : 7px");
     usrEdit->setPlaceholderText("           ID");
+
     passEdit->setMinimumHeight(40);
     passEdit->setMaximumWidth(260);
     passEdit->setStyleSheet("background : #E6E6E6; border-radius : 20px; padding : 7px");
-
     passEdit->setPlaceholderText("           Password");
     passEdit->setEchoMode(QLineEdit::Password);
+
     loginBtn->setStyleSheet(QString("QPushButton#login{border-radius : 20px; padding : 7px; color : white; font-weight: bold;}")+
                                     "QPushButton#login{ background : #00c941;}"+
                                     "QPushButton:hover#login{ background : #333333;}");

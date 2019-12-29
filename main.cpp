@@ -30,6 +30,11 @@ int main(int argc, char *argv[])
 //    a.setStyleSheet(/);
 
     w.show();
+//    Student s;
+//    s.setLastName("hhhhh");
+//    StaffMember ss;
+//    ss.setLastName("sdsdsd");
+//    ss.save();
 /*    QFile css("../SIS_GUI/theme.css");
     css.open(QFile::ReadOnly);
     QString Styles = css.readAll();
