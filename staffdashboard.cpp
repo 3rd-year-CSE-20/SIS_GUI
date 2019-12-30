@@ -1,7 +1,7 @@
 #include "staffdashboard.h"
 
-StaffDashboard::StaffDashboard(StaffMember *s,QWidget *parent):QWidget(parent){
-    this->s = s;
+StaffDashboard::StaffDashboard(StaffMember *s,QWidget *parent,bool fromAdmin):QWidget(parent){
+    this->s = *s;
     container = new QWidget();
     mainLayout = new QVBoxLayout();
     _mainLayout = new QHBoxLayout();
@@ -9,6 +9,7 @@ StaffDashboard::StaffDashboard(StaffMember *s,QWidget *parent):QWidget(parent){
     personalLayout=new QVBoxLayout();
     personalWidget = new QWidget();
     academicWidget = new QWidget();
+    coursesWidget = new QWidget();
     t1 = new QHBoxLayout();
     t2 = new QHBoxLayout();
     tabWidget = new QTabWidget();
@@ -34,6 +35,8 @@ StaffDashboard::StaffDashboard(StaffMember *s,QWidget *parent):QWidget(parent){
     graduationyearLabelfromDatabase = new QLabel(" ",this);
     teachingcoursesLabelfromDatabase = new QLabel(" ",this);
     signout = new QPushButton("Signout");
+    deleteBtn = new QPushButton("Delete");
+    backBtn = new QPushButton("Back");
 
 
 
@@ -88,6 +91,22 @@ StaffDashboard::StaffDashboard(StaffMember *s,QWidget *parent):QWidget(parent){
     signout->setMaximumWidth(260);
     signout->setObjectName("login");
 
+
+    backBtn->setStyleSheet(QString("QPushButton#login{border-radius : 20px; padding : 7px; color : white; font-weight: bold;}")+
+                                   "QPushButton#login{ background : blue;}"+
+                                   "QPushButton:hover#login{ background : #333333;}");
+    backBtn->setMinimumHeight(40);
+    backBtn->setMaximumWidth(260);
+    backBtn->setObjectName("login");
+
+
+    deleteBtn->setStyleSheet(QString("QPushButton#login{border-radius : 20px; padding : 7px; color : white; font-weight: bold;}")+
+                                   "QPushButton#login{ background : red;}"+
+                                   "QPushButton:hover#login{ background : #333333;}");
+    deleteBtn->setMinimumHeight(40);
+    deleteBtn->setMaximumWidth(260);
+    deleteBtn->setObjectName("login");
+
     fnameDBlbl->setText(s->getFirstName());
     lnameDBlbl->setText(s->getLastName());
     birthDBlbl->setText(s->getBirthDate());
@@ -108,7 +127,11 @@ StaffDashboard::StaffDashboard(StaffMember *s,QWidget *parent):QWidget(parent){
 
     QHBoxLayout *t0lay = new QHBoxLayout;
     t0lay->addWidget(new QWidget);
-    t0lay->addWidget(signout,Qt::AlignRight);
+    if(!fromAdmin)    t0lay->addWidget(signout,Qt::AlignRight);
+    else {
+        t0lay->addWidget(backBtn,Qt::AlignRight);
+        t0lay->addWidget(deleteBtn,Qt::AlignRight);
+    }
 
     this->setLayout(_mainLayout);
     _mainLayout->addWidget(container);
@@ -138,7 +161,11 @@ StaffDashboard::StaffDashboard(StaffMember *s,QWidget *parent):QWidget(parent){
     t2->setSpacing(30);
 
     tabWidget->addTab(personalWidget, " Personal ");
-    tabWidget->addTab(academicWidget, " Academic ");
+    if (!fromAdmin)
+    {
+        tabWidget->addTab(academicWidget, " Academic ");
+//        tabWidget->addTab(coursesWidget, "Courses");
+    }
     tabWidget->setObjectName("login");
     tabWidget->setStyleSheet(QString("QTabWidget::pane#login{border: 1px solid gray;}")+
                                      "QTabBar::tab{padding : 8px;color : white;background : #666666; font-weight: bold;}"+
@@ -151,9 +178,8 @@ StaffDashboard::StaffDashboard(StaffMember *s,QWidget *parent):QWidget(parent){
     this->setMaximumWidth(900);
 
     connect(signout,&QPushButton::clicked,this,&StaffDashboard::onSignoutClicked);
-
-     //connect(backBtn,&QPushButton::clicked,this,&StaffDashboard::onSignoutClicked);
-    //connect(studentSearchtxt, &QLineEdit::textEdited, this, &StaffDashboard::onSearchTextChanged);
+    connect(backBtn, &QPushButton::clicked, this, &StaffDashboard::onBackClicked);
+    connect(deleteBtn, &QPushButton::clicked, this, &StaffDashboard::onDeleteClicked);
 
 
 
@@ -163,6 +189,15 @@ StaffDashboard::StaffDashboard(StaffMember *s,QWidget *parent):QWidget(parent){
 }
 void StaffDashboard::onSignoutClicked(){
     emit Signout();
+}
+void StaffDashboard::onBackClicked(){
+    qDebug() << "back";
+    emit Back();
+}
+void StaffDashboard::onDeleteClicked(){
+    qDebug() << "delete";
+    s.delete1();
+    emit Delete();
 }
 StaffDashboard::~StaffDashboard(){
 

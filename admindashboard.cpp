@@ -19,6 +19,7 @@ AdminDashboard::AdminDashboard(QWidget *parent):QWidget(parent){
     academicWidget = new QWidget();
     academicLay = new QVBoxLayout();
     signout = new QPushButton("Signout");
+    deleteBtn = new QPushButton("Delete");
 
     QWidget *t1 = new QWidget;
     QHBoxLayout *t1lay = new QHBoxLayout;
@@ -114,6 +115,7 @@ AdminDashboard::AdminDashboard(QWidget *parent):QWidget(parent){
     connect(academicSearchtxt, &QLineEdit::textEdited, this, &AdminDashboard::onSearchTextAcademicChanged);
     connect(addAcademicBtn, &QPushButton::clicked, this, &AdminDashboard::onaddAcademicClicked);
     connect(StudentTable, &QTableWidget::cellDoubleClicked, this, &AdminDashboard::onStudentTableClicked);
+    connect(academicTable,&QTableWidget::cellDoubleClicked, this, &AdminDashboard::onAcademicTableClicked);
 }
 
 void AdminDashboard::onSignoutClicked(){
@@ -185,6 +187,10 @@ void AdminDashboard::onStudentTableClicked(int row, int col){
     Student s = Student::where("college_id",StudentTable->item(row,2)->text())[0];
     emit studentSelected(s);
 }
+void AdminDashboard::onAcademicTableClicked(int row, int col){
+    StaffMember s = StaffMember::where("college_id",academicTable->item(row,2)->text())[0];
+    emit academicSelected(s);
+}
 
 void AdminDashboard::onaddStudentClicked(){
     emit addStudent();
@@ -192,6 +198,7 @@ void AdminDashboard::onaddStudentClicked(){
 void AdminDashboard::onaddAcademicClicked(){
     emit addAcademic();
 }
+
 
 AdminDashboard::~AdminDashboard(){
 

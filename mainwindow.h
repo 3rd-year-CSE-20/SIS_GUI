@@ -59,6 +59,10 @@ private slots:
     void adminDash();
     void studentSelected(Student s);
     void studentDashBack();
+    void staffDashBack();
+    void staffSelected(StaffMember s);
+signals:
+    void error();
 
 };
 #endif // MAINWINDOW_H

@@ -10,6 +10,8 @@
 #include <QCalendarWidget>
 #include <QRadioButton>
 #include <QFileDialog>
+#include <QComboBox>
+#include <QStringList>
 #include "student.h"
 #include "staffmember.h"
 
@@ -49,8 +51,11 @@ private :
     QLabel *wrongPassword;
     QLabel *generatedID;
     QLabel *studentIdLbl;
+    QLabel *deplbl;
+    QComboBox *depCombo;
     bool fromAdmin;
     bool isAcademic;
+//    QStringList departments;
 
 signals :
     void back();

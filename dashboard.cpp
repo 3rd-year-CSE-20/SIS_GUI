@@ -8,6 +8,7 @@ Dashboard::Dashboard(Student *s,QWidget *parent, bool fromAdmin):QWidget(parent)
     container = new QWidget();
     tabWidget = new QTabWidget();
     backBtn = new QPushButton("Signout");
+    deleteBtn = new QPushButton("Delete");
     personalInfo = new QWidget();
     personalInfoLayout = new QVBoxLayout();
     pic = new QLabel();
@@ -77,6 +78,7 @@ Dashboard::Dashboard(Student *s,QWidget *parent, bool fromAdmin):QWidget(parent)
     if(fromAdmin){
         blay->addWidget(saveBtn,Qt::AlignRight);
         blay->addWidget(backkBtn, Qt::AlignRight);
+        blay->addWidget(deleteBtn, Qt::AlignRight);
     }else
         blay->addWidget(backBtn,Qt::AlignRight);
     b->setLayout(blay);
@@ -263,11 +265,21 @@ Dashboard::Dashboard(Student *s,QWidget *parent, bool fromAdmin):QWidget(parent)
     saveBtn->setObjectName("login");
 
     backkBtn->setStyleSheet(QString("QPushButton#login{border-radius : 20px; padding : 7px; color : white; font-weight: bold;}")+
-                                   "QPushButton#login{ background : red;}"+
+                                   "QPushButton#login{ background : blue;}"+
                                    "QPushButton:hover#login{ background : #333333;}");
     backkBtn->setMinimumHeight(40);
     backkBtn->setMaximumWidth(260);
     backkBtn->setObjectName("login");
+
+    deleteBtn->setStyleSheet(QString("QPushButton#login{border-radius : 20px; padding : 7px; color : white; font-weight: bold;}")+
+                                   "QPushButton#login{ background : red;}"+
+                                   "QPushButton:hover#login{ background : #333333;}");
+    deleteBtn->setMinimumHeight(40);
+    deleteBtn->setMaximumWidth(260);
+    deleteBtn->setObjectName("login");
+
+
+
 
 //    fnameDBlbl->setText(s->getFirstName());
 //    fnameDBlbl->setText(s->getFirstName());
@@ -280,6 +292,7 @@ Dashboard::Dashboard(Student *s,QWidget *parent, bool fromAdmin):QWidget(parent)
     connect(backBtn,&QPushButton::clicked,this,&Dashboard::onSignoutClicked);
     connect(saveBtn, &QPushButton::clicked, this, &Dashboard::onSaveClicked);
     connect(backkBtn, &QPushButton::clicked, this, &Dashboard::onBackClicked);
+    connect(deleteBtn, &QPushButton::clicked, this, &Dashboard::onDeleteClicked);
 }
 
 void Dashboard::onSaveClicked(){
@@ -300,6 +313,10 @@ void Dashboard::onBackClicked(){
     qDebug() << "back";
     emit Back();
 }
-
+void Dashboard::onDeleteClicked(){
+    qDebug() << "delete";
+    s.delete1();
+    emit Delete();
+}
 Dashboard::~Dashboard(){
 }

@@ -16,6 +16,10 @@ Login::Login(QWidget *parent):QWidget(parent){
     img->setPixmap(QPixmap("login.png"));
     forgetLbl = new ClickableLabel();
     regBtn = new QPushButton("Create Account");
+    errLbl = new QLabel("Try again Wrong Id or Password");
+    errLbl->setStyleSheet("color: red; font 12px;");
+    errLbl->setVisible(false);
+
 //    emit test();
 
 
@@ -55,6 +59,7 @@ Login::Login(QWidget *parent):QWidget(parent){
     _rightLayout->addWidget(s0);
     _rightLayout->addWidget(login);
     _rightLayout->addWidget(s1);
+    _rightLayout->addWidget(errLbl);
     _rightLayout->addWidget(usrEdit);
     _rightLayout->addWidget(passEdit);
     _rightLayout->addWidget(s2);

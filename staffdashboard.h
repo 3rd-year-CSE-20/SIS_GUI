@@ -17,7 +17,7 @@ class StaffDashboard : public QWidget{
 
 
 public:
-    StaffDashboard(StaffMember *s,QWidget *parent = nullptr);
+    StaffDashboard(StaffMember *s,QWidget *parent = nullptr, bool fromAdmin = false);
     ~StaffDashboard();
     QFormLayout *formlayout1;
     QFormLayout *formlayout2;
@@ -29,6 +29,7 @@ public:
     QVBoxLayout * academicLayout;
     QWidget *personalWidget;
     QWidget *academicWidget;
+    QWidget *coursesWidget;
     QWidget *container;
     QTabWidget *tabWidget;
     QLabel *firstLabel;
@@ -59,11 +60,17 @@ public:
     QLabel* graduationyearLabelfromDatabase;
     QLabel* teachingcoursesLabelfromDatabase;
     QPushButton *signout;
-    StaffMember *s;
+    StaffMember s;
+    QPushButton *backBtn;
+    QPushButton *deleteBtn;
 
     void onSignoutClicked();
+    void onBackClicked();
+    void onDeleteClicked();
 signals:
    void Signout();
+   void Back();
+   void Delete();
 };
 
 #endif // STAFFDASHBOARD_H

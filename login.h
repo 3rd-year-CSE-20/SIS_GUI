@@ -20,6 +20,7 @@ class Login : public QWidget{
 
 public:
     Login(QWidget *parent = nullptr);
+    QLabel *errLbl;
 
 private :
     QWidget *container;
@@ -29,8 +30,6 @@ private :
     QPushButton *regBtn;
     QLabel *img;
     QLabel *login;
-    QLabel *passLbl;
-    QLabel *errLbl;
     QHBoxLayout *mainLayout;
     QHBoxLayout *_mainLayout;
     QHBoxLayout *userLayout;
@@ -50,6 +49,7 @@ signals :
 public slots:
     void onRegisterClicked();
     void onLoginClicked();
+    //void onError();
 };
 
 #endif // LOGIN_H

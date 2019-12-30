@@ -65,15 +65,18 @@ private:
     QLineEdit *BirthDayNameEdit;
     QPushButton *saveBtn;
     QPushButton *backkBtn;
+    QPushButton *deleteBtn;
 
 signals:
     void Signout();
     void Back();
+    void Delete();
 
 private slots:
     void onSignoutClicked();
     void onSaveClicked();
     void onBackClicked();
+    void onDeleteClicked();
 
 };
 

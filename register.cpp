@@ -17,8 +17,8 @@ Register:: Register(QWidget *parent, bool fromAdmin, bool academic):QWidget(pare
     mobileTxt = new QLineEdit();
     genderGBox = new QWidget();
     genderLayout = new QHBoxLayout();
-    maleRB = new QRadioButton("male");
-    femaleRB = new QRadioButton("female");
+    maleRB = new QRadioButton("Male");
+    femaleRB = new QRadioButton("Female");
     addressTxt = new QLineEdit();
     mobileTxt = new QLineEdit();
     browsePic = new QPushButton("Browse");
@@ -32,6 +32,9 @@ Register:: Register(QWidget *parent, bool fromAdmin, bool academic):QWidget(pare
     studentID = new QLineEdit();
     wrongPassword = new QLabel("");
     studentIdLbl = new QLabel();
+   depCombo = new QComboBox(this);
+   QStringList departments = {"Select Department","Preparatory","Electrical","Mechanical","Civil","Architecture"};
+   depCombo->addItems( departments);
 
     saveBtn->setEnabled(false);
 
@@ -71,6 +74,7 @@ Register:: Register(QWidget *parent, bool fromAdmin, bool academic):QWidget(pare
     _leftLayout->addWidget(firstNameTxt);
     _leftLayout->addWidget(lastNameTxt);
     _leftLayout->addWidget(genderGBox);
+    _leftLayout->addWidget(depCombo);
     _leftLayout->addWidget(mobileTxt);
     _leftLayout->addWidget(addressTxt);
     if(!fromAdmin)
@@ -139,6 +143,15 @@ Register:: Register(QWidget *parent, bool fromAdmin, bool academic):QWidget(pare
     studentID->setStyleSheet("background : #E6E6E6; border-radius : 20px; padding : 7px");
     studentID->setPlaceholderText(" Student ID");
 
+    depCombo->setMaximumHeight(40);
+    depCombo->setStyleSheet(QString("QComboBox{background-color: white; border-style: outset;border-width: 2px;\
+                                    border-radius: 10px;\
+                                    border-color: beige;\
+                                    font: 14px;\
+                                    min-width: 10em;\
+                                    padding: 6px;}")
+                            +"QComboBox{selection-background-color: green}");
+
     wrongPassword->setStyleSheet("color : red");
 
     browsePic->setMinimumHeight(40);
@@ -202,11 +215,11 @@ void Register::onSaveClicked(){
             s.setFirstName(firstNameTxt->text());
             s.setLastName(lastNameTxt->text());
             if(maleRB->isChecked()){
-                s.setGendre("male");
+                s.setGendre("Male");
             }else{
-                s.setGendre("female");
+                s.setGendre("Female");
             }
-            s.setDepartment("Preparatory");
+            s.setDepartment(depCombo->currentText());
             s.setAddress(addressTxt->text());
             s.setPicture(path);
             s.setPassword(rewritePassword->text());
@@ -221,11 +234,11 @@ void Register::onSaveClicked(){
         s.setFirstName(firstNameTxt->text());
         s.setLastName(lastNameTxt->text());
         if(maleRB->isChecked()){
-            s.setGendre("male");
+            s.setGendre("Male");
         }else{
-            s.setGendre("female");
+            s.setGendre("Female");
         }
-        s.setDepartment("Preparatory");
+        s.setDepartment(depCombo->currentText());
         s.setAddress(addressTxt->text());
         s.setPicture(path);
         s.setPassword(rewritePassword->text());
@@ -256,7 +269,7 @@ void Register::onSaveClicked(){
         }else{
             s.setGendre("female");
         }
-        s.setDepartment("Preparatory");
+        s.setDepartment(depCombo->currentText());
         s.setAddress(addressTxt->text());
         s.setPicture(path);
         s.setPassword(rewritePassword->text());

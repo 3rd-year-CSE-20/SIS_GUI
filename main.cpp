@@ -11,12 +11,12 @@ int main(int argc, char *argv[])
     //databaseInitialization(); //uncomment if it is the first time to run the code
     QApplication a(argc, argv);
 //    StaffMember mariam;
-//    mariam.setFirstName("mariam");
-//    mariam.setId(1);
-//    mariam.setPassword("0");
-//    mariam.setCollegeId("1601146");
+//    mariam.setFirstName("Trial");
+//    mariam.setId(2);
 //    mariam.save();
+//    qDebug()<<"is saved";
 //    mariam.delete1();
+//    qDebug()<<"is deleted";
     //qDebug()<<mariam.getCollegeId();
 //    qDebug() << "length" << Admin::where("college_id","1601146").length();
 //    Login l;

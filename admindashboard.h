@@ -36,6 +36,7 @@ private:
     QPushButton *addAcademicBtn;
     QTableWidget *academicTable;
     QPushButton *signout;
+    QPushButton *deleteBtn;
 
 
     void initStudentTable();
@@ -47,13 +48,15 @@ private slots:
     void onSearchTextChanged(QString);
     void onSearchTextAcademicChanged(QString);
     void onaddAcademicClicked();
-    void onStudentTableClicked(int,int);
+    void onStudentTableClicked(int, int);
+    void onAcademicTableClicked(int, int);
 
 signals:
     void Signout();
     void addStudent();
     void addAcademic();
     void studentSelected(Student s);
+    void academicSelected(StaffMember s);
 
 };
 

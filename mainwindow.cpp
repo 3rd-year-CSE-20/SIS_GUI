@@ -22,7 +22,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent){
 }
 
 void MainWindow::loadStyles(){
-    QFile css("../SIS_GUI/theme.css");
+    QFile css("../MainWindow/theme.css");
     css.open(QFile::ReadOnly);
     QString Styles = css.readAll();
     this->setStyleSheet(Styles);
@@ -68,6 +68,7 @@ void MainWindow::login(QString usr, QString pass){
                  connect(adminDashboard, &AdminDashboard::addStudent, this, &MainWindow::adminAddStudent);
                  connect(adminDashboard, &AdminDashboard::addAcademic, this, &MainWindow::adminAddAcademic);
                  connect(adminDashboard, &AdminDashboard::studentSelected, this, &MainWindow::studentSelected);
+                 connect(adminDashboard, &AdminDashboard::academicSelected,this, &MainWindow::staffSelected);
              }
          }
     }else if(usr.toStdString()[0] == 'S'){
@@ -83,6 +84,9 @@ void MainWindow::login(QString usr, QString pass){
                 setWidget(staffDashboard);
                 connect(staffDashboard, &StaffDashboard::Signout, this, &MainWindow::academicSignout);
                 }
+            else{
+               loginWidget->errLbl->setVisible(true);
+            }
         }
     }
     else{
@@ -122,7 +126,7 @@ void MainWindow::adminDash(){
     connect(adminDashboard, &AdminDashboard::addStudent, this, &MainWindow::adminAddStudent);
     connect(adminDashboard, &AdminDashboard::addAcademic, this, &MainWindow::adminAddAcademic);
     connect(adminDashboard, &AdminDashboard::studentSelected, this, &MainWindow::studentSelected);
-//    connect(studentDashboard,&Dashboard::Signout,this,&MainWindow::Signout);
+    connect(adminDashboard, &AdminDashboard::academicSelected,this, &MainWindow::staffSelected);
 }
 
 void MainWindow::studentSelected(Student s){
@@ -131,8 +135,17 @@ void MainWindow::studentSelected(Student s){
     adminDashboard->setVisible(false);
     setWidget(studentDashboard);
     connect(studentDashboard, &Dashboard::Back, this, &MainWindow::studentDashBack);
+    connect(studentDashboard, &Dashboard::Delete, this, &MainWindow::studentDashBack);
 }
+void MainWindow::staffSelected(StaffMember s){
+    staffDashboard = new StaffDashboard(&s,nullptr,true);
+    disconnect(adminDashboard, &AdminDashboard::academicSelected, this, &MainWindow::staffSelected);
+    adminDashboard->setVisible(false);
+    setWidget(staffDashboard);
+    connect(staffDashboard, &StaffDashboard::Back, this, &MainWindow::staffDashBack);
+    connect(staffDashboard, &StaffDashboard::Delete, this, &MainWindow::staffDashBack);
 
+}
 void MainWindow::studentDashBack(){
     delete studentDashboard;
     adminDashboard = new AdminDashboard();
@@ -142,24 +155,14 @@ void MainWindow::studentDashBack(){
     connect(adminDashboard, &AdminDashboard::addAcademic, this, &MainWindow::adminAddAcademic);
     connect(adminDashboard, &AdminDashboard::studentSelected, this, &MainWindow::studentSelected);
 }
-
-void MainWindow::checkStudentAvailability(){
-//    qDebug()<<"Student is received";
-//    if(usrEdit->text()[0]!='A'&&usrEdit->text()[0]!='S'){
-//        long long id = usrEdit->text().mid(2, 4).toLongLong();
-//        Student user = Student::find(id);
-//        qDebug()<<"Student is received2";
-//        if(user.isInDatabase(id) && passEdit->text()==user.getPassword()){
-//            qDebug()<<"Student is received3";
-//              this->setCentralWidget(dash); //student dashboard
-//         }else{
-//            errLbl->setText("Try again username or password is incorrect");
-//            formlayout->insertRow(0,"       ",errLbl); //may increase the tab spacing
-//            errLbl->show();
-//            regLbl->setText("Regeister New User?");
-//            regLbl->show();
-//          }
-//    }
+void MainWindow::staffDashBack(){
+    delete staffDashboard;
+    adminDashboard = new AdminDashboard();
+    setWidget(adminDashboard);
+    connect(adminDashboard, &AdminDashboard::Signout, this, &MainWindow::adminSignout);
+    connect(adminDashboard, &AdminDashboard::addStudent, this, &MainWindow::adminAddStudent);
+    connect(adminDashboard, &AdminDashboard::addAcademic, this, &MainWindow::adminAddAcademic);
+    connect(adminDashboard, &AdminDashboard::academicSelected, this, &MainWindow::staffSelected);
 }
 
 void MainWindow::Signout(){
