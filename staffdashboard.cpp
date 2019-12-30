@@ -37,7 +37,10 @@ StaffDashboard::StaffDashboard(StaffMember *s,QWidget *parent,bool fromAdmin):QW
     signout = new QPushButton("Signout");
     deleteBtn = new QPushButton("Delete");
     backBtn = new QPushButton("Back");
-
+    editLastNametxt = new QLineEdit();
+    editFirstNametxt = new QLineEdit();
+    editBirthdatetxt = new QLineEdit();
+    saveBtn = new QPushButton("Save");
 
 
     fnameDBlbl->setFont(QFont("Cambria",12));
@@ -72,11 +75,17 @@ StaffDashboard::StaffDashboard(StaffMember *s,QWidget *parent,bool fromAdmin):QW
 
 
 
-
-    formlayout1->addRow(firstLabel,fnameDBlbl);
-    formlayout1->addRow(lastLabel,lnameDBlbl);
-    formlayout1->addRow(gendreLabel,gendreDBlbl);
-    formlayout1->addRow(birthLabel,birthDBlbl);
+    if(fromAdmin){
+        formlayout1->addRow(firstLabel,editFirstNametxt);
+        formlayout1->addRow(lastLabel,editLastNametxt);
+        formlayout1->addRow(gendreLabel,gendreDBlbl);
+        formlayout1->addRow(birthLabel,editBirthdatetxt);
+    }else{
+        formlayout1->addRow(firstLabel,fnameDBlbl);
+        formlayout1->addRow(lastLabel,lnameDBlbl);
+        formlayout1->addRow(gendreLabel,gendreDBlbl);
+        formlayout1->addRow(birthLabel,birthDBlbl);
+    }
 
     formlayout2->addRow(idLabel,idDBlbl);
     formlayout2->addRow(graduationyearLabel,graduationyearLabelfromDatabase);
@@ -90,6 +99,25 @@ StaffDashboard::StaffDashboard(StaffMember *s,QWidget *parent,bool fromAdmin):QW
     signout->setMinimumHeight(40);
     signout->setMaximumWidth(260);
     signout->setObjectName("login");
+
+
+    editFirstNametxt->setMinimumHeight(40);
+    editFirstNametxt->setMaximumWidth(260);
+    editFirstNametxt->setStyleSheet("background : #E6E6E6; border-radius : 20px; padding : 7px");
+    editFirstNametxt->setPlaceholderText("           First Name");
+    editFirstNametxt->setAlignment(Qt::AlignCenter);
+
+    editLastNametxt->setMinimumHeight(40);
+    editLastNametxt->setMaximumWidth(260);
+    editLastNametxt->setStyleSheet("background : #E6E6E6; border-radius : 20px; padding : 7px");
+    editLastNametxt->setPlaceholderText("           Last Name");
+    editLastNametxt->setAlignment(Qt::AlignCenter);
+
+    editBirthdatetxt->setMinimumHeight(40);
+    editBirthdatetxt->setMaximumWidth(260);
+    editBirthdatetxt->setStyleSheet("background : #E6E6E6; border-radius : 20px; padding : 7px");
+    editBirthdatetxt->setPlaceholderText("           Birthdate");
+    editBirthdatetxt->setAlignment(Qt::AlignCenter);
 
 
     backBtn->setStyleSheet(QString("QPushButton#login{border-radius : 20px; padding : 7px; color : white; font-weight: bold;}")+
@@ -106,6 +134,13 @@ StaffDashboard::StaffDashboard(StaffMember *s,QWidget *parent,bool fromAdmin):QW
     deleteBtn->setMinimumHeight(40);
     deleteBtn->setMaximumWidth(260);
     deleteBtn->setObjectName("login");
+
+    saveBtn->setStyleSheet(QString("QPushButton#login{border-radius : 20px; padding : 7px; color : white; font-weight: bold;}")+
+                                   "QPushButton#login{ background :  #00c941;}"+
+                                   "QPushButton:hover#login{ background : #333333;}");
+    saveBtn->setMinimumHeight(40);
+    saveBtn->setMaximumWidth(260);
+    saveBtn->setObjectName("login");
 
     fnameDBlbl->setText(s->getFirstName());
     lnameDBlbl->setText(s->getLastName());
@@ -129,6 +164,7 @@ StaffDashboard::StaffDashboard(StaffMember *s,QWidget *parent,bool fromAdmin):QW
     t0lay->addWidget(new QWidget);
     if(!fromAdmin)    t0lay->addWidget(signout,Qt::AlignRight);
     else {
+        t0lay->addWidget(saveBtn,Qt::AlignRight);
         t0lay->addWidget(backBtn,Qt::AlignRight);
         t0lay->addWidget(deleteBtn,Qt::AlignRight);
     }
@@ -146,8 +182,6 @@ StaffDashboard::StaffDashboard(StaffMember *s,QWidget *parent,bool fromAdmin):QW
     personalLayout->addLayout(formlayout1);
 
     t1->setSpacing(30);
-
-    piclbl1->setStyleSheet("background : red");
 
     //personalLayout->setSpacing(50);
 
@@ -177,16 +211,25 @@ StaffDashboard::StaffDashboard(StaffMember *s,QWidget *parent,bool fromAdmin):QW
     this->setMinimumWidth(900);
     this->setMaximumWidth(900);
 
+    editFirstNametxt->setText(s->getFirstName());
+    editLastNametxt->setText(s->getLastName());
+    editBirthdatetxt->setText(s->getBirthDate());
+
     connect(signout,&QPushButton::clicked,this,&StaffDashboard::onSignoutClicked);
     connect(backBtn, &QPushButton::clicked, this, &StaffDashboard::onBackClicked);
     connect(deleteBtn, &QPushButton::clicked, this, &StaffDashboard::onDeleteClicked);
-
-
-
-
-
-
+    connect(saveBtn, &QPushButton::clicked, this, &StaffDashboard::onSaveClicked);
 }
+
+void StaffDashboard::onSaveClicked(){
+    s.setFirstName(editFirstNametxt->text());
+    s.setLastName(editLastNametxt->text());
+    s.setBirthDate(editBirthdatetxt->text());
+    s.save();
+    saveBtn->setEnabled(false);
+    saveBtn->setText("Data is Saved");
+}
+
 void StaffDashboard::onSignoutClicked(){
     emit Signout();
 }

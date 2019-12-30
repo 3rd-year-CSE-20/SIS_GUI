@@ -11,6 +11,7 @@
 #include <QString>
 #include <QPalette>
 #include <QTabWidget>
+#include <QLineEdit>
 #include "staffmember.h"
 class StaffDashboard : public QWidget{
     Q_OBJECT
@@ -64,9 +65,16 @@ public:
     QPushButton *backBtn;
     QPushButton *deleteBtn;
 
+    QLineEdit *editFirstNametxt;
+    QLineEdit *editLastNametxt;
+    QLineEdit *editBirthdatetxt;
+    QPushButton *saveBtn;
+
     void onSignoutClicked();
     void onBackClicked();
     void onDeleteClicked();
+    void onSaveClicked();
+
 signals:
    void Signout();
    void Back();
