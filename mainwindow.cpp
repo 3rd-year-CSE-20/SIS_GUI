@@ -70,6 +70,14 @@ void MainWindow::login(QString usr, QString pass){
                  connect(adminDashboard, &AdminDashboard::studentSelected, this, &MainWindow::studentSelected);
                  connect(adminDashboard, &AdminDashboard::academicSelected,this, &MainWindow::staffSelected);
              }
+             else{
+                loginWidget->errLbl->setText("Wrong Password");
+                loginWidget->errLbl->setVisible(true);
+             }
+         }
+         else{
+            loginWidget->errLbl->setText("Wrong ID");
+            loginWidget->errLbl->setVisible(true);
          }
     }else if(usr.toStdString()[0] == 'S'){
         long long id = usr.mid(4,3).toLongLong();
@@ -85,8 +93,13 @@ void MainWindow::login(QString usr, QString pass){
                 connect(staffDashboard, &StaffDashboard::Signout, this, &MainWindow::academicSignout);
                 }
             else{
+               loginWidget->errLbl->setText("Wrong Password");
                loginWidget->errLbl->setVisible(true);
             }
+        }
+        else{
+           loginWidget->errLbl->setText("Wrong ID");
+           loginWidget->errLbl->setVisible(true);
         }
     }
     else{
@@ -99,6 +112,14 @@ void MainWindow::login(QString usr, QString pass){
                 setWidget(studentDashboard);
                 connect(studentDashboard, &Dashboard::Signout, this, &MainWindow::Signout);
             }
+            else{
+               loginWidget->errLbl->setText("Wrong Password");
+               loginWidget->errLbl->setVisible(true);
+            }
+        }
+        else{
+           loginWidget->errLbl->setText("Wrong ID");
+           loginWidget->errLbl->setVisible(true);
         }
     }
 }
