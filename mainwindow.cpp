@@ -22,7 +22,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent){
 }
 
 void MainWindow::loadStyles(){
-    QFile css("../MainWindow/theme.css");
+    QFile css("../SIS_GUI/theme.css");
     css.open(QFile::ReadOnly);
     QString Styles = css.readAll();
     this->setStyleSheet(Styles);
@@ -104,8 +104,10 @@ void MainWindow::login(QString usr, QString pass){
     }
     else{
         long long id = usr.mid(2,4).toLongLong();
+        qDebug() << "id is : " << id;
         if(Student::isInDatabase(id)){
             Student a = Student::find(id);
+            qDebug() << "password is : " << a.getPassword();
             if(!a.getPassword().compare(pass)){
                 delete loginWidget;
                 studentDashboard = new Dashboard(&a);
@@ -141,7 +143,6 @@ void MainWindow::adminAddAcademic(){
 void MainWindow::adminDash(){
     adminDashboard = new AdminDashboard();
     delete regWidget;
-//    setWidget(studentDashboard);
     setWidget(adminDashboard);
     connect(adminDashboard, &AdminDashboard::Signout, this, &MainWindow::adminSignout);
     connect(adminDashboard, &AdminDashboard::addStudent, this, &MainWindow::adminAddStudent);
@@ -175,6 +176,7 @@ void MainWindow::studentDashBack(){
     connect(adminDashboard, &AdminDashboard::addStudent, this, &MainWindow::adminAddStudent);
     connect(adminDashboard, &AdminDashboard::addAcademic, this, &MainWindow::adminAddAcademic);
     connect(adminDashboard, &AdminDashboard::studentSelected, this, &MainWindow::studentSelected);
+    connect(adminDashboard, &AdminDashboard::academicSelected, this, &MainWindow::staffSelected);
 }
 void MainWindow::staffDashBack(){
     delete staffDashboard;
@@ -183,6 +185,7 @@ void MainWindow::staffDashBack(){
     connect(adminDashboard, &AdminDashboard::Signout, this, &MainWindow::adminSignout);
     connect(adminDashboard, &AdminDashboard::addStudent, this, &MainWindow::adminAddStudent);
     connect(adminDashboard, &AdminDashboard::addAcademic, this, &MainWindow::adminAddAcademic);
+    connect(adminDashboard, &AdminDashboard::studentSelected, this, &MainWindow::studentSelected);
     connect(adminDashboard, &AdminDashboard::academicSelected, this, &MainWindow::staffSelected);
 }
 
