@@ -244,7 +244,7 @@ void Register::onSaveClicked(){
         s.setPassword(rewritePassword->text());
         s.setBirthDate(birthDate->selectedDate().toString("dd-MM-yyyy"));
         QString id = "21";
-        int lastId = Student::getLastId();
+        int lastId = Student::getLastId()+1;
         if(lastId<9){
             id += "000"+QString::number(lastId);
         }else if(lastId < 99){
@@ -275,8 +275,8 @@ void Register::onSaveClicked(){
         s.setPassword(rewritePassword->text());
         s.setBirthDate(birthDate->selectedDate().toString("dd-MM-yyyy"));
         QString id = "80";
-        int lastId = StaffMember::getLastId();
-        if(lastId<9){
+        int lastId = StaffMember::getLastId()+1;
+        if(lastId < 9){
             id += "000"+QString::number(lastId);
         }else if(lastId < 99){
             id += "00"+QString::number(lastId);
@@ -286,7 +286,7 @@ void Register::onSaveClicked(){
         }else{
             id += QString::number(lastId);
         }
-        s.setCollegeId((id));
+        s.setCollegeId(id);
         s.save();
         studentIdLbl->setText(s.getCollegeId());
         saveBtn->setEnabled(false);

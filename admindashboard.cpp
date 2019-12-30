@@ -109,6 +109,9 @@ AdminDashboard::AdminDashboard(QWidget *parent):QWidget(parent){
 
     this->studentSearchByID->setChecked(true);
 
+    onSearchTextChanged("");
+    onSearchTextAcademicChanged("");
+
     connect(signout,&QPushButton::clicked,this,&AdminDashboard::onSignoutClicked);
     connect(addStudentBtn, &QPushButton::clicked, this, &AdminDashboard::onaddStudentClicked);
     connect(studentSearchtxt, &QLineEdit::textEdited, this, &AdminDashboard::onSearchTextChanged);
@@ -174,7 +177,7 @@ void AdminDashboard::onSearchTextAcademicChanged(QString text){
     int a = 0;
     academicTable->setRowCount(staff.length());
     for(StaffMember s : staff){
-        academicTable->setItem(a,0,new QTableWidgetItem(QString::number(a+1)));
+        academicTable->setItem(a,0,new QTableWidgetItem(QString::number(s.getId())));
         academicTable->setItem(a,1,new QTableWidgetItem(s.getFirstName()+" "+s.getLastName()));
         academicTable->setItem(a,2,new QTableWidgetItem(s.getDepartment()));
         a++;
@@ -188,7 +191,8 @@ void AdminDashboard::onStudentTableClicked(int row, int col){
     emit studentSelected(s);
 }
 void AdminDashboard::onAcademicTableClicked(int row, int col){
-    StaffMember s = StaffMember::where("college_id",academicTable->item(row,2)->text())[0];
+
+    StaffMember s = StaffMember::where("id",academicTable->item(row,0)->text())[0];
     emit academicSelected(s);
 }
 

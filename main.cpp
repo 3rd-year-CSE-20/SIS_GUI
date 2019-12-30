@@ -8,8 +8,12 @@
 #define ELECTRICAL_DEPARTMENT 1
 int main(int argc, char *argv[])
 {
-    //databaseInitialization(); //uncomment if it is the first time to run the code
+//    databaseInitialization(); //uncomment if it is the first time to run the code
     QApplication a(argc, argv);
+//    Admin aa;
+//    aa.setPassword("0");
+//    aa.setCollegeId("900001");
+//    aa.save();
 //    StaffMember mariam;
 //    mariam.setFirstName("Trial");
 //    mariam.setId(2);
