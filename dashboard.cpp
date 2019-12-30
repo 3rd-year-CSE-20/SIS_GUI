@@ -43,6 +43,10 @@ Dashboard::Dashboard(Student *s,QWidget *parent, bool fromAdmin):QWidget(parent)
     BirthDayNameEdit = new QLineEdit();
     saveBtn = new QPushButton("Save");
     backkBtn = new QPushButton("Back");
+    servicesWidget = new QWidget();
+    servicesLayout = new QVBoxLayout();
+    servicesFormlay = new QFormLayout();
+    gpaBtn = new QPushButton("Request GPA");
 
     fnameDBlbl->setText(s->getFirstName());
     lnameDBlbl->setText(s->getLastName());

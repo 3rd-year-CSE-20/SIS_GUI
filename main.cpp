@@ -26,9 +26,6 @@ int main(int argc, char *argv[])
 //    Login l;
 //    l.show();
 
-//    Student s("fname","lname","male","pic is here","birth","addr","1601146","00","4747","department");
-//    s.save();
-
     MainWindow w;
 
 //    a.setStyleSheet(/);

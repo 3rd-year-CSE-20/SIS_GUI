@@ -32,6 +32,9 @@ private:
     QPushButton *backBtn;
     QWidget *personalInfo;
     QWidget *academicInfo;
+    QWidget *servicesWidget;
+    QVBoxLayout *servicesLayout;
+    QFormLayout *servicesFormlay;
     QVBoxLayout *personalInfoLayout;
     QVBoxLayout *academicInfoLayout;
     QLabel *pic;
@@ -66,6 +69,7 @@ private:
     QPushButton *saveBtn;
     QPushButton *backkBtn;
     QPushButton *deleteBtn;
+    QPushButton *gpaBtn;
 
 signals:
     void Signout();
