@@ -213,10 +213,19 @@ Dashboard::Dashboard(Student *s,QWidget *parent, bool fromAdmin):QWidget(parent)
     academicInfoLayout->addWidget(t12);
     academicInfoLayout->addWidget(t13);
 
+
+    servicesWidget->setLayout(servicesFormlay);
+   // servicesLayout->addLayout(servicesFormlay);
+    servicesFormlay->setFormAlignment(Qt::AlignVCenter);
+    servicesFormlay->setVerticalSpacing(50);
+    servicesFormlay->addRow(gpaDBlbl);
+    servicesFormlay->addRow(gpaBtn);
+
+
     tabWidget->addTab(personalInfo," Personal Info ");
     if(!fromAdmin){
         tabWidget->addTab(academicInfo," Academic Info ");
-        tabWidget->addTab(new QWidget()," Services ");
+        tabWidget->addTab(servicesWidget," Services ");
     }
 
 
@@ -282,6 +291,12 @@ Dashboard::Dashboard(Student *s,QWidget *parent, bool fromAdmin):QWidget(parent)
     deleteBtn->setMaximumWidth(260);
     deleteBtn->setObjectName("login");
 
+    gpaBtn->setStyleSheet(QString("QPushButton#login{border-radius : 20px; padding : 7px; color : white; font-weight: bold;}")+
+                                   "QPushButton#login{ background : blue;}"+
+                                   "QPushButton:hover#login{ background : #333333;}");
+    gpaBtn->setMinimumHeight(40);
+    gpaBtn->setMaximumWidth(260);
+    gpaBtn->setObjectName("login");
 
 
 
