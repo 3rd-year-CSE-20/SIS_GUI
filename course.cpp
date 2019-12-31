@@ -47,6 +47,7 @@ QVector<Course> Course::all() {
 
 
         temp.setId(id);
+        temp.setName(name);
         temp.setIsSaved(true);
         courses.push_back(temp);
     }
