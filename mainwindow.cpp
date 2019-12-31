@@ -22,7 +22,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent){
 }
 
 void MainWindow::loadStyles(){
-    QFile css("../SIS_GUI/theme.css");
+    QFile css("../MainWindow/theme.css");
     css.open(QFile::ReadOnly);
     QString Styles = css.readAll();
     this->setStyleSheet(Styles);

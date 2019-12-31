@@ -25,7 +25,7 @@ Dashboard::Dashboard(Student *s,QWidget *parent, bool fromAdmin):QWidget(parent)
     birthlbl = new QLabel("Birthday");
     birthDBlbl = new QLabel("5 / 3 / 2002");
     gpalbl = new QLabel("GPA : ");
-    gpaDBlbl = new QLabel("$GPA");
+    gpaDBlbl = new QLabel("");
     departlbl = new QLabel("Department : ");
     departDBlbl = new QLabel("$DEP");
     idlbl = new QLabel("ID : ");
@@ -47,6 +47,18 @@ Dashboard::Dashboard(Student *s,QWidget *parent, bool fromAdmin):QWidget(parent)
     servicesLayout = new QVBoxLayout();
     servicesFormlay = new QFormLayout();
     gpaBtn = new QPushButton("Request GPA");
+    coursesList = new QListWidget(this);
+    courselbl = new QLabel("Choose your Courses:");
+
+    QVector<Course> courses;
+    QStringList c;
+    courses = Course::all();
+    qDebug()<<courses[0].getName();
+    for (Course i: courses){
+        qDebug()<<i.getName();
+        c.append(i.getName());
+    }
+    coursesList->addItems(c);
 
     fnameDBlbl->setText(s->getFirstName());
     lnameDBlbl->setText(s->getLastName());
@@ -66,6 +78,7 @@ Dashboard::Dashboard(Student *s,QWidget *parent, bool fromAdmin):QWidget(parent)
     currentYlbl->setFont(QFont("Times New Roman",17));
     departlbl->setFont(QFont("Times New Roman",17));
     gendlbl->setFont(QFont("Times New Roman",17));
+    courselbl->setFont(QFont("Times New Roman",17));
 
     fnameDBlbl->setFont(QFont("Cambria",12));
     lnameDBlbl->setFont(QFont("Cambria",12));
@@ -213,13 +226,18 @@ Dashboard::Dashboard(Student *s,QWidget *parent, bool fromAdmin):QWidget(parent)
     academicInfoLayout->addWidget(t12);
     academicInfoLayout->addWidget(t13);
 
-
+    servicesFormlay->setFormAlignment(Qt::AlignCenter);
+    servicesFormlay->setAlignment(Qt::AlignCenter);
     servicesWidget->setLayout(servicesFormlay);
-   // servicesLayout->addLayout(servicesFormlay);
-    servicesFormlay->setFormAlignment(Qt::AlignVCenter);
-    servicesFormlay->setVerticalSpacing(50);
+    servicesFormlay->setVerticalSpacing(40);
+    servicesFormlay->setHorizontalSpacing(90);
+    gpaDBlbl->setAlignment(Qt::AlignCenter);
+    gpaDBlbl->setFont(QFont("Cambria",15));
     servicesFormlay->addRow(gpaDBlbl);
-    servicesFormlay->addRow(gpaBtn);
+    servicesFormlay->addRow(new QLabel("    "),gpaBtn);
+    servicesFormlay->addRow(courselbl,coursesList);
+    coursesList->setMaximumWidth(400);
+    coursesList->setSelectionMode(QAbstractItemView::MultiSelection);
 
 
     tabWidget->addTab(personalInfo," Personal Info ");
@@ -295,13 +313,26 @@ Dashboard::Dashboard(Student *s,QWidget *parent, bool fromAdmin):QWidget(parent)
                                    "QPushButton#login{ background : blue;}"+
                                    "QPushButton:hover#login{ background : #333333;}");
     gpaBtn->setMinimumHeight(40);
-    gpaBtn->setMaximumWidth(260);
+    gpaBtn->setMaximumWidth(230);
     gpaBtn->setObjectName("login");
 
-
-
-//    fnameDBlbl->setText(s->getFirstName());
-//    fnameDBlbl->setText(s->getFirstName());
+//    coursesList->addItem("Electrical Testing1");
+//    coursesList->addItem("Electrical Tedting 2");
+//    coursesList->addItem("Electrical Tedting 2");
+//    coursesList->addItem("Electrical Tedting 2");
+//    coursesList->addItem("Electrical Tedting 2");
+//    coursesList->addItem("Electrical Tedting 2");
+//    coursesList->addItem("Electrical Tedting 2");
+//    coursesList->addItem("Electrical Tedting 2");
+//    coursesList->addItem("Electrical Tedting 2");
+//    coursesList->addItem("Electrical Tedting 2");
+//    coursesList->addItem("Electrical Tedting 2");
+    //coursesList->selectionMode();
+    coursesList->setObjectName("login");
+    coursesList->setStyleSheet(QString("QListWidget#login{border-radius : 5px; font : 14px; font-weight: bold;show-decoration-selected:2}")+
+                                   "QListWidget#login{selection-background-color : green ; background-color: lightblue}"+
+                               "QScrollBar:vertical {border: none; background:black; width:5px;margin: 0px 0px 0px 0px;}"+
+                               "QListView::item:hover {background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,stop: 0 #FAFBFE, stop: 1 #DCDEF1);}");
 
     this->setStyleSheet("background-color:white; border-radius : 10px;");
     this->setMinimumHeight(650);
@@ -312,6 +343,8 @@ Dashboard::Dashboard(Student *s,QWidget *parent, bool fromAdmin):QWidget(parent)
     connect(saveBtn, &QPushButton::clicked, this, &Dashboard::onSaveClicked);
     connect(backkBtn, &QPushButton::clicked, this, &Dashboard::onBackClicked);
     connect(deleteBtn, &QPushButton::clicked, this, &Dashboard::onDeleteClicked);
+    connect(gpaBtn,&QPushButton::clicked, this, &Dashboard::onReqGPAClicked);
+    connect(coursesList, &QListWidget::itemClicked,this, &Dashboard::onCourseSelected);
 }
 
 void Dashboard::onSaveClicked(){
@@ -336,6 +369,14 @@ void Dashboard::onDeleteClicked(){
     qDebug() << "delete";
     s.delete1();
     emit Delete();
+}
+void Dashboard::onReqGPAClicked(){
+    gpaDBlbl->setText(s.getGPA());
+}
+void Dashboard::onCourseSelected(){
+    qDebug()<<coursesList->currentItem()->text();
+    s.addCourse(coursesList->currentItem()->text());
+    //s.addCourse(coursesList->selectedItems());
 }
 Dashboard::~Dashboard(){
 }

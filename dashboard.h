@@ -13,7 +13,11 @@
 #include <QFormLayout>
 #include <QTableWidget>
 #include <QLineEdit>
+#include <QListWidget>
+#include <QStringList>
+#include <QList>
 #include "student.h"
+#include "course.h"
 
 class Dashboard : public QWidget
 {
@@ -70,7 +74,8 @@ private:
     QPushButton *backkBtn;
     QPushButton *deleteBtn;
     QPushButton *gpaBtn;
-
+    QListWidget *coursesList;
+    QLabel *courselbl;
 signals:
     void Signout();
     void Back();
@@ -81,6 +86,8 @@ private slots:
     void onSaveClicked();
     void onBackClicked();
     void onDeleteClicked();
+    void onReqGPAClicked();
+    void onCourseSelected();
 
 };
 
