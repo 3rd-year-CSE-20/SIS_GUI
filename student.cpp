@@ -1,4 +1,4 @@
-#include "student.h"
+#include "staffmember.h"
 #include "sqliteclass.h"
 #include "globalDbObject.h"
 
@@ -118,6 +118,7 @@ bool Student::isInDatabase(long long id) {
 
 bool Student::save(){
     QString id_ = QString::number(getId());
+    qDebug() << "id : " << id_;
     SQLiteDb.sql_select("*", students_table, " id = " + id_);
     QSqlQuery query = SQLiteDb.sql_getQuery();
     QStringList values = {getFirstName(),  getLastName(), getGendre(), getPicture(),
@@ -126,19 +127,19 @@ bool Student::save(){
         SQLiteDb.sql_update(students_table, students_columns, values, "id = " + id_);
 
         for(int i = 0; i < courses.size(); i++){
-            QString course_id = QString::number(courses[i].getId());
-            SQLiteDb.sql_select("*", "courses_students", " student_id = " + id_ + " AND course_id " + course_id);
-            query = SQLiteDb.sql_getQuery();
-            if(!query.next()){
-                SQLiteDb.sql_insert("courses_students", {"student_id", "course_id"}, {id_, course_id});
-            }
+            QString course_name = courses[i].getName();
+//        SQLiteDb.sql_select("*", "courses_students", " student_id = " + id_ + " AND course_id " + course_id);
+//        query = SQLiteDb.sql_getQuery();
+//        if(!query.next()){
+            SQLiteDb.sql_insert("courses_students", {"student_id", "course_id"}, {getCollegeId(), course_name});
+//        }
         }
         return true;
     }
     SQLiteDb.sql_insert(students_table, students_columns, values);
     for(int i = 0; i < courses.size(); i++){
-        QString course_id = QString::number(courses[i].getId());
-        SQLiteDb.sql_insert("courses_students", {"student_id", "course_id"}, {id_, course_id});
+        QString course_name = courses[i].getName();
+        SQLiteDb.sql_insert("courses_students", {"student_id", "course_id"}, {getCollegeId(),course_name});
     }
     return false;
 }

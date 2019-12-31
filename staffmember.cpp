@@ -143,10 +143,9 @@ StaffMember StaffMember::find(long long id) {
     StaffMember staff_member(first_name, last_name, gendre, picture, birth_date, address, college_id, password, degree, department);
     staff_member.setId(id);
     staff_member.setIsSaved(true);
-
-    query1.exec("SELECT * FROM courses_staff_members WHERE course_id = " + QString::number(id));
+    query1.exec("SELECT course_id FROM courses_staff_members WHERE staff_member_id = " + college_id);
     while(query1.next()) {
-        staff_member.addCourse(Course::find(query1.value(1).toLongLong()).getName());
+        staff_member.addCourse(query1.value(0).toString());
     }
 
     return staff_member;
@@ -162,19 +161,19 @@ bool StaffMember::save(){
         SQLiteDb.sql_update(staff_table, staff_columns, values, "id = " + id_);
 
         for(int i = 0; i < courses.size(); i++){
-            QString course_id = QString::number(courses[i].getId());
-            SQLiteDb.sql_select("*", "courses_staff_members", " staff_member_id = " + id_ + " AND course_id " + course_id);
-            query = SQLiteDb.sql_getQuery();
-            if(!query.next()){
-                SQLiteDb.sql_insert("courses_staff_members", {"staff_member_id", "courses_id"}, {id_, course_id});
-            }
+            QString course_name = courses[i].getName();
+//            SQLiteDb.sql_select("*", "courses_staff_members", " staff_member_id = " + id_ + " AND course_id " + course_id);
+//            query = SQLiteDb.sql_getQuery();
+//            if(!query.next()){
+                SQLiteDb.sql_insert("courses_staff_members", {"staff_member_id", "course_id"}, {getCollegeId(), course_name});
+//            }
         }
         return true;
     }
     SQLiteDb.sql_insert(staff_table, staff_columns, values);
     for(int i = 0; i < courses.size(); i++){
-        QString course_id = QString::number(courses[i].getId());
-        SQLiteDb.sql_insert("courses_staff_members", {"staff_member_id", "course_id"}, {id_, course_id});
+        QString course_name = courses[i].getName();
+        SQLiteDb.sql_insert("courses_staff_members", {"staff_member_id", "course_id"}, {getCollegeId(), course_name});
     }
     return false;
 }

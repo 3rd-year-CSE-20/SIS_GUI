@@ -51,7 +51,7 @@ int SQLiteClass::sql_select(QString select, QString from, QString where){
     else{
          sql += QString(" WHERE ") + where + QString(";");
     }
-    //qDebug() << sql;
+    qDebug() << sql;
 
     if(!query.exec(sql)){
         qDebug() << "error while selecting";
@@ -78,7 +78,7 @@ int SQLiteClass::sql_insert(QString table, QStringList columns, QStringList valu
 
     sql += co + QString(") ") + QString("VALUES(") + vl + QString(");");
 
-    //qDebug() << sql;
+    qDebug() << sql;
 
     if(!query.exec(sql)){
         qDebug() << "error while inserting";

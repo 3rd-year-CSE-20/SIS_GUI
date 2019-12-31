@@ -3,9 +3,10 @@
 
 #include <QString>
 #include <QVector>
+#include "student.h"
 
-class Course
-{
+class Course{
+
 private:
     long long id;
     bool is_saved;
@@ -20,9 +21,11 @@ public:
     long long getId();
     void setIsSaved(bool is_saved);
     bool isSaved();
+    QVector<Student> getStudents()
 
     static QVector<Course> all();
     static Course find(long long id);
+    static QVector<Course> where(QString column, QString value);
 };
 
 #endif // COURSE_H

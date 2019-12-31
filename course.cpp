@@ -83,3 +83,25 @@ void Course::setIsSaved(bool is_saved) {
 bool Course::isSaved() {
     return this->is_saved;
 }
+
+QVector<Course> Course::where(QString column, QString value){
+    SQLiteDb.sql_select("*", "courses", column + " LIKE '" +  value +"%'");
+    QSqlQuery query = SQLiteDb.sql_getQuery();
+    QVector<Course> courses;
+    while (query.next()) {
+        int id = query.value(0).toInt();
+        courses.push_back(find(id));
+    }
+    return courses;
+}
+
+QVector<Student> Course::getStudents(){
+    SQLiteDb.sql_select("*", "courses_students", "course_id LIKE '" +  getName() +"%'");
+    QSqlQuery query = SQLiteDb.sql_getQuery();
+    QVector<Student> students;
+    while (query.next()) {
+        QString college_id = query.value(0).toString();
+        students.push_back(Student::where("college_id",college_id)[0]);
+    }
+    return students;
+}

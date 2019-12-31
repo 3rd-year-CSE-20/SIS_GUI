@@ -9,7 +9,6 @@ StaffDashboard::StaffDashboard(StaffMember *s,QWidget *parent,bool fromAdmin):QW
     personalLayout=new QVBoxLayout();
     personalWidget = new QWidget();
     academicWidget = new QWidget();
-    coursesWidget = new QWidget();
     t1 = new QHBoxLayout();
     t2 = new QHBoxLayout();
     tabWidget = new QTabWidget();
@@ -21,7 +20,6 @@ StaffDashboard::StaffDashboard(StaffMember *s,QWidget *parent,bool fromAdmin):QW
     piclbl1 = new QLabel(" ",this);
     piclbl2 = new QLabel(" ", this);
     graduationyearLabel = new QLabel("Graduation year: ",this);
-    teachingcoursesLabel = new QLabel("Courses: ",this);
     departmentLabel = new QLabel("Department: ",this);
     degreeLabel = new QLabel("Degree: ",this);
 
@@ -41,6 +39,11 @@ StaffDashboard::StaffDashboard(StaffMember *s,QWidget *parent,bool fromAdmin):QW
     editFirstNametxt = new QLineEdit();
     editBirthdatetxt = new QLineEdit();
     saveBtn = new QPushButton("Save");
+
+    coursesAssignWidget = new QWidget();
+    coursesAssignWidgetLay = new QVBoxLayout();
+    coursesList = new QListWidget();
+    saveCourse = new QPushButton("Save");
 
 
     fnameDBlbl->setFont(QFont("Cambria",12));
@@ -71,7 +74,19 @@ StaffDashboard::StaffDashboard(StaffMember *s,QWidget *parent,bool fromAdmin):QW
     degreeLabel->setFont(QFont("Times New Roman",17));
     graduationyearLabel->setFont(QFont("Times New Roman",17));
     departmentLabel->setFont(QFont("Times New Roman",17));
-    teachingcoursesLabel->setFont(QFont("Times New Roman",17));
+
+    coursesAssignWidget->setLayout(coursesAssignWidgetLay);
+    coursesAssignWidgetLay->addWidget(coursesList);
+    coursesAssignWidgetLay->addWidget(new QWidget);
+    QHBoxLayout *lay2 = new QHBoxLayout();
+    lay2->addWidget(new QWidget);
+    lay2->addWidget(saveCourse);
+    coursesAssignWidgetLay->addLayout(lay2);
+    QStringList courses;
+    for(Course c : Course::all()){
+        courses.append(c.getName());
+    }
+    coursesList->addItems(courses);
 
 
 
@@ -91,7 +106,14 @@ StaffDashboard::StaffDashboard(StaffMember *s,QWidget *parent,bool fromAdmin):QW
     formlayout2->addRow(graduationyearLabel,graduationyearLabelfromDatabase);
     formlayout2->addRow(degreeLabel,degreeDBlbl);
     formlayout2->addRow(departmentLabel,departDBlbl);
-    formlayout2->addRow(teachingcoursesLabel,teachingcoursesLabelfromDatabase);
+
+    coursesList->setObjectName("login");
+    coursesList->setStyleSheet(QString("QListWidget#login{border-radius : 20px; padding : 7px; ")+
+                                       "font-weight: bold; font-size: 15px; border: 1px solid gray;}"+
+                                       "QListView::item{padding : 10px}");
+    coursesList->setMaximumHeight(350);
+    coursesList->setAlternatingRowColors(true);
+    coursesList->setSelectionMode(QAbstractItemView::MultiSelection);
 
     signout->setStyleSheet(QString("QPushButton#login{border-radius : 20px; padding : 7px; color : white; font-weight: bold;}")+
                                    "QPushButton#login{ background : blue;}"+
@@ -129,8 +151,8 @@ StaffDashboard::StaffDashboard(StaffMember *s,QWidget *parent,bool fromAdmin):QW
 
 
     deleteBtn->setStyleSheet(QString("QPushButton#login{border-radius : 20px; padding : 7px; color : white; font-weight: bold;}")+
-                                   "QPushButton#login{ background : red;}"+
-                                   "QPushButton:hover#login{ background : #333333;}");
+                                     "QPushButton#login{ background : red;}"+
+                                     "QPushButton:hover#login{ background : #333333;}");
     deleteBtn->setMinimumHeight(40);
     deleteBtn->setMaximumWidth(260);
     deleteBtn->setObjectName("login");
@@ -141,6 +163,13 @@ StaffDashboard::StaffDashboard(StaffMember *s,QWidget *parent,bool fromAdmin):QW
     saveBtn->setMinimumHeight(40);
     saveBtn->setMaximumWidth(260);
     saveBtn->setObjectName("login");
+
+    saveCourse->setStyleSheet(QString("QPushButton#login{border-radius : 20px; padding : 7px; color : white; font-weight: bold;}")+
+                                   "QPushButton#login{ background :  #00c941;}"+
+                                   "QPushButton:hover#login{ background : #333333;}");
+    saveCourse->setMinimumHeight(40);
+    saveCourse->setMaximumWidth(260);
+    saveCourse->setObjectName("login");
 
     fnameDBlbl->setText(s->getFirstName());
     lnameDBlbl->setText(s->getLastName());
@@ -161,12 +190,13 @@ StaffDashboard::StaffDashboard(StaffMember *s,QWidget *parent,bool fromAdmin):QW
     piclbl2->setScaledContents(true);
 
     QHBoxLayout *t0lay = new QHBoxLayout;
-    t0lay->addWidget(new QWidget);
-    if(!fromAdmin)    t0lay->addWidget(signout,Qt::AlignRight);
-    else {
-        t0lay->addWidget(saveBtn,Qt::AlignRight);
-        t0lay->addWidget(backBtn,Qt::AlignRight);
-        t0lay->addWidget(deleteBtn,Qt::AlignRight);
+    if(!fromAdmin){
+        t0lay->addWidget(new QWidget);
+        t0lay->addWidget(signout,Qt::AlignRight);
+    }else {
+        t0lay->addWidget(backBtn);
+        t0lay->addWidget(deleteBtn);
+        t0lay->addWidget(new QWidget);
     }
 
     this->setLayout(_mainLayout);
@@ -180,6 +210,10 @@ StaffDashboard::StaffDashboard(StaffMember *s,QWidget *parent,bool fromAdmin):QW
     t1->addWidget(piclbl1);
     t1->addLayout(personalLayout);
     personalLayout->addLayout(formlayout1);
+    QHBoxLayout *lay = new QHBoxLayout;
+    lay->addWidget(new QWidget);
+    lay->addWidget(saveBtn,Qt::AlignRight);
+    if(fromAdmin)personalLayout->addLayout(lay);
 
     t1->setSpacing(30);
 
@@ -190,16 +224,39 @@ StaffDashboard::StaffDashboard(StaffMember *s,QWidget *parent,bool fromAdmin):QW
     t2->addWidget(piclbl2);
     t2->addLayout(academicLayout);
     academicLayout->addLayout(formlayout2);
-
-
     t2->setSpacing(30);
 
     tabWidget->addTab(personalWidget, " Personal ");
-    if (!fromAdmin)
-    {
-        tabWidget->addTab(academicWidget, " Academic ");
-//        tabWidget->addTab(coursesWidget, "Courses");
+    if(fromAdmin)   tabWidget->addTab(coursesAssignWidget, " Assign Courses ");
+    else{
+        qDebug() << "length is : " << s->getCourses().length();
+        for(Course c : s->getCourses() ){
+            QWidget *courseWidget = new QWidget;
+            QVBoxLayout *courseLay = new QVBoxLayout();
+            courseWidget->setLayout(courseLay);
+            QTableWidget *table = new QTableWidget;
+
+            QVector<Student> students = c.getStudents();
+            table->setColumnCount(3);
+            table->setHorizontalHeaderLabels(QStringList({"ID","Name","Department"}));
+            table->setEditTriggers(QAbstractItemView::NoEditTriggers);
+            table->setAlternatingRowColors(true);
+            table->setColumnWidth(0,100);
+            table->setColumnWidth(1,500);
+            table->setColumnWidth(2,200);
+            table->setRowCount(students.length());
+            int a = 0;
+            for(Student s : students){
+                table->setItem(a,0,new QTableWidgetItem(QString::number(s.getId())));
+                table->setItem(a,1,new QTableWidgetItem(s.getFirstName()+" "+s.getLastName()));
+                table->setItem(a,2,new QTableWidgetItem(s.getDepartment()));
+                a++;
+            }
+            courseLay->addWidget(table);
+            tabWidget->addTab(courseWidget," "+c.getName()+" ");
+        }
     }
+
     tabWidget->setObjectName("login");
     tabWidget->setStyleSheet(QString("QTabWidget::pane#login{border: 1px solid gray;}")+
                                      "QTabBar::tab{padding : 8px;color : white;background : #666666; font-weight: bold;}"+
@@ -219,6 +276,16 @@ StaffDashboard::StaffDashboard(StaffMember *s,QWidget *parent,bool fromAdmin):QW
     connect(backBtn, &QPushButton::clicked, this, &StaffDashboard::onBackClicked);
     connect(deleteBtn, &QPushButton::clicked, this, &StaffDashboard::onDeleteClicked);
     connect(saveBtn, &QPushButton::clicked, this, &StaffDashboard::onSaveClicked);
+    connect(saveCourse, &QPushButton::clicked, this, &StaffDashboard::onSaveCoursesClicked);
+}
+
+void StaffDashboard::onSaveCoursesClicked(){
+    for (QListWidgetItem *i : coursesList->selectedItems().toVector()){
+        s.addCourse(i->text());
+    }
+    s.save();
+    saveCourse->setEnabled(false);
+    saveCourse->setText("Courses Assigned");
 }
 
 void StaffDashboard::onSaveClicked(){

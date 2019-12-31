@@ -383,7 +383,7 @@ void Dashboard::onReqGPAClicked(){
 }
 void Dashboard::onCourseSelected(){
     qDebug()<<"Selected";
-               //coursesList->currentItem()->text();
+         //coursesList->currentItem()->text();
    // coursesList->selectedItems().toVector();
     //s.addCourse(coursesList->currentItem()->text());
     //s.addCourse(coursesList->selectedItems());

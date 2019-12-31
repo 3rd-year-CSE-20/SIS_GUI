@@ -9,9 +9,13 @@
 #include <QPixmap>
 #include <QSize>
 #include <QString>
+#include <QListWidget>
 #include <QPalette>
 #include <QTabWidget>
 #include <QLineEdit>
+#include <QAbstractItemView>
+#include <QTableWidget>
+#include "student.h"
 #include "staffmember.h"
 class StaffDashboard : public QWidget{
     Q_OBJECT
@@ -30,7 +34,6 @@ public:
     QVBoxLayout * academicLayout;
     QWidget *personalWidget;
     QWidget *academicWidget;
-    QWidget *coursesWidget;
     QWidget *container;
     QTabWidget *tabWidget;
     QLabel *firstLabel;
@@ -45,7 +48,6 @@ public:
     QFont *font1;
     QLabel* degreeLabel;
     QLabel* graduationyearLabel;
-    QLabel* teachingcoursesLabel;
     QLabel* departmentLabel;
 
 
@@ -70,10 +72,16 @@ public:
     QLineEdit *editBirthdatetxt;
     QPushButton *saveBtn;
 
+    QWidget *coursesAssignWidget;
+    QListWidget *coursesList;
+    QVBoxLayout *coursesAssignWidgetLay;
+    QPushButton *saveCourse;
+
     void onSignoutClicked();
     void onBackClicked();
     void onDeleteClicked();
     void onSaveClicked();
+    void onSaveCoursesClicked();
 
 signals:
    void Signout();
