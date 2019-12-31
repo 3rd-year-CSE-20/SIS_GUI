@@ -235,8 +235,7 @@ StaffDashboard::StaffDashboard(StaffMember *s,QWidget *parent,bool fromAdmin):QW
             QVBoxLayout *courseLay = new QVBoxLayout();
             courseWidget->setLayout(courseLay);
             QTableWidget *table = new QTableWidget;
-
-            QVector<Student> students = c.getStudents();
+            QVector<Student> students = Student::getByCourse(c.getName());
             table->setColumnCount(3);
             table->setHorizontalHeaderLabels(QStringList({"ID","Name","Department"}));
             table->setEditTriggers(QAbstractItemView::NoEditTriggers);
@@ -246,6 +245,7 @@ StaffDashboard::StaffDashboard(StaffMember *s,QWidget *parent,bool fromAdmin):QW
             table->setColumnWidth(2,200);
             table->setRowCount(students.length());
             int a = 0;
+            qDebug() << "Length here is " << students.length();
             for(Student s : students){
                 table->setItem(a,0,new QTableWidgetItem(QString::number(s.getId())));
                 table->setItem(a,1,new QTableWidgetItem(s.getFirstName()+" "+s.getLastName()));

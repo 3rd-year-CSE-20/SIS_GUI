@@ -36,6 +36,7 @@ public:
     static Student find(long long id);
     static QVector<Student> where(QString column, QString value);
     static int getLastId();
+    static QVector<Student> getByCourse(QString);
 
 };
 

@@ -3,7 +3,6 @@
 
 #include <QString>
 #include <QVector>
-#include "student.h"
 
 class Course{
 
@@ -21,7 +20,7 @@ public:
     long long getId();
     void setIsSaved(bool is_saved);
     bool isSaved();
-    QVector<Student> getStudents()
+
 
     static QVector<Course> all();
     static Course find(long long id);

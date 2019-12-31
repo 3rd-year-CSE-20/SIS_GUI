@@ -1,6 +1,7 @@
 #include "staffmember.h"
 #include "sqliteclass.h"
 #include "globalDbObject.h"
+#include "student.h"
 
 static QString students_table = "students";
 static QStringList students_columns = {"first_name","last_name", "gendre", "picture",
@@ -74,6 +75,7 @@ QVector<Student> Student::all() {
     QSqlQuery query = SQLiteDb.sql_getQuery();
 
     QVector<Student> students;
+
 
     query.exec("SELECT * FROM students");
     while(query.next()) {
@@ -200,4 +202,20 @@ int Student::getLastId(){
     }else{
         return 0;
     }
+}
+
+QVector<Student> Student::getByCourse(QString courseName){
+    SQLiteDb.sql_select("*", "courses_students", "course_id LIKE '" + courseName + "%'");
+    QSqlQuery query = SQLiteDb.sql_getQuery();
+    QVector<Student> students;
+    while (query.next()) {
+        QString college_id = query.value(1).toString();
+        QVector<Student> studentsVec = Student::where("college_id",college_id);
+
+        if(studentsVec.length()>0){
+            students.push_back(studentsVec[0]);
+        }
+    }
+    qDebug() << "length in student is " << students.length();
+    return students;
 }

@@ -95,13 +95,3 @@ QVector<Course> Course::where(QString column, QString value){
     return courses;
 }
 
-QVector<Student> Course::getStudents(){
-    SQLiteDb.sql_select("*", "courses_students", "course_id LIKE '" +  getName() +"%'");
-    QSqlQuery query = SQLiteDb.sql_getQuery();
-    QVector<Student> students;
-    while (query.next()) {
-        QString college_id = query.value(0).toString();
-        students.push_back(Student::where("college_id",college_id)[0]);
-    }
-    return students;
-}
