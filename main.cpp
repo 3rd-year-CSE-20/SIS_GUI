@@ -10,6 +10,6 @@ int main(int argc, char *argv[]){
 //    databaseInitialization(); //uncomment if it is the first time to run the code
     QApplication a(argc, argv);
     MainWindow w;
-    w.showFullScreen();
+    w.show();
     return a.exec();
 }
