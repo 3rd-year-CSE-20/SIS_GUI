@@ -16,6 +16,7 @@
 #include <QListWidget>
 #include <QStringList>
 #include <QList>
+#include <QListWidgetItem>
 #include "student.h"
 #include "course.h"
 
@@ -76,6 +77,7 @@ private:
     QPushButton *gpaBtn;
     QListWidget *coursesList;
     QLabel *chooseCourselbl;
+    QPushButton *enrollBtn;
 signals:
     void Signout();
     void Back();
@@ -88,6 +90,7 @@ private slots:
     void onDeleteClicked();
     void onReqGPAClicked();
     void onCourseSelected();
+    void onEnrollClicked();
 
 };
 

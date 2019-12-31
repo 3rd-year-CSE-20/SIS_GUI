@@ -49,6 +49,7 @@ Dashboard::Dashboard(Student *s,QWidget *parent, bool fromAdmin):QWidget(parent)
     gpaBtn = new QPushButton("Request GPA");
     coursesList = new QListWidget(this);
     chooseCourselbl = new QLabel("Choose your Courses:");
+    enrollBtn = new QPushButton("Save Courses");
 
     QVector<Course> courses;
     QStringList c;
@@ -215,6 +216,12 @@ Dashboard::Dashboard(Student *s,QWidget *parent, bool fromAdmin):QWidget(parent)
     t13lay->addWidget(courseslbl);
     t13lay->addWidget(coursesDBlbl);
 
+    QWidget *t14 = new QWidget;
+    QHBoxLayout *t14lay = new QHBoxLayout;
+    t14->setLayout(t14lay);
+    t14lay->addWidget(enrollBtn);
+    t14lay->setAlignment(Qt::AlignRight);
+
     personalInfo->setLayout(personalInfoLayout);
     personalInfoLayout->addWidget(t1);
     personalInfoLayout->addWidget(t2);
@@ -244,7 +251,7 @@ Dashboard::Dashboard(Student *s,QWidget *parent, bool fromAdmin):QWidget(parent)
     servicesFormlay->addRow(chooseCourselbl,coursesList);
     coursesList->setMaximumWidth(400);
     coursesList->setSelectionMode(QAbstractItemView::MultiSelection);
-
+    servicesFormlay->addRow(t14);
 
     tabWidget->addTab(personalInfo," Personal Info ");
     if(!fromAdmin){
@@ -315,6 +322,13 @@ Dashboard::Dashboard(Student *s,QWidget *parent, bool fromAdmin):QWidget(parent)
     deleteBtn->setMaximumWidth(260);
     deleteBtn->setObjectName("login");
 
+    enrollBtn->setStyleSheet(QString("QPushButton#login{border-radius : 20px; padding : 7px; color : white; font-weight: bold;}")+
+                                   "QPushButton#login{ background : green;}"+
+                                   "QPushButton:hover#login{ background : #333333;}");
+    enrollBtn->setMinimumHeight(40);
+    enrollBtn->setMaximumWidth(230);
+    enrollBtn->setObjectName("login");
+
     gpaBtn->setStyleSheet(QString("QPushButton#login{border-radius : 20px; padding : 7px; color : white; font-weight: bold;}")+
                                    "QPushButton#login{ background : blue;}"+
                                    "QPushButton:hover#login{ background : #333333;}");
@@ -338,7 +352,7 @@ Dashboard::Dashboard(Student *s,QWidget *parent, bool fromAdmin):QWidget(parent)
     connect(backkBtn, &QPushButton::clicked, this, &Dashboard::onBackClicked);
     connect(deleteBtn, &QPushButton::clicked, this, &Dashboard::onDeleteClicked);
     connect(gpaBtn,&QPushButton::clicked, this, &Dashboard::onReqGPAClicked);
-    connect(coursesList, &QListWidget::itemClicked,this, &Dashboard::onCourseSelected);
+    connect(enrollBtn, &QPushButton::clicked,this, &Dashboard::onEnrollClicked);
 }
 
 void Dashboard::onSaveClicked(){
@@ -368,10 +382,18 @@ void Dashboard::onReqGPAClicked(){
     gpaDBlbl->setText(s.getGPA());
 }
 void Dashboard::onCourseSelected(){
-    qDebug()<<coursesList->currentItem()->text();
-    s.addCourse(coursesList->currentItem()->text());
-    s.save();
+    qDebug()<<"Selected";
+               //coursesList->currentItem()->text();
+   // coursesList->selectedItems().toVector();
+    //s.addCourse(coursesList->currentItem()->text());
     //s.addCourse(coursesList->selectedItems());
+}
+void Dashboard::onEnrollClicked(){
+    for (QListWidgetItem *i : coursesList->selectedItems().toVector()){
+        qDebug()<<i->text();
+        s.addCourse(i->text());
+    }
+    s.save();
 }
 Dashboard::~Dashboard(){
 }
