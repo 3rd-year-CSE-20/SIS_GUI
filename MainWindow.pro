@@ -67,4 +67,5 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 DISTFILES += \
+    ../build-MainWindow-Desktop_Qt_5_12_3_MinGW_64_bit-Debug/debug/login.png \
     theme.css
