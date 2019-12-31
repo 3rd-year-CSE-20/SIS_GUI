@@ -15,7 +15,7 @@ StaffDashboard::StaffDashboard(StaffMember *s,QWidget *parent,bool fromAdmin):QW
     firstLabel = new QLabel("First Name: ",this);
     lastLabel = new QLabel("Last Name:",this);
     idLabel = new QLabel("ID: ",this);
-    birthLabel = new QLabel("Birth Date: ",this);
+    birthLabel = new QLabel("Graduation Year: ",this);
     gendreLabel = new QLabel("Gendre: ",this);
     piclbl1 = new QLabel(" ",this);
     piclbl2 = new QLabel(" ", this);
