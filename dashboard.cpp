@@ -21,13 +21,13 @@ Dashboard::Dashboard(Student *s,QWidget *parent, bool fromAdmin):QWidget(parent)
     phonelbl = new QLabel("Phone Number : ");
     phoneDBlbl = new QLabel("0100100100");
     gendlbl = new QLabel("Gender : ");
-    gendDBlbl = new QLabel("Male");
+    gendDBlbl = new QLabel("");
     birthlbl = new QLabel("Birthday");
     birthDBlbl = new QLabel("5 / 3 / 2002");
     gpalbl = new QLabel("GPA : ");
     gpaDBlbl = new QLabel("");
     departlbl = new QLabel("Department : ");
-    departDBlbl = new QLabel("$DEP");
+    departDBlbl = new QLabel("");
     idlbl = new QLabel("ID : ");
     idDBlbl = new QLabel("$ID");
     currentYlbl = new QLabel("Current Academic Year : ");
@@ -48,7 +48,7 @@ Dashboard::Dashboard(Student *s,QWidget *parent, bool fromAdmin):QWidget(parent)
     servicesFormlay = new QFormLayout();
     gpaBtn = new QPushButton("Request GPA");
     coursesList = new QListWidget(this);
-    courselbl = new QLabel("Choose your Courses:");
+    chooseCourselbl = new QLabel("Choose your Courses:");
 
     QVector<Course> courses;
     QStringList c;
@@ -78,7 +78,9 @@ Dashboard::Dashboard(Student *s,QWidget *parent, bool fromAdmin):QWidget(parent)
     currentYlbl->setFont(QFont("Times New Roman",17));
     departlbl->setFont(QFont("Times New Roman",17));
     gendlbl->setFont(QFont("Times New Roman",17));
-    courselbl->setFont(QFont("Times New Roman",17));
+    courseslbl->setFont(QFont("Times New Roman",17));
+    chooseCourselbl->setFont(QFont("Times New Roman",17));
+    gpalbl->setFont(QFont("Times New Roman",17));
 
     fnameDBlbl->setFont(QFont("Cambria",12));
     lnameDBlbl->setFont(QFont("Cambria",12));
@@ -88,6 +90,9 @@ Dashboard::Dashboard(Student *s,QWidget *parent, bool fromAdmin):QWidget(parent)
     currentYDBlbl->setFont(QFont("Cambria",12));
     departDBlbl->setFont(QFont("Cambria",12));
     gendDBlbl->setFont(QFont("Cambria",12));
+    gpaDBlbl->setFont(QFont("Cambria",12));
+    coursesDBlbl->setFont(QFont("Cambria",12));
+    //coursesDBlbl->setText()
 
     QWidget *b = new QWidget;
     QHBoxLayout *blay = new QHBoxLayout;
@@ -150,6 +155,7 @@ Dashboard::Dashboard(Student *s,QWidget *parent, bool fromAdmin):QWidget(parent)
     QHBoxLayout *t4lay = new QHBoxLayout;
     t4->setLayout(t4lay);
     t4lay->addWidget(gendlbl);
+    gendDBlbl->setText(s->getGendre());
     t4lay->addWidget(gendDBlbl);
 
     QWidget *t5 = new QWidget;
@@ -221,7 +227,7 @@ Dashboard::Dashboard(Student *s,QWidget *parent, bool fromAdmin):QWidget(parent)
     academicInfo->setLayout(academicInfoLayout);
     academicInfoLayout->addWidget(t11);
     academicInfoLayout->addWidget(t8);
-    academicInfoLayout->addWidget(t9);
+    //academicInfoLayout->addWidget(t9);
     academicInfoLayout->addWidget(t10);
     academicInfoLayout->addWidget(t12);
     academicInfoLayout->addWidget(t13);
@@ -235,7 +241,7 @@ Dashboard::Dashboard(Student *s,QWidget *parent, bool fromAdmin):QWidget(parent)
     gpaDBlbl->setFont(QFont("Cambria",15));
     servicesFormlay->addRow(gpaDBlbl);
     servicesFormlay->addRow(new QLabel("    "),gpaBtn);
-    servicesFormlay->addRow(courselbl,coursesList);
+    servicesFormlay->addRow(chooseCourselbl,coursesList);
     coursesList->setMaximumWidth(400);
     coursesList->setSelectionMode(QAbstractItemView::MultiSelection);
 
@@ -316,18 +322,6 @@ Dashboard::Dashboard(Student *s,QWidget *parent, bool fromAdmin):QWidget(parent)
     gpaBtn->setMaximumWidth(230);
     gpaBtn->setObjectName("login");
 
-//    coursesList->addItem("Electrical Testing1");
-//    coursesList->addItem("Electrical Tedting 2");
-//    coursesList->addItem("Electrical Tedting 2");
-//    coursesList->addItem("Electrical Tedting 2");
-//    coursesList->addItem("Electrical Tedting 2");
-//    coursesList->addItem("Electrical Tedting 2");
-//    coursesList->addItem("Electrical Tedting 2");
-//    coursesList->addItem("Electrical Tedting 2");
-//    coursesList->addItem("Electrical Tedting 2");
-//    coursesList->addItem("Electrical Tedting 2");
-//    coursesList->addItem("Electrical Tedting 2");
-    //coursesList->selectionMode();
     coursesList->setObjectName("login");
     coursesList->setStyleSheet(QString("QListWidget#login{border-radius : 5px; font : 14px; font-weight: bold;show-decoration-selected:2}")+
                                    "QListWidget#login{selection-background-color : green ; background-color: lightblue}"+

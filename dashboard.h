@@ -75,7 +75,7 @@ private:
     QPushButton *deleteBtn;
     QPushButton *gpaBtn;
     QListWidget *coursesList;
-    QLabel *courselbl;
+    QLabel *chooseCourselbl;
 signals:
     void Signout();
     void Back();

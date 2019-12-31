@@ -242,7 +242,7 @@ void Register::onSaveClicked(){
         s.setAddress(addressTxt->text());
         s.setPicture(path);
         s.setPassword(rewritePassword->text());
-        s.setBirthDate(birthDate->selectedDate().toString("dd-MM-yyyy"));
+        s.setBirthDate(birthDate->selectedDate().toString("dd/MM/yyyy"));
         QString id = "21";
         int lastId = Student::getLastId()+1;
         if(lastId<9){
@@ -265,15 +265,15 @@ void Register::onSaveClicked(){
         s.setFirstName(firstNameTxt->text());
         s.setLastName(lastNameTxt->text());
         if(maleRB->isChecked()){
-            s.setGendre("male");
+            s.setGendre("Male");
         }else{
-            s.setGendre("female");
+            s.setGendre("Female");
         }
         s.setDepartment(depCombo->currentText());
         s.setAddress(addressTxt->text());
         s.setPicture(path);
         s.setPassword(rewritePassword->text());
-        s.setBirthDate(birthDate->selectedDate().toString("dd-MM-yyyy"));
+        s.setBirthDate(birthDate->selectedDate().toString("dd/MM/yyyy"));
         QString id = "80";
         int lastId = StaffMember::getLastId()+1;
         if(lastId < 9){
