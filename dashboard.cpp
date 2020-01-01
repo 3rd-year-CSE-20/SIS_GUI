@@ -36,7 +36,7 @@ Dashboard::Dashboard(Student *s,QWidget *parent, bool fromAdmin):QWidget(parent)
     academicInfo = new QWidget();
     academicInfoLayout = new QVBoxLayout();
     courseslbl = new QLabel("Courses : ");
-    coursesDBlbl = new QLabel("$COURSES");
+    coursesDBlbl = new QLabel("");
     firstNameEdit = new QLineEdit();
     lastNameEdit = new QLineEdit();
     addressNameEdit = new QLineEdit();
@@ -60,6 +60,7 @@ Dashboard::Dashboard(Student *s,QWidget *parent, bool fromAdmin):QWidget(parent)
         c.append(i.getName());
     }
     coursesList->addItems(c);
+
 
     fnameDBlbl->setText(s->getFirstName());
     lnameDBlbl->setText(s->getLastName());
@@ -93,7 +94,12 @@ Dashboard::Dashboard(Student *s,QWidget *parent, bool fromAdmin):QWidget(parent)
     gendDBlbl->setFont(QFont("Cambria",12));
     gpaDBlbl->setFont(QFont("Cambria",12));
     coursesDBlbl->setFont(QFont("Cambria",12));
-    //coursesDBlbl->setText()
+
+    QString h = "";
+    for (Course i : s->getCourses()){
+        h =  h + i.getName() + "\r\n";
+        coursesDBlbl->setText(h);
+    }
 
     QWidget *b = new QWidget;
     QHBoxLayout *blay = new QHBoxLayout;
@@ -179,6 +185,8 @@ Dashboard::Dashboard(Student *s,QWidget *parent, bool fromAdmin):QWidget(parent)
     QHBoxLayout *t7lay = new QHBoxLayout;
     t7->setLayout(t7lay);
     t7lay->addWidget(birthlbl);
+    if(fromAdmin)
+        birthlbl->setText("Set GPA");
     if(fromAdmin){
         t7lay->addWidget(BirthDayNameEdit,Qt::AlignLeft);
         t7lay->addWidget(new QWidget);
@@ -285,8 +293,8 @@ Dashboard::Dashboard(Student *s,QWidget *parent, bool fromAdmin):QWidget(parent)
     BirthDayNameEdit->setMinimumHeight(40);
     BirthDayNameEdit->setMaximumWidth(260);
     BirthDayNameEdit->setStyleSheet("background : #E6E6E6; border-radius : 20px; padding : 7px");
-    BirthDayNameEdit->setPlaceholderText("           Birthdate");
-    BirthDayNameEdit->setText(s->getBirthDate());
+    BirthDayNameEdit->setPlaceholderText("           Set GPA");
+    BirthDayNameEdit->setText(s->getGPA());
     BirthDayNameEdit->setAlignment(Qt::AlignCenter);
 
     tabWidget->setObjectName("login");
@@ -359,7 +367,8 @@ void Dashboard::onSaveClicked(){
     s.setFirstName(firstNameEdit->text());
     s.setLastName(lastNameEdit->text());
     s.setAddress(addressNameEdit->text());
-    s.setBirthDate(BirthDayNameEdit->text());
+    s.setGPA(BirthDayNameEdit->text());
+   // s.setBirthDate(BirthDayNameEdit->text());
     s.save();
     saveBtn->setEnabled(false);
     saveBtn->setText("Data is Saved");
@@ -394,6 +403,11 @@ void Dashboard::onEnrollClicked(){
         s.addCourse(i->text());
     }
     s.save();
+    QString h = "";
+    for (Course i : s.getCourses()){
+        h =  h + i.getName() + "\r\n";
+        coursesDBlbl->setText(h);
+    }
 }
 Dashboard::~Dashboard(){
 }

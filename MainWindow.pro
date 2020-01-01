@@ -10,7 +10,7 @@ QT += core sql
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = SIS_GUI
+TARGET = MainWindow
 TEMPLATE = app
 
 # The following define makes your compiler emit warnings if you use
