@@ -225,6 +225,7 @@ void Register::onSaveClicked(){
             s.setPassword(rewritePassword->text());
             s.setCollegeId(studentID->text());
             s.setBirthDate(birthDate->selectedDate().toString("dd/MM/yyyy"));
+            s.setAcademicYear("Preparatory");
             s.save();
             saveBtn->setEnabled(false);
             saveBtn->setText("Student Saved Sucessfully");
@@ -243,6 +244,7 @@ void Register::onSaveClicked(){
         s.setPicture(path);
         s.setPassword(rewritePassword->text());
         s.setBirthDate(birthDate->selectedDate().toString("dd/MM/yyyy"));
+        s.setAcademicYear("Preparatory");
         QString id = "21";
         int lastId = Student::getLastId()+1;
         if(lastId<9){
@@ -287,6 +289,7 @@ void Register::onSaveClicked(){
             id += QString::number(lastId);
         }
         s.setCollegeId(id);
+
         s.save();
         studentIdLbl->setText(s.getCollegeId());
         saveBtn->setEnabled(false);

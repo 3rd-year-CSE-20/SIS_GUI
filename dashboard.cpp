@@ -124,7 +124,7 @@ Dashboard::Dashboard(Student *s,QWidget *parent, bool fromAdmin):QWidget(parent)
     t1lay->addWidget(new QWidget);
     t1lay->addWidget(pic);
     pic->setMaximumWidth(int(pic->width()*200/pic->height()));
-    pic->setMaximumHeight(int(pic->height()*200/pic->height()));
+    pic->setMaximumHeight(int(pic->height()*300/pic->height()));
     pic->setScaledContents(true);
     t1lay->addWidget(new QWidget);
 
@@ -134,7 +134,7 @@ Dashboard::Dashboard(Student *s,QWidget *parent, bool fromAdmin):QWidget(parent)
     t11lay->addWidget(new QWidget);
     t11lay->addWidget(pic2);
     pic2->setMaximumWidth(int(pic2->width()*200/pic2->height()));
-    pic2->setMaximumHeight(int(pic2->height()*200/pic2->height()));
+    pic2->setMaximumHeight(int(pic2->height()*300/pic2->height()));
     pic2->setScaledContents(true);
     t11lay->addWidget(new QWidget);
 
@@ -355,6 +355,13 @@ Dashboard::Dashboard(Student *s,QWidget *parent, bool fromAdmin):QWidget(parent)
     this->setMinimumWidth(900);
     this->setMaximumWidth(900);
 
+    QString coursesString = "";
+    qDebug() << "courses length is : " << s->getCourses().length();
+    for (Course i : s->getCourses()){
+        coursesString =  coursesString + i.getName() + "\r\n";
+        coursesDBlbl->setText(coursesString);
+    }
+
     connect(backBtn,&QPushButton::clicked,this,&Dashboard::onSignoutClicked);
     connect(saveBtn, &QPushButton::clicked, this, &Dashboard::onSaveClicked);
     connect(backkBtn, &QPushButton::clicked, this, &Dashboard::onBackClicked);
@@ -408,6 +415,8 @@ void Dashboard::onEnrollClicked(){
         h =  h + i.getName() + "\r\n";
         coursesDBlbl->setText(h);
     }
+    enrollBtn->setEnabled(false);
+    enrollBtn->setText("Courses Saved");
 }
 Dashboard::~Dashboard(){
 }

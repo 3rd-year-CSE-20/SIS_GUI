@@ -175,9 +175,9 @@ Student Student::find(long long id) {
     student.setGPA(GPA);
     student.setIsSaved(true);
 
-    query.exec("SELECT * FROM courses_students WHERE course_id = " + QString::number(id));
+    query.exec("SELECT * FROM courses_students WHERE student_id = " + college_id);
     while(query.next()) {
-        student.addCourse(Course::find(query.value(1).toLongLong()).getName());
+        student.addCourse(query.value(0).toString());
     }
 
     return student;
